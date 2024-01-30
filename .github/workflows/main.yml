@@ -49,7 +49,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: build-WebGL
+          name: buildForAllSupportedPlatforms
           path: build
 
       - name: Deploy 🚀
