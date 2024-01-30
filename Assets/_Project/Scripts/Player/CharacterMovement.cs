@@ -5,28 +5,25 @@ using Zenject;
 
 namespace gishadev.fort.Player
 {
-    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(Rigidbody))]
     public class CharacterMovement : MonoBehaviour
     {
         [Inject] private GameDataSO _gameDataSO;
 
         private CustomInput _customInput;
-        private CharacterController _characterController;
+        private Rigidbody _rb;
 
         private Vector2 _input;
 
         private void Awake()
         {
-            _characterController = GetComponent<CharacterController>();
+            _rb = GetComponent<Rigidbody>();
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
-            if (_input.magnitude <= 0)
-                return;
-
             var movementDirection = new Vector3(_input.x, 0f, _input.y);
-            _characterController.Move(movementDirection * (_gameDataSO.MovementSpeed * Time.deltaTime));
+            _rb.velocity = movementDirection * _gameDataSO.MovementSpeed;
         }
 
         private void OnEnable()
