@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc7dfdf6067d3b449a680dd90ad5fa30, type: 3}
-  m_Name: SOInstaller
+  m_Script: {fileID: 11500000, guid: c87c6f69d18a45179422fdb7dd784e51, type: 3}
+  m_Name: GameData
   m_EditorClassIdentifier: 
-  gameDataSO: {fileID: 11400000, guid: 46adce816e60ba64cb1c29bbc286adcd, type: 2}
+  <MovementSpeed>k__BackingField: 7
