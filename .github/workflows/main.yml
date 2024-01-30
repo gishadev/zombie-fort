@@ -40,7 +40,7 @@ jobs:
           path: build/${{ matrix.targetPlatform }}
           
   deployPages:
-    needs: buildWebGL
+    needs: buildForAllSupportedPlatforms
     name: Deploy to Github Pages 🚀
     runs-on: ubuntu-latest
     steps:
