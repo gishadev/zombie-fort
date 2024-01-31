@@ -37,6 +37,15 @@ namespace gishadev.fort
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MouseBodyRotation"",
+                    ""type"": ""Value"",
+                    ""id"": ""cc89c535-2ddd-476a-b8b7-a75248354e22"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -149,6 +158,17 @@ namespace gishadev.fort
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""430c2891-73a3-4b79-88d3-22f19524dfd1"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""MouseBodyRotation"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -175,6 +195,7 @@ namespace gishadev.fort
             // Character
             m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
             m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
+            m_Character_MouseBodyRotation = m_Character.FindAction("MouseBodyRotation", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -237,11 +258,13 @@ namespace gishadev.fort
         private readonly InputActionMap m_Character;
         private List<ICharacterActions> m_CharacterActionsCallbackInterfaces = new List<ICharacterActions>();
         private readonly InputAction m_Character_Movement;
+        private readonly InputAction m_Character_MouseBodyRotation;
         public struct CharacterActions
         {
             private @CustomInput m_Wrapper;
             public CharacterActions(@CustomInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Character_Movement;
+            public InputAction @MouseBodyRotation => m_Wrapper.m_Character_MouseBodyRotation;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -254,6 +277,9 @@ namespace gishadev.fort
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
+                @MouseBodyRotation.started += instance.OnMouseBodyRotation;
+                @MouseBodyRotation.performed += instance.OnMouseBodyRotation;
+                @MouseBodyRotation.canceled += instance.OnMouseBodyRotation;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -261,6 +287,9 @@ namespace gishadev.fort
                 @Movement.started -= instance.OnMovement;
                 @Movement.performed -= instance.OnMovement;
                 @Movement.canceled -= instance.OnMovement;
+                @MouseBodyRotation.started -= instance.OnMouseBodyRotation;
+                @MouseBodyRotation.performed -= instance.OnMouseBodyRotation;
+                @MouseBodyRotation.canceled -= instance.OnMouseBodyRotation;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -290,6 +319,7 @@ namespace gishadev.fort
         public interface ICharacterActions
         {
             void OnMovement(InputAction.CallbackContext context);
+            void OnMouseBodyRotation(InputAction.CallbackContext context);
         }
     }
 }
