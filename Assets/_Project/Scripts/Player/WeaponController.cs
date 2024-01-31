@@ -1,5 +1,5 @@
-﻿using System;
-using gishadev.fort.Core;
+﻿using gishadev.fort.Weapons;
+using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,13 +7,16 @@ namespace gishadev.fort.Player
 {
     public class WeaponController : MonoBehaviour
     {
+        [SerializeField] private Gun gun;
+
+        [SerializeField] private MMF_Player shootFeedback;
+
+
         private CustomInput _customInput;
-        private LayerMask _groundMask;
         private Camera _cam;
 
         private void Awake()
         {
-            _groundMask = LayerMask.GetMask(Constants.GROUND_LAYER_NAME);
             _cam = Camera.main;
         }
 
@@ -21,16 +24,18 @@ namespace gishadev.fort.Player
         {
             _customInput = new CustomInput();
             _customInput.Enable();
-            _customInput.Character.MouseBodyRotation.performed += OnMouseBodyRotation;
+            _customInput.Character.MouseBodyRotation.performed += OnMouseBodyRotationPerformed;
+            _customInput.Character.Shoot.performed += OnShootPerformed;
         }
 
         private void OnDisable()
         {
-            _customInput.Character.MouseBodyRotation.performed -= OnMouseBodyRotation;
+            _customInput.Character.MouseBodyRotation.performed -= OnMouseBodyRotationPerformed;
+            _customInput.Character.Shoot.performed -= OnShootPerformed;
             _customInput.Disable();
         }
 
-        private void OnMouseBodyRotation(InputAction.CallbackContext value)
+        private void OnMouseBodyRotationPerformed(InputAction.CallbackContext value)
         {
             var mousePosition = value.ReadValue<Vector2>();
 
@@ -40,6 +45,12 @@ namespace gishadev.fort.Player
                 var direction = hit.point - transform.position;
                 RotateBody(direction);
             }
+        }
+
+        private void OnShootPerformed(InputAction.CallbackContext value)
+        {
+            gun.Shoot();
+            shootFeedback.PlayFeedbacks();
         }
 
         private void RotateBody(Vector3 direction)

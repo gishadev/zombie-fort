@@ -46,6 +46,15 @@ namespace gishadev.fort
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Shoot"",
+                    ""type"": ""Button"",
+                    ""id"": ""782e86cd-e1fd-4f56-96ab-de29a581261c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -169,6 +178,17 @@ namespace gishadev.fort
                     ""action"": ""MouseBodyRotation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f0d8a319-9de4-405a-b432-13f37305e444"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Shoot"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -196,6 +216,7 @@ namespace gishadev.fort
             m_Character = asset.FindActionMap("Character", throwIfNotFound: true);
             m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
             m_Character_MouseBodyRotation = m_Character.FindAction("MouseBodyRotation", throwIfNotFound: true);
+            m_Character_Shoot = m_Character.FindAction("Shoot", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -259,12 +280,14 @@ namespace gishadev.fort
         private List<ICharacterActions> m_CharacterActionsCallbackInterfaces = new List<ICharacterActions>();
         private readonly InputAction m_Character_Movement;
         private readonly InputAction m_Character_MouseBodyRotation;
+        private readonly InputAction m_Character_Shoot;
         public struct CharacterActions
         {
             private @CustomInput m_Wrapper;
             public CharacterActions(@CustomInput wrapper) { m_Wrapper = wrapper; }
             public InputAction @Movement => m_Wrapper.m_Character_Movement;
             public InputAction @MouseBodyRotation => m_Wrapper.m_Character_MouseBodyRotation;
+            public InputAction @Shoot => m_Wrapper.m_Character_Shoot;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -280,6 +303,9 @@ namespace gishadev.fort
                 @MouseBodyRotation.started += instance.OnMouseBodyRotation;
                 @MouseBodyRotation.performed += instance.OnMouseBodyRotation;
                 @MouseBodyRotation.canceled += instance.OnMouseBodyRotation;
+                @Shoot.started += instance.OnShoot;
+                @Shoot.performed += instance.OnShoot;
+                @Shoot.canceled += instance.OnShoot;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -290,6 +316,9 @@ namespace gishadev.fort
                 @MouseBodyRotation.started -= instance.OnMouseBodyRotation;
                 @MouseBodyRotation.performed -= instance.OnMouseBodyRotation;
                 @MouseBodyRotation.canceled -= instance.OnMouseBodyRotation;
+                @Shoot.started -= instance.OnShoot;
+                @Shoot.performed -= instance.OnShoot;
+                @Shoot.canceled -= instance.OnShoot;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -320,6 +349,7 @@ namespace gishadev.fort
         {
             void OnMovement(InputAction.CallbackContext context);
             void OnMouseBodyRotation(InputAction.CallbackContext context);
+            void OnShoot(InputAction.CallbackContext context);
         }
     }
 }
