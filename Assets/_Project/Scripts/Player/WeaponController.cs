@@ -1,4 +1,5 @@
-﻿using gishadev.fort.Weapons;
+﻿using gishadev.fort.Core;
+using gishadev.fort.Weapons;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -7,10 +8,9 @@ namespace gishadev.fort.Player
 {
     public class WeaponController : MonoBehaviour
     {
+        [SerializeField] private Transform hand;
         [SerializeField] private Gun gun;
-
         [SerializeField] private MMF_Player shootFeedback;
-
 
         private CustomInput _customInput;
         private Camera _cam;
@@ -40,10 +40,22 @@ namespace gishadev.fort.Player
             var mousePosition = value.ReadValue<Vector2>();
 
             var ray = _cam.ScreenPointToRay(mousePosition);
-            if (Physics.Raycast(ray, out var hit))
+            var plane = new Plane(Vector3.up, Vector3.zero);
+            if (plane.Raycast(ray, out var planeHit))
             {
-                var direction = hit.point - transform.position;
-                RotateBody(direction);
+                var hitPoint = ray.GetPoint(planeHit);
+                RotateTowardsHit(transform, hitPoint);
+            }
+
+            if (Physics.Raycast(ray, out var raycastHit))
+            {
+                if (raycastHit.collider.TryGetComponent(out IDamageable _))
+                    RotateTowardsHit(hand, raycastHit.point);
+                else
+                {
+                    var hitPoint = ray.GetPoint(planeHit);
+                    RotateTowardsHit(hand, hitPoint);
+                }
             }
         }
 
@@ -53,10 +65,13 @@ namespace gishadev.fort.Player
             shootFeedback.PlayFeedbacks();
         }
 
-        private void RotateBody(Vector3 direction)
+        private void RotateTowardsHit(Transform trans, Vector3 hitPoint)
         {
+            var direction = hitPoint - trans.position;
             var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+            trans.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+
+            // Debug.DrawRay(trans.position, direction, Color.yellow, 1f);
         }
     }
 }
