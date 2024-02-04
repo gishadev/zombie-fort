@@ -6,7 +6,7 @@ namespace gishadev.fort.Enemy
 {
     public class Zombie : EnemyBase
     {
-        public override void InitStateMachine()
+        protected override void InitStateMachine()
         {
             StateMachine = new StateMachine();
 
@@ -27,7 +27,12 @@ namespace gishadev.fort.Enemy
 
         public override void TakeDamage(int damage, Vector3 hitDirection)
         {
-            IsDead = true;
+            Health -= damage;
+
+            if (Health <= 0)
+                IsDead = true;
+            else
+                EnemyMovement.KnockBack(hitDirection * 5f);
         }
     }
 }

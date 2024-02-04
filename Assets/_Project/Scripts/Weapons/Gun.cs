@@ -12,7 +12,7 @@ namespace gishadev.fort.Weapons
             if (Physics.Raycast(shootPoint.position, shootPoint.forward, out var hit, 100))
             {
                 var damageable = hit.collider.GetComponent<IDamageable>();
-                damageable?.TakeDamage(10, shootPoint.forward);
+                damageable?.TakeDamage(1, shootPoint.forward);
             }
 
             Debug.DrawRay(shootPoint.position, shootPoint.forward * 100, Color.red, 1f);

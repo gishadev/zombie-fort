@@ -152,7 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe6825370e86401c96d3d96d6ea60397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 5
+  knockBackDelay: 0.05
 --- !u!114 &782875567287236398
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,3 +165,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c77f0bb931b44a9e9c9096f14eeada9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startHealth: 5
