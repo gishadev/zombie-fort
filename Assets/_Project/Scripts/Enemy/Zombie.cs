@@ -1,11 +1,15 @@
 ﻿using System;
+using gishadev.fort.Money;
 using gishadev.tools.StateMachine;
 using UnityEngine;
+using Zenject;
 
 namespace gishadev.fort.Enemy
 {
     public class Zombie : EnemyBase
     {
+        [Inject] private IMoneySpawner _moneySpawner;
+
         protected override void InitStateMachine()
         {
             StateMachine = new StateMachine();
@@ -13,7 +17,7 @@ namespace gishadev.fort.Enemy
             var idle = new Idle();
             var chase = new Chase(this, EnemyMovement);
             var attack = new Attack();
-            var dead = new Dead(this);
+            var dead = new Dead(this, _moneySpawner);
 
             At(idle, chase, () => true);
 

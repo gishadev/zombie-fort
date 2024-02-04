@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GameData
   m_EditorClassIdentifier: 
   <MovementSpeed>k__BackingField: 7
+  <MoneyPrefab>k__BackingField: {fileID: 5991267245654323599, guid: 6187e63c9e21a24408390d1e56458953, type: 3}

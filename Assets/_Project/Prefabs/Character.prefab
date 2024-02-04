@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 897355910}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Weapon Rig
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -41,7 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6821621966540305544}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Feedbacks
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -78,10 +78,11 @@ GameObject:
   - component: {fileID: 6261995093200612846}
   - component: {fileID: 3411233825822909960}
   - component: {fileID: 5169497622314734910}
+  - component: {fileID: 4939312603498295546}
   - component: {fileID: 6261995093200612843}
   - component: {fileID: 2122459575007710586}
-  - component: {fileID: 4939312603498295546}
-  m_Layer: 0
+  - component: {fileID: 8641558417957174925}
+  m_Layer: 8
   m_Name: Character
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -208,6 +209,18 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &4939312603498295546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6261995093200612849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2efd8ac1db0e49d9904bdcfe62c1b8bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &6261995093200612843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -235,7 +248,7 @@ MonoBehaviour:
   hand: {fileID: 8216762111192693427}
   gun: {fileID: 6938158218930315153}
   shootFeedback: {fileID: 8250760514215356205}
---- !u!114 &4939312603498295546
+--- !u!114 &8641558417957174925
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -244,9 +257,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 6261995093200612849}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2efd8ac1db0e49d9904bdcfe62c1b8bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 3bbdc007d83a4b80b8087c5abae8d9df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  magnetizeRadius: 5
+  checkInterval: 0.1
 --- !u!1 &6400963154571099973
 GameObject:
   m_ObjectHideFlags: 0
@@ -258,7 +273,7 @@ GameObject:
   - component: {fileID: 4902717335389370264}
   - component: {fileID: 2626366698932208004}
   - component: {fileID: 8132656501730964171}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Face
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,7 +356,7 @@ GameObject:
   - component: {fileID: 3663141606490594437}
   - component: {fileID: 6338536188463560501}
   - component: {fileID: 8250760514215356205}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shoot_Feedback
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -590,7 +605,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8216762111192693427}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Hand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -667,6 +682,30 @@ PrefabInstance:
     - target: {fileID: 1004323821908547056, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
       propertyPath: m_Name
       value: AK47
+      objectReference: {fileID: 0}
+    - target: {fileID: 1004323821908547056, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1342992720173657043, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 4339835211624087153, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 5669814875759925077, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6448576347131879405, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 8380882500547361851, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
