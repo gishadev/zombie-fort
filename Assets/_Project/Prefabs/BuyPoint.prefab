@@ -248,7 +248,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632d86d0d16b4782a3f091374b45d749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buyable: {fileID: 0}
+  pointTMP: {fileID: 5379487437279777066}
 --- !u!1 &5131364847546062960
 GameObject:
   m_ObjectHideFlags: 0

@@ -456,7 +456,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 415e3f3b5fa045d4a33497f0ae0d50ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Price>k__BackingField: 10
+  <Price>k__BackingField: 25
 --- !u!1 &325701681
 GameObject:
   m_ObjectHideFlags: 0
@@ -1113,6 +1113,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 738856977}
+  - component: {fileID: 738856978}
   m_Layer: 0
   m_Name: BUY_CONTAINER
   m_TagString: Untagged
@@ -1137,6 +1138,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &738856978
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 738856976}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1de98699621d44a28e46c11656b2e8eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buyPoint: {fileID: 2049484692}
+  buyable: {fileID: 301144801}
 --- !u!1 &761613208
 GameObject:
   m_ObjectHideFlags: 3
@@ -2536,6 +2551,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4321019904590721098, guid: 9c04297b6b136ca41b49f6761d4fd93a, type: 3}
   m_PrefabInstance: {fileID: 4321019905566382041}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2049484692 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4321019904590721110, guid: 9c04297b6b136ca41b49f6761d4fd93a, type: 3}
+  m_PrefabInstance: {fileID: 4321019905566382041}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632d86d0d16b4782a3f091374b45d749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2088900273
 GameObject:
   m_ObjectHideFlags: 0
@@ -2754,10 +2780,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4321019904590721110, guid: 9c04297b6b136ca41b49f6761d4fd93a, type: 3}
-      propertyPath: buyable
-      value: 
-      objectReference: {fileID: 301144801}
     - target: {fileID: 4321019904590721111, guid: 9c04297b6b136ca41b49f6761d4fd93a, type: 3}
       propertyPath: m_Name
       value: BuyPoint

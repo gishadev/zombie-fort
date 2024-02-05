@@ -9,14 +9,17 @@ namespace gishadev.fort.Shop
     {
         [field: SerializeField] public int Price { get; private set; }
         [Inject] private IMoneyController _moneyController;
-        
-        public virtual void TryBuy(Action onBuySuccess)
+
+        public void TryBuy(Action onBuySuccessCallback)
         {
             if (_moneyController.MoneyCount < Price)
                 return;
-            
+
             _moneyController.AddMoney(-Price);
-            onBuySuccess?.Invoke();
+            OnBuySuccess();
+            onBuySuccessCallback?.Invoke();
         }
+
+        protected abstract void OnBuySuccess();
     }
 }
