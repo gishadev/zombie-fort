@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hand: {fileID: 8216762111192693427}
-  gun: {fileID: 6938158218930315153}
+  firearm: {fileID: 6938158218930315153}
   shootFeedback: {fileID: 8250760514215356205}
 --- !u!114 &8641558417957174925
 MonoBehaviour:
@@ -641,15 +641,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485196466078486346, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0009999871
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485196466078486346, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.110000014
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485196466078486346, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.064
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 485196466078486346, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
       propertyPath: m_LocalRotation.w
@@ -690,6 +690,10 @@ PrefabInstance:
     - target: {fileID: 1342992720173657043, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
       propertyPath: m_Layer
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3940185128746200594, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
+      propertyPath: isAutomatic
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4339835211624087153, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
       propertyPath: m_Layer

@@ -9,7 +9,7 @@ namespace gishadev.fort.Player
     public class WeaponController : MonoBehaviour
     {
         [SerializeField] private Transform hand;
-        [SerializeField] private Gun gun;
+        [SerializeField] private Gun firearm;
         [SerializeField] private MMF_Player shootFeedback;
 
         private CustomInput _customInput;
@@ -24,14 +24,20 @@ namespace gishadev.fort.Player
         {
             _customInput = new CustomInput();
             _customInput.Enable();
+            
             _customInput.Character.MouseBodyRotation.performed += OnMouseBodyRotationPerformed;
             _customInput.Character.Shoot.performed += OnShootPerformed;
+            _customInput.Character.Shoot.canceled += OnShootCanceled;
+            Firearm.Shot += OnFirearmShot;
         }
 
         private void OnDisable()
         {
             _customInput.Character.MouseBodyRotation.performed -= OnMouseBodyRotationPerformed;
             _customInput.Character.Shoot.performed -= OnShootPerformed;
+            _customInput.Character.Shoot.canceled -= OnShootCanceled;
+            Firearm.Shot -= OnFirearmShot;
+
             _customInput.Disable();
         }
 
@@ -59,11 +65,9 @@ namespace gishadev.fort.Player
             }
         }
 
-        private void OnShootPerformed(InputAction.CallbackContext value)
-        {
-            gun.Shoot();
-            shootFeedback.PlayFeedbacks();
-        }
+        private void OnShootPerformed(InputAction.CallbackContext value) => firearm.OnAttackPerformed();
+        private void OnShootCanceled(InputAction.CallbackContext value) => firearm.OnAttackCanceled();
+        private void OnFirearmShot() => shootFeedback.PlayFeedbacks();
 
         private void RotateTowardsHit(Transform trans, Vector3 hitPoint)
         {

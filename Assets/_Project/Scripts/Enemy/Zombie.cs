@@ -29,14 +29,14 @@ namespace gishadev.fort.Enemy
             void Aat(IState to, Func<bool> cond) => StateMachine.AddAnyTransition(to, cond);
         }
 
-        public override void TakeDamage(int damage, Vector3 hitDirection)
+        public override void TakeDamage(int damage, Vector3 hitForce)
         {
             Health -= damage;
 
             if (Health <= 0)
                 IsDead = true;
             else
-                EnemyMovement.KnockBack(hitDirection * 5f);
+                EnemyMovement.KnockBack(hitForce);
         }
     }
 }

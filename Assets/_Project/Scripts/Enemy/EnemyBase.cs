@@ -27,7 +27,7 @@ namespace gishadev.fort.Enemy
         }
 
         protected abstract void InitStateMachine();
-        public abstract void TakeDamage(int damage, Vector3 hitDirection);
+        public abstract void TakeDamage(int damage, Vector3 hitForce);
         public Player.Player GetPlayer() => FindObjectOfType<Player.Player>();
     }
 }

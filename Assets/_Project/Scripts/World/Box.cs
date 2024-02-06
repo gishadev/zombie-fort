@@ -15,9 +15,9 @@ namespace gishadev.fort.World
         }
 
 
-        public void TakeDamage(int damage, Vector3 hitDirection)
+        public void TakeDamage(int damage, Vector3 hitForce)
         {
-            _rb.AddForce(hitDirection * 10, ForceMode.Impulse);
+            _rb.AddForce(hitForce, ForceMode.Impulse);
         }
     }
 }
