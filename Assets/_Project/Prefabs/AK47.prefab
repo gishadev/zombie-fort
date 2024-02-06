@@ -13,13 +13,13 @@ GameObject:
   - component: {fileID: 1653084129236743205}
   - component: {fileID: 5853067360148386964}
   - component: {fileID: 3940185128746200594}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AK47
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &485196466078486346
 Transform:
   m_ObjectHideFlags: 0
@@ -117,6 +117,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shootPoint: {fileID: 4231722803183003337}
+  isAutomatic: 1
+  shootDelay: 0.1
+  shootForce: 5
+  damage: 5
 --- !u!1 &1342992720173657043
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +130,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4231722803183003337}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Shoot Point
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -159,7 +163,7 @@ GameObject:
   - component: {fileID: 5072040118617179557}
   - component: {fileID: 7465234739679379142}
   - component: {fileID: 6381023222007563602}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Trigger_For_Assault_Rifle_5,45
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -242,7 +246,7 @@ GameObject:
   - component: {fileID: 6401013295484034100}
   - component: {fileID: 8779407563303169675}
   - component: {fileID: 8196079353581712929}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Gate_For_Assault_Rifle_5,45
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -325,7 +329,7 @@ GameObject:
   - component: {fileID: 2225002065834768571}
   - component: {fileID: 972642900165969752}
   - component: {fileID: 4906065442757434969}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SM_Fuse_For_Assault_Rifle_5,45
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -407,6 +411,10 @@ PrefabInstance:
     - target: {fileID: 1615046801289087801, guid: 51d4e395835a9cd49b22e0b3b9467096, type: 3}
       propertyPath: m_Name
       value: SM_Magazine_For_Assault_Rifle_5,45 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1615046801289087801, guid: 51d4e395835a9cd49b22e0b3b9467096, type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2099271363906228611, guid: 51d4e395835a9cd49b22e0b3b9467096, type: 3}
       propertyPath: m_RootOrder
