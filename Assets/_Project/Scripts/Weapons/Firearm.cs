@@ -10,6 +10,10 @@ namespace gishadev.fort.Weapons
 
         public static event Action Shot;
 
+        protected virtual void Awake()
+        {
+        }
+
         protected virtual void Shoot()
         {
             Shot?.Invoke();
