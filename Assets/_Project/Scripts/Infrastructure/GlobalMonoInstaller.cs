@@ -1,3 +1,4 @@
+using gishadev.fort.Enemy;
 using gishadev.fort.Money;
 using Zenject;
 
@@ -11,6 +12,7 @@ namespace gishadev.fort.Infrastructure
 
             Container.Bind<IMoneyController>().To<MoneyController>().AsSingle().NonLazy();
             Container.Bind<IMoneySpawner>().To<MoneySpawner>().AsSingle().NonLazy();
+            Container.Bind<IEnemySpawner>().To<EnemySpawner>().AsSingle().NonLazy();
         }
     }
 }

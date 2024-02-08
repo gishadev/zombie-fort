@@ -7,8 +7,12 @@ namespace gishadev.fort.Core
     public class GameDataSO : ScriptableObject
     {
         [field: SerializeField] public float MovementSpeed { get; private set; } = 4f;
+        [field: SerializeField] public float EnemySpawnDelay { get; private set; } = 0.5f;
+        [field: SerializeField] public float WaveDelay { get; private set; } = 3f;
         
         [TabGroup("Prefabs")]
         [field: SerializeField] public GameObject MoneyPrefab { get; private set; }
+        [TabGroup("Prefabs")]
+        [field: SerializeField] public GameObject EnemyPrefab { get; private set; }
     }
 }
