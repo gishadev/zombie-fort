@@ -55,6 +55,15 @@ namespace gishadev.fort
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""b044993c-c9ed-4b81-8c37-7b6dace9790f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -189,6 +198,17 @@ namespace gishadev.fort
                     ""action"": ""Shoot"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""699fdd55-5b23-4128-8bb6-79ef496c8343"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -217,6 +237,7 @@ namespace gishadev.fort
             m_Character_Movement = m_Character.FindAction("Movement", throwIfNotFound: true);
             m_Character_MouseBodyRotation = m_Character.FindAction("MouseBodyRotation", throwIfNotFound: true);
             m_Character_Shoot = m_Character.FindAction("Shoot", throwIfNotFound: true);
+            m_Character_Reload = m_Character.FindAction("Reload", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -281,6 +302,7 @@ namespace gishadev.fort
         private readonly InputAction m_Character_Movement;
         private readonly InputAction m_Character_MouseBodyRotation;
         private readonly InputAction m_Character_Shoot;
+        private readonly InputAction m_Character_Reload;
         public struct CharacterActions
         {
             private @CustomInput m_Wrapper;
@@ -288,6 +310,7 @@ namespace gishadev.fort
             public InputAction @Movement => m_Wrapper.m_Character_Movement;
             public InputAction @MouseBodyRotation => m_Wrapper.m_Character_MouseBodyRotation;
             public InputAction @Shoot => m_Wrapper.m_Character_Shoot;
+            public InputAction @Reload => m_Wrapper.m_Character_Reload;
             public InputActionMap Get() { return m_Wrapper.m_Character; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -306,6 +329,9 @@ namespace gishadev.fort
                 @Shoot.started += instance.OnShoot;
                 @Shoot.performed += instance.OnShoot;
                 @Shoot.canceled += instance.OnShoot;
+                @Reload.started += instance.OnReload;
+                @Reload.performed += instance.OnReload;
+                @Reload.canceled += instance.OnReload;
             }
 
             private void UnregisterCallbacks(ICharacterActions instance)
@@ -319,6 +345,9 @@ namespace gishadev.fort
                 @Shoot.started -= instance.OnShoot;
                 @Shoot.performed -= instance.OnShoot;
                 @Shoot.canceled -= instance.OnShoot;
+                @Reload.started -= instance.OnReload;
+                @Reload.performed -= instance.OnReload;
+                @Reload.canceled -= instance.OnReload;
             }
 
             public void RemoveCallbacks(ICharacterActions instance)
@@ -350,6 +379,7 @@ namespace gishadev.fort
             void OnMovement(InputAction.CallbackContext context);
             void OnMouseBodyRotation(InputAction.CallbackContext context);
             void OnShoot(InputAction.CallbackContext context);
+            void OnReload(InputAction.CallbackContext context);
         }
     }
 }

@@ -402,6 +402,8 @@ MonoBehaviour:
   shootDelay: 0.1
   shootForce: 5
   damage: 1
+  maxAmmo: 14
+  reloadTime: 1
 --- !u!1001 &2430656158282531841
 PrefabInstance:
   m_ObjectHideFlags: 0

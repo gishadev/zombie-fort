@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace gishadev.fort.Weapons
 {
-    public class Gun : Firearm
+    public class Gun : Weapon
     {
         [SerializeField] private Transform shootPoint;
         [SerializeField] private LineRenderer lineRenderer;
@@ -14,11 +14,26 @@ namespace gishadev.fort.Weapons
         [SerializeField] private float shootDelay = 0.1f;
         [SerializeField] private float shootForce = 5f;
         [SerializeField] private int damage = 5;
+        [Space] [SerializeField] private int maxAmmo = 30;
+        [SerializeField] private float reloadTime = 1f;
 
         private CancellationTokenSource _autoCts;
+        private bool _isReloading;
+
+        public int MaxAmmo => maxAmmo;
+        public int CurrentAmmo { get; private set; }
+
+        protected override void Awake()
+        {
+            base.Awake();
+            CurrentAmmo = MaxAmmo;
+        }
 
         public override void OnAttackPerformed()
         {
+            if (_isReloading)
+                return;
+
             if (isAutomatic)
             {
                 _autoCts = new CancellationTokenSource();
@@ -34,9 +49,26 @@ namespace gishadev.fort.Weapons
                 _autoCts.Cancel();
         }
 
-        protected override void Shoot()
+        public async void Reload()
         {
-            base.Shoot();
+            if (_isReloading)
+                return;
+
+            _isReloading = true;
+            await UniTask.WaitForSeconds(reloadTime);
+
+            CurrentAmmo = MaxAmmo;
+            _isReloading = false;
+        }
+
+        private void Shoot()
+        {
+            if (CurrentAmmo <= 0)
+            {
+                Reload();
+                return;
+            }
+
             if (Physics.Raycast(shootPoint.position, shootPoint.forward, out var hit, 100))
             {
                 var damageable = hit.collider.GetComponent<IDamageable>();
@@ -47,7 +79,9 @@ namespace gishadev.fort.Weapons
             else
                 LineEffectAsync(shootPoint.position, shootPoint.position + shootPoint.forward * 100);
 
-            Debug.DrawRay(shootPoint.position, shootPoint.forward * 100, Color.red, 1f);
+            // Debug.DrawRay(shootPoint.position, shootPoint.forward * 100, Color.red, 1f);
+            CurrentAmmo--;
+            RaiseAttackEvent(this);
         }
 
         private async void AutomaticShootAsync()

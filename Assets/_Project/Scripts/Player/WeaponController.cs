@@ -10,12 +10,12 @@ namespace gishadev.fort.Player
     public class WeaponController : MonoBehaviour
     {
         [SerializeField] private Transform hand;
-        [SerializeField] private Firearm pistol, ak47;
+        [SerializeField] private Weapon pistol, ak47;
         [SerializeField] private MMF_Player shootFeedback;
 
         private CustomInput _customInput;
         private Camera _cam;
-        private Firearm _currentWeapon;
+        public Weapon CurrentWeapon { get; private set; }
 
         private void Awake()
         {
@@ -35,26 +35,31 @@ namespace gishadev.fort.Player
             _customInput.Character.MouseBodyRotation.performed += OnMouseBodyRotationPerformed;
             _customInput.Character.Shoot.performed += OnShootPerformed;
             _customInput.Character.Shoot.canceled += OnShootCanceled;
-            Firearm.Shot += OnFirearmShot;
+            _customInput.Character.Reload.performed += OnReloadPerformed;
+
+            Weapon.Attack += OnFirearmAttack;
         }
+
 
         private void OnDisable()
         {
             _customInput.Character.MouseBodyRotation.performed -= OnMouseBodyRotationPerformed;
             _customInput.Character.Shoot.performed -= OnShootPerformed;
             _customInput.Character.Shoot.canceled -= OnShootCanceled;
-            Firearm.Shot -= OnFirearmShot;
+            _customInput.Character.Reload.performed -= OnReloadPerformed;
+
+            Weapon.Attack -= OnFirearmAttack;
 
             _customInput.Disable();
         }
 
-        private void SwitchWeapon(Firearm weapon)
+        private void SwitchWeapon(Weapon weapon)
         {
-            if (_currentWeapon != null)
-                _currentWeapon.gameObject.SetActive(false);
+            if (CurrentWeapon != null)
+                CurrentWeapon.gameObject.SetActive(false);
 
-            _currentWeapon = weapon;
-            _currentWeapon.gameObject.SetActive(true);
+            CurrentWeapon = weapon;
+            CurrentWeapon.gameObject.SetActive(true);
         }
 
         public void SwitchToAK() => SwitchWeapon(ak47);
@@ -83,14 +88,20 @@ namespace gishadev.fort.Player
             }
         }
 
-        private void OnShootPerformed(InputAction.CallbackContext value) => _currentWeapon.OnAttackPerformed();
-        private void OnShootCanceled(InputAction.CallbackContext value) => _currentWeapon.OnAttackCanceled();
-        private void OnFirearmShot() => shootFeedback.PlayFeedbacks();
+        private void OnShootPerformed(InputAction.CallbackContext value) => CurrentWeapon.OnAttackPerformed();
+        private void OnShootCanceled(InputAction.CallbackContext value) => CurrentWeapon.OnAttackCanceled();
+        private void OnFirearmAttack(Weapon weapon) => shootFeedback.PlayFeedbacks();
+
+        private void OnReloadPerformed(InputAction.CallbackContext obj)
+        {
+            if (CurrentWeapon is Gun gun)
+                gun.Reload();
+        }
 
         private void RotateTowardsHit(Transform trans, Vector3 hitPoint, float angleOffset = 0f)
         {
             var direction = hitPoint - trans.position;
-            var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + angleOffset ;
+            var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + angleOffset;
             trans.rotation = Quaternion.AngleAxis(angle, Vector3.up);
 
             // Debug.DrawRay(trans.position, direction, Color.yellow, 1f);
