@@ -9,6 +9,7 @@ namespace gishadev.fort.Enemy
     public class Zombie : EnemyBase
     {
         [Inject] private IMoneySpawner _moneySpawner;
+        public override event Action<int> HealthChanged;
 
         protected override void InitStateMachine()
         {
@@ -37,6 +38,9 @@ namespace gishadev.fort.Enemy
                 IsDead = true;
             else
                 EnemyMovement.KnockBack(hitForce);
+            
+            HealthChanged?.Invoke(Health);
         }
+
     }
 }

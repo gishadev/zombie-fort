@@ -543,10 +543,10 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_Sprite: {fileID: 0}
-  m_Type: 0
+  m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
-  m_FillMethod: 4
+  m_FillMethod: 0
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 0
@@ -1767,6 +1767,7 @@ GameObject:
   - component: {fileID: 604983342}
   - component: {fileID: 604983344}
   - component: {fileID: 604983343}
+  - component: {fileID: 604983345}
   m_Layer: 5
   m_Name: Health Panel
   m_TagString: Untagged
@@ -1834,6 +1835,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 604983341}
   m_CullTransparentMesh: 1
+--- !u!114 &604983345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604983341}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65daad0a4d24ab1ad551047382dfd65, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthFillImage: {fileID: 232982938}
+  healthCountTMP: {fileID: 265750388}
 --- !u!1001 &624790992
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3189,7 +3204,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1321150756}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1422407664}
+        m_TargetAssemblyTypeName: gishadev.fort.GUI.GamePopupPage, Assembly-CSharp
+        m_MethodName: OnRetryButtonClicked
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1321150756
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3276,7 +3303,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1422407662}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 952d9743418d4814a6e3c19bc55029b9, type: 3}
+  m_Script: {fileID: 11500000, guid: 62827fc497764784b0424a7d001d2195, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <ExitOnNewPagePush>k__BackingField: 0
@@ -3669,6 +3696,7 @@ GameObject:
   - component: {fileID: 1829162642}
   - component: {fileID: 1829162641}
   - component: {fileID: 1829162640}
+  - component: {fileID: 1829162643}
   m_Layer: 5
   m_Name: Popups GUI
   m_TagString: Untagged
@@ -3754,10 +3782,27 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 1
   m_SortingLayerID: 0
   m_SortingOrder: 100
   m_TargetDisplay: 0
+--- !u!114 &1829162643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829162638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 144e04d549ca4a998d6575dbecaac053, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialPage: {fileID: 0}
+  firstFocusItem: {fileID: 0}
+  zeroPagesAllowed: 0
+  popOnSamePagePush: 1
+  losePopupPage: {fileID: 1422407664}
 --- !u!1 &1898902274
 GameObject:
   m_ObjectHideFlags: 0

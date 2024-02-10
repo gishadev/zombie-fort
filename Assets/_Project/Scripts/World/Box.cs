@@ -1,4 +1,5 @@
-﻿using gishadev.fort.Core;
+﻿using System;
+using gishadev.fort.Core;
 using UnityEngine;
 
 namespace gishadev.fort.World
@@ -8,6 +9,7 @@ namespace gishadev.fort.World
     {
         public int Health { get; }
         private Rigidbody _rb;
+        public event Action<int> HealthChanged;
 
         private void Awake()
         {
@@ -18,6 +20,7 @@ namespace gishadev.fort.World
         public void TakeDamage(int damage, Vector3 hitForce)
         {
             _rb.AddForce(hitForce, ForceMode.Impulse);
+            HealthChanged?.Invoke(Health);
         }
     }
 }

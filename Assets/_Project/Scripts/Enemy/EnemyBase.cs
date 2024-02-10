@@ -1,4 +1,5 @@
-﻿using gishadev.fort.Core;
+﻿using System;
+using gishadev.fort.Core;
 using gishadev.tools.StateMachine;
 using UnityEngine;
 
@@ -8,6 +9,7 @@ namespace gishadev.fort.Enemy
     {
         [SerializeField] private int startHealth = 5;
         
+        public abstract event Action<int> HealthChanged;
         protected StateMachine StateMachine { get; set; }
         protected EnemyMovement EnemyMovement { get; private set; }
         protected bool IsDead { get; set; }

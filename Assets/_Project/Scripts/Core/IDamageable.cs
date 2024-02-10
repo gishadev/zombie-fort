@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace gishadev.fort.Core
 {
@@ -6,5 +7,6 @@ namespace gishadev.fort.Core
     {
         int Health { get; }
         void TakeDamage(int damage, Vector3 hitForce);
+        event Action<int> HealthChanged;
     }
 }

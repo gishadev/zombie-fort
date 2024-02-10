@@ -23,7 +23,7 @@ namespace gishadev.fort.Player
         private void FixedUpdate()
         {
             var movementDirection = new Vector3(_input.x, 0f, _input.y);
-            _rb.velocity = movementDirection * _gameDataSO.MovementSpeed;
+            _rb.velocity = movementDirection * _gameDataSO.PlayerMovementSpeed;
         }
 
         private void OnEnable()
