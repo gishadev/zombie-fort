@@ -16,6 +16,13 @@ namespace gishadev.fort.Enemy
         private EnemySpawnPoint[] _spawnPoints;
         private CancellationTokenSource _spawningCTS;
 
+        private Transform _parent;
+
+        public EnemySpawner()
+        {
+            _parent = new GameObject("Enemies").transform;
+        }
+
         public void StartSpawning()
         {
             _spawnPoints = Object.FindObjectsOfType<EnemySpawnPoint>();
@@ -50,7 +57,7 @@ namespace gishadev.fort.Enemy
         private void SpawnEnemyAtRandomSpawnPoint()
         {
             var spawnPosition = _spawnPoints[Random.Range(0, _spawnPoints.Length)].transform.position;
-            _diContainer.InstantiatePrefab(_gameDataSO.EnemyPrefab, spawnPosition, Quaternion.identity, null);
+            _diContainer.InstantiatePrefab(_gameDataSO.EnemyPrefab, spawnPosition, Quaternion.identity, _parent);
         }
     }
 }

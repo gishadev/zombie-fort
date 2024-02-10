@@ -31,7 +31,8 @@ namespace gishadev.fort.Enemy
 
             StateMachine.SetState(idle);
 
-            bool IsPlayerInAttackRange() => Vector3.Distance(transform.position, GetPlayer().transform.position) < attackRange;
+            bool IsPlayerInAttackRange() => PlayerExists() && Vector3.Distance(transform.position, GetPlayer().transform.position) < attackRange;
+            bool PlayerExists() => GetPlayer() != null;
             
             void At(IState from, IState to, Func<bool> cond) => StateMachine.AddTransition(from, to, cond);
             void Aat(IState to, Func<bool> cond) => StateMachine.AddAnyTransition(to, cond);
