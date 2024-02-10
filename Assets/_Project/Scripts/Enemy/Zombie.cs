@@ -8,7 +8,10 @@ namespace gishadev.fort.Enemy
 {
     public class Zombie : EnemyBase
     {
+        [SerializeField] private float attackRange = 0.2f;
+        
         [Inject] private IMoneySpawner _moneySpawner;
+
         public override event Action<int> HealthChanged;
 
         protected override void InitStateMachine()
@@ -17,15 +20,19 @@ namespace gishadev.fort.Enemy
 
             var idle = new Idle();
             var chase = new Chase(this, EnemyMovement);
-            var attack = new Attack();
+            var attack = new Attack(this);
             var dead = new Dead(this, _moneySpawner);
 
             At(idle, chase, () => true);
-
+            At(chase, attack, IsPlayerInAttackRange);
+            At(attack, idle, () => !IsPlayerInAttackRange());
+            
             Aat(dead, () => IsDead);
 
             StateMachine.SetState(idle);
 
+            bool IsPlayerInAttackRange() => Vector3.Distance(transform.position, GetPlayer().transform.position) < attackRange;
+            
             void At(IState from, IState to, Func<bool> cond) => StateMachine.AddTransition(from, to, cond);
             void Aat(IState to, Func<bool> cond) => StateMachine.AddAnyTransition(to, cond);
         }
@@ -42,5 +49,10 @@ namespace gishadev.fort.Enemy
             HealthChanged?.Invoke(Health);
         }
 
+        private void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawWireSphere(transform.position, attackRange);
+        }
     }
 }

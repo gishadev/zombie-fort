@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,10 +17,11 @@ namespace gishadev.fort.GUI
             _player = FindObjectOfType<Player.Player>();
 
             OnPlayerHealthChanged(_player.Health);
+            
+            _player.HealthChanged += OnPlayerHealthChanged;
         }
 
-        private void OnEnable() => _player.HealthChanged += OnPlayerHealthChanged;
-        private void OnDisable() => _player.HealthChanged -= OnPlayerHealthChanged;
+        private void OnDestroy() => _player.HealthChanged -= OnPlayerHealthChanged;
 
         private void OnPlayerHealthChanged(int health)
         {
