@@ -23,8 +23,11 @@ namespace gishadev.fort.Enemy
             var attack = new Attack(this);
             var dead = new Dead(this, _moneySpawner);
 
-            At(idle, chase, () => true);
+            At(idle, chase, PlayerExists);
+            
             At(chase, attack, IsPlayerInAttackRange);
+            At(chase, idle, () => !PlayerExists());
+            
             At(attack, idle, () => !IsPlayerInAttackRange());
             
             Aat(dead, () => IsDead);

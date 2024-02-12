@@ -20,8 +20,9 @@ namespace gishadev.fort.Enemy
 
         public async void Tick()
         {
-            if (_cts.IsCancellationRequested && _player != null)
+            if (_cts.IsCancellationRequested || _player == null)
                 return;
+            
             await UniTask.WaitForSeconds(0.1f, cancellationToken: _cts.Token).SuppressCancellationThrow();
             if (_cts.IsCancellationRequested)
                 return;
