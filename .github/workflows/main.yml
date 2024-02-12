@@ -36,8 +36,8 @@ jobs:
           targetPlatform: ${{ matrix.targetPlatform }}
       - uses: actions/upload-artifact@v3
         with:
-          name: Build-${{ matrix.targetPlatform }}
-          path: build/${{ matrix.targetPlatform }}
+          name: Build-WebGL
+          path: build/WebGL
           
   deployPages:
     needs: buildForAllSupportedPlatforms
@@ -49,7 +49,7 @@ jobs:
 
       - uses: actions/download-artifact@v2
         with:
-          name: buildForAllSupportedPlatforms
+          name: Build-WebGL
           path: build
 
       - name: Deploy 🚀
