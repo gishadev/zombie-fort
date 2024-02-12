@@ -34,9 +34,12 @@ namespace gishadev.fort.Enemy
         {
             while (!_attackCts.Token.IsCancellationRequested)
             {
+                var player = _enemyBase.GetPlayer();
                 await UniTask.WaitForSeconds(_enemyBase.AttackDelay, cancellationToken: _attackCts.Token)
                     .SuppressCancellationThrow();
-                _enemyBase.GetPlayer().TakeDamage(_enemyBase.AttackDamage, _enemyBase.transform.forward * 5f);
+                
+                if (player != null)
+                    player.TakeDamage(_enemyBase.AttackDamage, _enemyBase.transform.forward * 5f);
             }
         }
     }
