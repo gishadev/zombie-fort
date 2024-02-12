@@ -16,8 +16,8 @@ namespace gishadev.fort.Shop
                 return;
 
             _moneyController.AddMoney(-Price);
-            OnBuySuccess();
             onBuySuccessCallback?.Invoke();
+            OnBuySuccess();
         }
 
         protected abstract void OnBuySuccess();

@@ -1,4 +1,5 @@
-﻿using Sirenix.OdinInspector;
+﻿using System;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 namespace gishadev.fort.Shop
@@ -8,25 +9,31 @@ namespace gishadev.fort.Shop
         [Required] [SerializeField] private BuyPoint buyPoint;
         [Required] [SerializeField] private Buyable buyable;
 
+        public static event Action<ShopBuyHandler> BuySucceeded;
+
+        public Buyable Buyable => buyable;
+        public BuyPoint BuyPoint => buyPoint;
+
         private void OnEnable()
         {
-            buyPoint.Init(buyable);
-            buyPoint.Triggered += OnBuyPointTriggered;
+            BuyPoint.Init(Buyable);
+            BuyPoint.Triggered += OnBuyPointTriggered;
         }
 
         private void OnDisable()
         {
-            buyPoint.Triggered -= OnBuyPointTriggered;
+            BuyPoint.Triggered -= OnBuyPointTriggered;
         }
 
         private void OnBuyPointTriggered()
         {
-            buyable.TryBuy(OnBuySuccess);
+            Buyable.TryBuy(OnBuySuccess);
         }
 
         private void OnBuySuccess()
         {
-            buyPoint.gameObject.SetActive(false);
+            BuyPoint.gameObject.SetActive(false);
+            BuySucceeded?.Invoke(this);
         }
     }
 }
