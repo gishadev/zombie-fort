@@ -10,7 +10,7 @@ namespace gishadev.fort.Player
     public class WeaponController : MonoBehaviour
     {
         [SerializeField] private Transform hand;
-        [SerializeField] private Weapon pistol, ak47;
+        [SerializeField] private Gun pistol, ak47;
         [SerializeField] private MMF_Player shootFeedback;
 
         private CustomInput _customInput;
@@ -64,8 +64,17 @@ namespace gishadev.fort.Player
             CurrentWeapon.gameObject.SetActive(true);
         }
 
-        public void SwitchToAK() => SwitchWeapon(ak47);
-        public void SwitchToPistol() => SwitchWeapon(pistol);
+        public void SwitchToAK()
+        {
+            ak47.RefillAmmo();
+            SwitchWeapon(ak47);
+        }
+
+        public void SwitchToPistol()
+        {
+            pistol.RefillAmmo();
+            SwitchWeapon(pistol);
+        }
 
         private void OnMouseBodyRotationPerformed(InputAction.CallbackContext value)
         {

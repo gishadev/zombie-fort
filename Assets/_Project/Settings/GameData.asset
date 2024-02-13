@@ -12,8 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c87c6f69d18a45179422fdb7dd784e51, type: 3}
   m_Name: GameData
   m_EditorClassIdentifier: 
-  <MovementSpeed>k__BackingField: 7
-  <EnemySpawnDelay>k__BackingField: 0.5
-  <WaveDelay>k__BackingField: 3
-  <MoneyPrefab>k__BackingField: {fileID: 5991267245654323599, guid: 6187e63c9e21a24408390d1e56458953, type: 3}
-  <EnemyPrefab>k__BackingField: {fileID: 782875567287236391, guid: 7493d4debec911847a598486f1d1bbe7, type: 3}
+  playerMaxHealth: 100
+  playerMovementSpeed: 4
+  enemySpawnDelay: 0.5
+  waveDelay: 3
+  moneyPrefab: {fileID: 5991267245654323599, guid: 6187e63c9e21a24408390d1e56458953, type: 3}
+  enemyPrefab: {fileID: 782875567287236391, guid: 7493d4debec911847a598486f1d1bbe7, type: 3}
+  weaponGiverPrefab: {fileID: 726400227164357565, guid: a1c00f8163179e54191348337e7bb1d7, type: 3}

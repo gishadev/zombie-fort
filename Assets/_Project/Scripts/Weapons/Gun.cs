@@ -61,6 +61,13 @@ namespace gishadev.fort.Weapons
                 _autoCts.Cancel();
         }
 
+        public void RefillAmmo()
+        {
+            CurrentAmmo = AllAmmoInMagazines;
+            CurrentAmmoInMagazine = startAmmoInMagazine;
+            Reloaded?.Invoke(this);
+        }
+
         #region Reloading
 
         public async void Reload()

@@ -6,8 +6,13 @@ namespace gishadev.fort.Shop
 {
     public class ShopBuyHandler : MonoBehaviour
     {
-        [Required] [SerializeField] private BuyPoint buyPoint;
-        [Required] [SerializeField] private Buyable buyable;
+        [InlineEditor, Required]
+        [SerializeField]
+        private BuyPoint buyPoint;
+
+        [InlineEditor, Required]
+        [SerializeField]
+        private Buyable buyable;
 
         public static event Action<ShopBuyHandler> BuySucceeded;
 
@@ -27,13 +32,7 @@ namespace gishadev.fort.Shop
 
         private void OnBuyPointTriggered()
         {
-            Buyable.TryBuy(OnBuySuccess);
-        }
-
-        private void OnBuySuccess()
-        {
-            BuyPoint.gameObject.SetActive(false);
-            BuySucceeded?.Invoke(this);
+            Buyable.TryBuy(() => BuySucceeded?.Invoke(this));
         }
     }
 }

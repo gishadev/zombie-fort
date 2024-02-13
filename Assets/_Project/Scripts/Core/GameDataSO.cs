@@ -6,14 +6,22 @@ namespace gishadev.fort.Core
     [CreateAssetMenu(fileName = "GameData", menuName = "ScriptableObjects/GameData", order = 0)]
     public class GameDataSO : ScriptableObject
     {
-        [field: SerializeField] public int PlayerMaxHealth { get; private set; } = 100;
-        [field: SerializeField] public float PlayerMovementSpeed { get; private set; } = 4f;
-        [field: SerializeField] public float EnemySpawnDelay { get; private set; } = 0.5f;
-        [field: SerializeField] public float WaveDelay { get; private set; } = 3f;
-        
-        [TabGroup("Prefabs")]
-        [field: SerializeField] public GameObject MoneyPrefab { get; private set; }
-        [TabGroup("Prefabs")]
-        [field: SerializeField] public GameObject EnemyPrefab { get; private set; }
+        [SerializeField] private int playerMaxHealth = 100;
+        [SerializeField] private float playerMovementSpeed = 4f;
+        [SerializeField] private float enemySpawnDelay = 0.5f;
+        [SerializeField] private float waveDelay = 3f;
+
+        [TabGroup("Prefabs")] [SerializeField] private GameObject moneyPrefab;
+        [TabGroup("Prefabs")] [SerializeField] private GameObject enemyPrefab;
+        [TabGroup("Prefabs")] [SerializeField] private GameObject weaponGiverPrefab;
+
+        public GameObject MoneyPrefab => moneyPrefab;
+        public GameObject EnemyPrefab => enemyPrefab;
+        public float WaveDelay => waveDelay;
+        public float EnemySpawnDelay => enemySpawnDelay;
+        public float PlayerMovementSpeed => playerMovementSpeed;
+        public int PlayerMaxHealth => playerMaxHealth;
+
+        public GameObject WeaponGiverPrefab => weaponGiverPrefab;
     }
 }
