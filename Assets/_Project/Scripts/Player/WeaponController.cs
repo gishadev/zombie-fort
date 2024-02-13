@@ -38,6 +38,7 @@ namespace gishadev.fort.Player
             _customInput.Character.Reload.performed += OnReloadPerformed;
 
             Weapon.Attack += OnFirearmAttack;
+            Gun.OutOfAmmo += OnGunOutOfAmmo;
         }
 
 
@@ -49,6 +50,7 @@ namespace gishadev.fort.Player
             _customInput.Character.Reload.performed -= OnReloadPerformed;
 
             Weapon.Attack -= OnFirearmAttack;
+            Gun.OutOfAmmo -= OnGunOutOfAmmo;
 
             _customInput.Disable();
         }
@@ -63,6 +65,7 @@ namespace gishadev.fort.Player
         }
 
         public void SwitchToAK() => SwitchWeapon(ak47);
+        public void SwitchToPistol() => SwitchWeapon(pistol);
 
         private void OnMouseBodyRotationPerformed(InputAction.CallbackContext value)
         {
@@ -97,6 +100,8 @@ namespace gishadev.fort.Player
             if (CurrentWeapon is Gun gun)
                 gun.Reload();
         }
+
+        private void OnGunOutOfAmmo(Gun gun) => SwitchToPistol();
 
         private void RotateTowardsHit(Transform trans, Vector3 hitPoint, float angleOffset = 0f)
         {

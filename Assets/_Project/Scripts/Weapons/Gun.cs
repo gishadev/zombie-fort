@@ -61,16 +61,37 @@ namespace gishadev.fort.Weapons
                 _autoCts.Cancel();
         }
 
+        #region Reloading
+
         public async void Reload()
         {
             if (_isReloading)
                 return;
 
+            if (CurrentAmmo <= 0 && CurrentAmmoInMagazine > 0)
+                return;
+
+            if (CurrentAmmo <= 0 && CurrentAmmoInMagazine <= 0)
+            {
+                OutOfAmmo?.Invoke(this);
+                return;
+            }
+
             _isReloading = true;
             await UniTask.WaitForSeconds(reloadTime);
 
-            int ammoToReload = Mathf.Min(CurrentAmmo - CurrentAmmoInMagazine,
-                startAmmoInMagazine - CurrentAmmoInMagazine);
+            CalculateAmmoAfterReload();
+            _isReloading = false;
+
+            Reloaded?.Invoke(this);
+        }
+
+        private void CalculateAmmoAfterReload()
+        {
+            int ammoToReload = startAmmoInMagazine - CurrentAmmoInMagazine;
+            if (CurrentAmmo < ammoToReload)
+                ammoToReload = CurrentAmmo;
+
             if (!IsInfinityMagazines)
             {
                 CurrentAmmo -= ammoToReload;
@@ -78,10 +99,11 @@ namespace gishadev.fort.Weapons
             }
 
             CurrentAmmoInMagazine += ammoToReload;
-            _isReloading = false;
-
-            Reloaded?.Invoke(this);
         }
+
+        #endregion
+
+        #region Shooting
 
         private void Shoot()
         {
@@ -125,5 +147,7 @@ namespace gishadev.fort.Weapons
             await UniTask.WaitForSeconds(0.05f);
             lineRenderer.enabled = false;
         }
+
+        #endregion
     }
 }
