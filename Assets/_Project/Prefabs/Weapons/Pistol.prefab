@@ -402,7 +402,9 @@ MonoBehaviour:
   shootDelay: 0.1
   shootForce: 5
   damage: 1
-  maxAmmo: 14
+  isInfinityMagazines: 1
+  startAmmoInMagazine: 14
+  startMagazinesCount: 3
   reloadTime: 1
 --- !u!1001 &2430656158282531841
 PrefabInstance:

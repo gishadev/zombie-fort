@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
 using gishadev.fort.Core;
 using UnityEngine;
@@ -14,19 +15,30 @@ namespace gishadev.fort.Weapons
         [SerializeField] private float shootDelay = 0.1f;
         [SerializeField] private float shootForce = 5f;
         [SerializeField] private int damage = 5;
-        [Space] [SerializeField] private int maxAmmo = 30;
+        [Space] [SerializeField] private bool isInfinityMagazines;
+
+        [SerializeField] private int startAmmoInMagazine = 30;
+        [SerializeField] private int startMagazinesCount = 3;
+
         [SerializeField] private float reloadTime = 1f;
+
+        public static event Action<Gun> OutOfAmmo;
+        public static event Action<Gun> Reloaded;
+
+        public int AllAmmoInMagazines => startMagazinesCount * startAmmoInMagazine;
+        public int CurrentAmmoInMagazine { get; private set; }
+        public int CurrentAmmo { get; private set; }
+        public bool IsInfinityMagazines => isInfinityMagazines;
+
 
         private CancellationTokenSource _autoCts;
         private bool _isReloading;
 
-        public int MaxAmmo => maxAmmo;
-        public int CurrentAmmo { get; private set; }
-
         protected override void Awake()
         {
             base.Awake();
-            CurrentAmmo = MaxAmmo;
+            CurrentAmmo = AllAmmoInMagazines;
+            CurrentAmmoInMagazine = startAmmoInMagazine;
         }
 
         public override void OnAttackPerformed()
@@ -57,13 +69,23 @@ namespace gishadev.fort.Weapons
             _isReloading = true;
             await UniTask.WaitForSeconds(reloadTime);
 
-            CurrentAmmo = MaxAmmo;
+            int ammoToReload = Mathf.Min(CurrentAmmo - CurrentAmmoInMagazine,
+                startAmmoInMagazine - CurrentAmmoInMagazine);
+            if (!IsInfinityMagazines)
+            {
+                CurrentAmmo -= ammoToReload;
+                CurrentAmmo = Mathf.Clamp(CurrentAmmo, 0, AllAmmoInMagazines);
+            }
+
+            CurrentAmmoInMagazine += ammoToReload;
             _isReloading = false;
+
+            Reloaded?.Invoke(this);
         }
 
         private void Shoot()
         {
-            if (CurrentAmmo <= 0)
+            if (CurrentAmmoInMagazine <= 0)
             {
                 Reload();
                 return;
@@ -80,7 +102,7 @@ namespace gishadev.fort.Weapons
                 LineEffectAsync(shootPoint.position, shootPoint.position + shootPoint.forward * 100);
 
             // Debug.DrawRay(shootPoint.position, shootPoint.forward * 100, Color.red, 1f);
-            CurrentAmmo--;
+            CurrentAmmoInMagazine--;
             RaiseAttackEvent(this);
         }
 

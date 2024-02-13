@@ -14,27 +14,36 @@ namespace gishadev.fort.GUI
             var weaponController = FindObjectOfType<WeaponController>();
 
             if (weaponController.CurrentWeapon is Gun gun)
-                ammoCountTMP.text = $"{gun.CurrentAmmo}/{gun.MaxAmmo}";
+                UpdateGunAmmoTMP(gun);
             else
                 ammoCountTMP.text = "";
         }
 
         private void OnEnable()
         {
-            Weapon.Attack += OnFirearmAttack;
+            Weapon.Attack += UpdateGUI;
+            Gun.Reloaded += UpdateGUI;
         }
 
         private void OnDisable()
         {
-            Weapon.Attack -= OnFirearmAttack;
+            Weapon.Attack -= UpdateGUI;
+            Gun.Reloaded -= UpdateGUI;
         }
 
-        private void OnFirearmAttack(Weapon weapon)
+        private void UpdateGUI(Weapon weapon)
         {
             if (weapon is not Gun gun)
                 return;
 
-            ammoCountTMP.text = $"{gun.CurrentAmmo}/{gun.MaxAmmo}";
+            UpdateGunAmmoTMP(gun);
+        }
+
+        private void UpdateGunAmmoTMP(Gun gun)
+        {
+            ammoCountTMP.text = gun.IsInfinityMagazines
+                ? $"{gun.CurrentAmmoInMagazine}/∞"
+                : $"{gun.CurrentAmmoInMagazine}/{gun.CurrentAmmo}";
         }
     }
 }
