@@ -2,10 +2,12 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using gishadev.fort.Core;
+using RayFire;
 using UnityEngine;
 
 namespace gishadev.fort.Weapons
 {
+    [RequireComponent(typeof(RayfireGun))]
     public class Gun : Weapon
     {
         [SerializeField] private Transform shootPoint;
@@ -30,7 +32,7 @@ namespace gishadev.fort.Weapons
         public int CurrentAmmo { get; private set; }
         public bool IsInfinityMagazines => isInfinityMagazines;
 
-
+        private RayfireGun _rayfireGun;
         private CancellationTokenSource _autoCts;
         private bool _isReloading;
 
@@ -39,6 +41,7 @@ namespace gishadev.fort.Weapons
             base.Awake();
             CurrentAmmo = AllAmmoInMagazines;
             CurrentAmmoInMagazine = startAmmoInMagazine;
+            _rayfireGun = GetComponent<RayfireGun>();
         }
 
         public override void OnAttackPerformed()
@@ -120,6 +123,7 @@ namespace gishadev.fort.Weapons
                 return;
             }
 
+            _rayfireGun.Shoot(shootPoint.position, shootPoint.forward);
             if (Physics.Raycast(shootPoint.position, shootPoint.forward, out var hit, 100))
             {
                 var damageable = hit.collider.GetComponent<IDamageable>();
