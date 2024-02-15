@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 2424378091869590321}
   - component: {fileID: 2586553113021723416}
   m_Layer: 8
-  m_Name: LineRenderer
+  m_Name: ShootLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

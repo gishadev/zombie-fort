@@ -41,7 +41,7 @@ namespace gishadev.fort.GUI
 
         private void UpdateGunAmmoTMP(Gun gun)
         {
-            ammoCountTMP.text = gun.IsInfinityMagazines
+            ammoCountTMP.text = gun.GunDataSO.IsInfinityMagazines
                 ? $"{gun.CurrentAmmoInMagazine}/∞"
                 : $"{gun.CurrentAmmoInMagazine}/{gun.CurrentAmmo}";
         }

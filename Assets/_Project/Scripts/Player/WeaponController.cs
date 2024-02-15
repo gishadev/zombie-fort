@@ -1,21 +1,26 @@
-﻿using System;
-using gishadev.fort.Core;
+﻿using gishadev.fort.Core;
 using gishadev.fort.Weapons;
 using MoreMountains.Feedbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Zenject;
 
 namespace gishadev.fort.Player
 {
     public class WeaponController : MonoBehaviour
     {
+        [SerializeField] private GunDataSO defaultGunData;
+
         [SerializeField] private Transform hand;
-        [SerializeField] private Gun pistol, ak47;
         [SerializeField] private MMF_Player shootFeedback;
+
+        [Inject] private DiContainer _diContainer;
+        [Inject] private GameDataSO _gameDataSO;
+        public Weapon CurrentWeapon { get; private set; }
 
         private CustomInput _customInput;
         private Camera _cam;
-        public Weapon CurrentWeapon { get; private set; }
+        private GunDataSO _selectedGunData;
 
         private void Awake()
         {
@@ -24,7 +29,7 @@ namespace gishadev.fort.Player
 
         private void Start()
         {
-            SwitchWeapon(pistol);
+            SwitchWeapon(defaultGunData);
         }
 
         private void OnEnable()
@@ -41,7 +46,6 @@ namespace gishadev.fort.Player
             Gun.OutOfAmmo += OnGunOutOfAmmo;
         }
 
-
         private void OnDisable()
         {
             _customInput.Character.MouseBodyRotation.performed -= OnMouseBodyRotationPerformed;
@@ -55,25 +59,24 @@ namespace gishadev.fort.Player
             _customInput.Disable();
         }
 
-        private void SwitchWeapon(Weapon weapon)
+        public void SwitchWeapon(GunDataSO gunDataSO)
         {
             if (CurrentWeapon != null)
-                CurrentWeapon.gameObject.SetActive(false);
+                Destroy(CurrentWeapon.gameObject);
 
-            CurrentWeapon = weapon;
-            CurrentWeapon.gameObject.SetActive(true);
-        }
+            var gun = _diContainer
+                .InstantiatePrefab(_gameDataSO.GunCorePrefab, hand)
+                .GetComponent<Gun>();
 
-        public void SwitchToAK()
-        {
-            ak47.RefillAmmo();
-            SwitchWeapon(ak47);
-        }
+            var gunMesh = _diContainer
+                .InstantiatePrefab(gunDataSO.GunMeshPrefab, gun.transform)
+                .GetComponent<GunMesh>();
+            gunMesh.transform.localPosition = Vector3.zero;
 
-        public void SwitchToPistol()
-        {
-            pistol.RefillAmmo();
-            SwitchWeapon(pistol);
+            gun.SetupGun(gunDataSO, gunMesh);
+            gun.RefillAmmo();
+            
+            CurrentWeapon = gun;
         }
 
         private void OnMouseBodyRotationPerformed(InputAction.CallbackContext value)
@@ -110,7 +113,7 @@ namespace gishadev.fort.Player
                 gun.Reload();
         }
 
-        private void OnGunOutOfAmmo(Gun gun) => SwitchToPistol();
+        private void OnGunOutOfAmmo(Gun gun) => SwitchWeapon(defaultGunData);
 
         private void RotateTowardsHit(Transform trans, Vector3 hitPoint, float angleOffset = 0f)
         {

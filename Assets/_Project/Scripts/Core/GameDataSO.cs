@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace gishadev.fort.Core
 {
-    [CreateAssetMenu(fileName = "GameData", menuName = "ScriptableObjects/GameData", order = 0)]
+    [CreateAssetMenu(fileName = "GameData", menuName = "ScriptableObjects/GameData")]
     public class GameDataSO : ScriptableObject
     {
         [SerializeField] private int playerMaxHealth = 100;
@@ -14,14 +14,15 @@ namespace gishadev.fort.Core
         [TabGroup("Prefabs")] [SerializeField] private GameObject moneyPrefab;
         [TabGroup("Prefabs")] [SerializeField] private GameObject enemyPrefab;
         [TabGroup("Prefabs")] [SerializeField] private GameObject weaponGiverPrefab;
+        [TabGroup("Prefabs")] [SerializeField] private GameObject gunCorePrefab;
 
         public GameObject MoneyPrefab => moneyPrefab;
         public GameObject EnemyPrefab => enemyPrefab;
+        public GameObject WeaponGiverPrefab => weaponGiverPrefab;
+        public GameObject GunCorePrefab => gunCorePrefab;
         public float WaveDelay => waveDelay;
         public float EnemySpawnDelay => enemySpawnDelay;
         public float PlayerMovementSpeed => playerMovementSpeed;
         public int PlayerMaxHealth => playerMaxHealth;
-
-        public GameObject WeaponGiverPrefab => weaponGiverPrefab;
     }
 }
