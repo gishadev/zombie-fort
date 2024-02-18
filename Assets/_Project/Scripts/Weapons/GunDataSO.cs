@@ -3,13 +3,11 @@
 namespace gishadev.fort.Weapons
 {
     [CreateAssetMenu(fileName = "GunDataSO", menuName = "ScriptableObjects/GunDataSO")]
-    public class GunDataSO : ScriptableObject
+    public class GunDataSO : WeaponDataSO
     {
-        [SerializeField] private GameObject gunMeshPrefab;
         [SerializeField] private bool isAutomatic;
         [SerializeField] private bool isInfinityMagazines;
 
-        [Space] [SerializeField] private int damage = 5;
         [SerializeField] private float shootDelay = 0.1f;
         [SerializeField] private float shootForce = 10f;
 
@@ -21,12 +19,9 @@ namespace gishadev.fort.Weapons
         public bool IsAutomatic => isAutomatic;
         public float ShootDelay => shootDelay;
         public float ShootForce => shootForce;
-        public int Damage => damage;
         public bool IsInfinityMagazines => isInfinityMagazines;
         public int StartAmmoInMagazine => startAmmoInMagazine;
         public int StartMagazinesCount => startMagazinesCount;
         public float ReloadTime => reloadTime;
-
-        public GameObject GunMeshPrefab => gunMeshPrefab;
     }
 }

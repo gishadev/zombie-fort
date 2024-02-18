@@ -20,3 +20,4 @@ MonoBehaviour:
   enemyPrefab: {fileID: 782875567287236391, guid: 7493d4debec911847a598486f1d1bbe7, type: 3}
   weaponGiverPrefab: {fileID: 726400227164357565, guid: a1c00f8163179e54191348337e7bb1d7, type: 3}
   gunCorePrefab: {fileID: 1004323821908547056, guid: 1ef58b5027421414486f587ff06e3b40, type: 3}
+  meleeCorePrefab: {fileID: 1004323821908547056, guid: beb569ef57b79fc4ebfeece220a53e7b, type: 3}

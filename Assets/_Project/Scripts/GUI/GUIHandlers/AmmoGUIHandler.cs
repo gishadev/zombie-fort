@@ -13,7 +13,7 @@ namespace gishadev.fort.GUI
         {
             var weaponController = FindObjectOfType<WeaponController>();
 
-            if (weaponController.CurrentWeapon is Gun gun)
+            if (weaponController.EquippedGun is Gun gun)
                 UpdateGunAmmoTMP(gun);
             else
                 ammoCountTMP.text = "";

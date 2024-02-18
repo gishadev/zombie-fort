@@ -22,6 +22,8 @@ namespace gishadev.fort.Enemy
         public void OnEnter()
         {
             _attackCts = new CancellationTokenSource();
+            _attackCts.RegisterRaiseCancelOnDestroy(_enemyBase.gameObject);
+            
             AttackPlayerAsync();
         }
 
@@ -37,6 +39,9 @@ namespace gishadev.fort.Enemy
                 var player = _enemyBase.GetPlayer();
                 await UniTask.WaitForSeconds(_enemyBase.AttackDelay, cancellationToken: _attackCts.Token)
                     .SuppressCancellationThrow();
+                
+                if (_attackCts.Token.IsCancellationRequested)
+                    return;
                 
                 if (player != null)
                     player.TakeDamage(_enemyBase.AttackDamage, _enemyBase.transform.forward * 5f);

@@ -1,4 +1,5 @@
-﻿using gishadev.fort.Core;
+﻿using Cysharp.Threading.Tasks;
+using gishadev.fort.Core;
 using gishadev.fort.Weapons;
 using MoreMountains.Feedbacks;
 using UnityEngine;
@@ -10,17 +11,22 @@ namespace gishadev.fort.Player
     public class WeaponController : MonoBehaviour
     {
         [SerializeField] private GunDataSO defaultGunData;
+        [SerializeField] private MeleeDataSO defaultMeleeData;
 
         [SerializeField] private Transform hand;
         [SerializeField] private MMF_Player shootFeedback;
 
         [Inject] private DiContainer _diContainer;
         [Inject] private GameDataSO _gameDataSO;
+        public Gun EquippedGun { get; private set; }
+        public Melee EquippedMelee { get; private set; }
         public Weapon CurrentWeapon { get; private set; }
 
         private CustomInput _customInput;
         private Camera _cam;
+
         private GunDataSO _selectedGunData;
+        private MeleeDataSO _selectedMeleeData;
 
         private void Awake()
         {
@@ -29,7 +35,10 @@ namespace gishadev.fort.Player
 
         private void Start()
         {
-            SwitchWeapon(defaultGunData);
+            SwitchGun(defaultGunData);
+            CurrentWeapon = EquippedGun;
+
+            SwitchMelee(defaultMeleeData);
         }
 
         private void OnEnable()
@@ -42,6 +51,8 @@ namespace gishadev.fort.Player
             _customInput.Character.Shoot.canceled += OnShootCanceled;
             _customInput.Character.Reload.performed += OnReloadPerformed;
 
+            _customInput.Character.Melee.performed += OnMeleePerformed;
+
             Weapon.Attack += OnFirearmAttack;
             Gun.OutOfAmmo += OnGunOutOfAmmo;
         }
@@ -53,30 +64,51 @@ namespace gishadev.fort.Player
             _customInput.Character.Shoot.canceled -= OnShootCanceled;
             _customInput.Character.Reload.performed -= OnReloadPerformed;
 
+            _customInput.Character.Melee.performed -= OnMeleePerformed;
+
             Weapon.Attack -= OnFirearmAttack;
             Gun.OutOfAmmo -= OnGunOutOfAmmo;
 
             _customInput.Disable();
         }
 
-        public void SwitchWeapon(GunDataSO gunDataSO)
+        public void SwitchGun(GunDataSO gunDataSO)
         {
-            if (CurrentWeapon != null)
-                Destroy(CurrentWeapon.gameObject);
+            if (EquippedGun != null)
+                Destroy(EquippedGun.gameObject);
 
             var gun = _diContainer
                 .InstantiatePrefab(_gameDataSO.GunCorePrefab, hand)
                 .GetComponent<Gun>();
 
             var gunMesh = _diContainer
-                .InstantiatePrefab(gunDataSO.GunMeshPrefab, gun.transform)
+                .InstantiatePrefab(gunDataSO.WeaponMeshPrefab, gun.transform)
                 .GetComponent<GunMesh>();
             gunMesh.transform.localPosition = Vector3.zero;
 
             gun.SetupGun(gunDataSO, gunMesh);
             gun.RefillAmmo();
+
+            EquippedGun = gun;
+        }
+
+        public void SwitchMelee(MeleeDataSO meleeDataSO)
+        {
+            if (EquippedMelee != null)
+                Destroy(EquippedMelee.gameObject);
+
+            var melee = _diContainer
+                .InstantiatePrefab(_gameDataSO.MeleeCorePrefab, hand)
+                .GetComponent<Melee>();
+
+            var meleeMesh = _diContainer
+                .InstantiatePrefab(meleeDataSO.WeaponMeshPrefab, melee.transform);
+            meleeMesh.transform.localPosition = Vector3.zero;
+
+            melee.SetupMelee(meleeDataSO);
             
-            CurrentWeapon = gun;
+            EquippedMelee = melee;
+            EquippedMelee.gameObject.SetActive(false);
         }
 
         private void OnMouseBodyRotationPerformed(InputAction.CallbackContext value)
@@ -103,17 +135,48 @@ namespace gishadev.fort.Player
             }
         }
 
-        private void OnShootPerformed(InputAction.CallbackContext value) => CurrentWeapon.OnAttackPerformed();
-        private void OnShootCanceled(InputAction.CallbackContext value) => CurrentWeapon.OnAttackCanceled();
-        private void OnFirearmAttack(Weapon weapon) => shootFeedback.PlayFeedbacks();
-
-        private void OnReloadPerformed(InputAction.CallbackContext obj)
+        private  async void OnMeleePerformed(InputAction.CallbackContext value)
         {
-            if (CurrentWeapon is Gun gun)
-                gun.Reload();
+            if (EquippedMelee.IsAttacking)
+                return;
+            
+            CurrentWeapon = EquippedMelee;
+            EquippedGun.gameObject.SetActive(false);
+
+            EquippedMelee.OnAttackPerformed();
+            await UniTask.WaitForSeconds(EquippedMelee.MeleeDataSO.AttackDelay);
+            EquippedMelee.OnAttackCanceled();
+            
+            CurrentWeapon = EquippedGun;
+            EquippedGun.gameObject.SetActive(true);
         }
 
-        private void OnGunOutOfAmmo(Gun gun) => SwitchWeapon(defaultGunData);
+        private void OnShootPerformed(InputAction.CallbackContext value)
+        {
+            if (CurrentWeapon != EquippedGun || EquippedGun.IsAttacking)
+                return;
+
+            EquippedGun.OnAttackPerformed();
+        }
+
+        private void OnShootCanceled(InputAction.CallbackContext value)
+        {
+            if (CurrentWeapon != EquippedGun)
+                return;
+
+            EquippedGun.OnAttackCanceled();
+        }
+        
+        private void OnReloadPerformed(InputAction.CallbackContext obj)
+        {
+            if (CurrentWeapon != EquippedGun)
+                return;
+            
+            EquippedGun.Reload();
+        }
+
+        private void OnFirearmAttack(Weapon weapon) => shootFeedback.PlayFeedbacks();
+        private void OnGunOutOfAmmo(Gun gun) => SwitchGun(defaultGunData);
 
         private void RotateTowardsHit(Transform trans, Vector3 hitPoint, float angleOffset = 0f)
         {

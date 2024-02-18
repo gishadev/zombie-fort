@@ -15,6 +15,8 @@ namespace gishadev.fort.Weapons
         public static event Action<Gun> OutOfAmmo;
         public static event Action<Gun> Reloaded;
 
+
+        public override bool IsAttacking { get;  protected set; }
         public GunDataSO GunDataSO { get; private set; }
         public int CurrentAmmoInMagazine { get; private set; }
         public int CurrentAmmo { get; private set; }
@@ -42,6 +44,7 @@ namespace gishadev.fort.Weapons
             _gunMesh = gunMesh;
         }
 
+
         public override void OnAttackPerformed()
         {
             if (_isReloading)
@@ -53,7 +56,7 @@ namespace gishadev.fort.Weapons
                 AutomaticShootAsync();
             }
             else
-                Shoot();
+                SingleShootAsync();
         }
 
         public override void OnAttackCanceled()
@@ -113,13 +116,15 @@ namespace gishadev.fort.Weapons
 
         #region Shooting
 
-        private void Shoot()
+        private async void SingleShootAsync()
         {
             if (CurrentAmmoInMagazine <= 0)
             {
                 Reload();
                 return;
             }
+
+            IsAttacking = true;
 
             _rayfireGun.Shoot(ShootPoint.position, ShootPoint.forward);
             if (Physics.Raycast(ShootPoint.position, ShootPoint.forward, out var hit, 100))
@@ -135,13 +140,18 @@ namespace gishadev.fort.Weapons
             // Debug.DrawRay(shootPoint.position, shootPoint.forward * 100, Color.red, 1f);
             CurrentAmmoInMagazine--;
             RaiseAttackEvent(this);
+
+            await UniTask.WaitForSeconds(GunDataSO.ShootDelay, cancellationToken: _mainCts.Token)
+                .SuppressCancellationThrow();
+            
+            IsAttacking = false;
         }
 
         private async void AutomaticShootAsync()
         {
             while (!_autoCts.IsCancellationRequested)
             {
-                Shoot();
+                SingleShootAsync();
                 await UniTask.WaitForSeconds(GunDataSO.ShootDelay, cancellationToken: _autoCts.Token)
                     .SuppressCancellationThrow();
             }

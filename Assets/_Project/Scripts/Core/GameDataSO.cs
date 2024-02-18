@@ -15,6 +15,7 @@ namespace gishadev.fort.Core
         [TabGroup("Prefabs")] [SerializeField] private GameObject enemyPrefab;
         [TabGroup("Prefabs")] [SerializeField] private GameObject weaponGiverPrefab;
         [TabGroup("Prefabs")] [SerializeField] private GameObject gunCorePrefab;
+        [TabGroup("Prefabs")] [SerializeField] private GameObject meleeCorePrefab;
 
         public GameObject MoneyPrefab => moneyPrefab;
         public GameObject EnemyPrefab => enemyPrefab;
@@ -24,5 +25,7 @@ namespace gishadev.fort.Core
         public float EnemySpawnDelay => enemySpawnDelay;
         public float PlayerMovementSpeed => playerMovementSpeed;
         public int PlayerMaxHealth => playerMaxHealth;
+
+        public GameObject MeleeCorePrefab => meleeCorePrefab;
     }
 }

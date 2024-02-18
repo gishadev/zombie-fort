@@ -5,6 +5,7 @@ namespace gishadev.fort.Weapons
 {
     public abstract class Weapon : MonoBehaviour
     {
+        public abstract bool IsAttacking { get; protected set; }
         public abstract void OnAttackPerformed();
         public abstract void OnAttackCanceled();
 

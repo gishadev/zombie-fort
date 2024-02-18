@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b668f5337d41518d4e92cf2e68f2e0, type: 3}
   m_Name: AK47
   m_EditorClassIdentifier: 
-  gunMeshPrefab: {fileID: 1004323821908547056, guid: dd8afb1774b447d4bb4733d51d2d94d4, type: 3}
+  weaponMeshPrefab: {fileID: 1004323821908547056, guid: dd8afb1774b447d4bb4733d51d2d94d4, type: 3}
+  damage: 3
   isAutomatic: 1
   isInfinityMagazines: 0
-  damage: 3
   shootDelay: 0.1
   shootForce: 10
   startAmmoInMagazine: 30
