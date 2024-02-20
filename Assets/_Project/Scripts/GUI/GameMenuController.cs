@@ -7,8 +7,8 @@ namespace gishadev.fort.GUI
 {
     public class GameMenuController : MenuController
     {
-        [SerializeField] private GamePopupPage losePopupPage;
-        [SerializeField] private GamePopupPage arsenalPopupPage;
+        [SerializeField] private Page losePopupPage;
+        [SerializeField] private Page arsenalPopupPage;
 
         private Arsenal _arsenal;
 
