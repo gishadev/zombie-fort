@@ -1,8 +1,9 @@
 ﻿using System;
+using gishadev.fort.World.Shop.BuyPoints;
 using Sirenix.OdinInspector;
 using UnityEngine;
 
-namespace gishadev.fort.Shop
+namespace gishadev.fort.World.Shop
 {
     public class ShopBuyHandler : MonoBehaviour
     {

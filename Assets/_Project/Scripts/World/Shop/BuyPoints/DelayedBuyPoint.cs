@@ -1,7 +1,7 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace gishadev.fort.Shop
+namespace gishadev.fort.World.Shop.BuyPoints
 {
     public class DelayedBuyPoint : BuyPoint
     {

@@ -2,7 +2,7 @@
 using UnityEngine;
 using Zenject;
 
-namespace gishadev.fort.Shop
+namespace gishadev.fort.World.Shop
 {
     public class WeaponBuyable : Buyable
     {

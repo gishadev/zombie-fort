@@ -3,7 +3,7 @@ using gishadev.fort.Core;
 using TMPro;
 using UnityEngine;
 
-namespace gishadev.fort.Shop
+namespace gishadev.fort.World.Shop.BuyPoints
 {
     public abstract class BuyPoint : MonoBehaviour
     {

@@ -1,5 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using gishadev.fort.Shop;
+using gishadev.fort.World.Shop;
 using Sirenix.OdinInspector;
 using Unity.AI.Navigation;
 using UnityEngine;

@@ -1,4 +1,4 @@
-﻿namespace gishadev.fort.Shop
+﻿namespace gishadev.fort.World.Shop.BuyPoints
 {
     public class DisposableBuyPoint : BuyPoint
     {

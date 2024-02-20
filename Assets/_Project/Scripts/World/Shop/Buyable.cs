@@ -3,7 +3,7 @@ using gishadev.fort.Money;
 using UnityEngine;
 using Zenject;
 
-namespace gishadev.fort.Shop
+namespace gishadev.fort.World.Shop
 {
     public abstract class Buyable : MonoBehaviour
     {
