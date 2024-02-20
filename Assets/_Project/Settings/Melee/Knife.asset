@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: Knife
   m_EditorClassIdentifier: 
   weaponMeshPrefab: {fileID: 8151267213889866532, guid: 6130247b601100541bd950d09d2697d8, type: 3}
-  damage: 5
-  attackDelay: 1
+  damage: 2
+  attackDelay: 0.5
+  punchForce: 30

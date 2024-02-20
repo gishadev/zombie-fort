@@ -22,19 +22,25 @@ namespace gishadev.fort.Player
         public Melee EquippedMelee { get; private set; }
         public Weapon CurrentWeapon { get; private set; }
 
-        private CustomInput _customInput;
-        private Camera _cam;
+        private Vector3 _cachedHandPosition;
 
         private GunDataSO _selectedGunData;
         private MeleeDataSO _selectedMeleeData;
 
+        private CustomInput _customInput;
+        private Camera _cam;
+        private Animator _animator;
+
         private void Awake()
         {
             _cam = Camera.main;
+            _animator = GetComponent<Animator>();
+            _animator.enabled = false;
         }
 
         private void Start()
         {
+            _cachedHandPosition = hand.localPosition;
             SwitchGun(defaultGunData);
             CurrentWeapon = EquippedGun;
 
@@ -106,11 +112,13 @@ namespace gishadev.fort.Player
             meleeMesh.transform.localPosition = Vector3.zero;
 
             melee.SetupMelee(meleeDataSO);
-            
+
             EquippedMelee = melee;
             EquippedMelee.gameObject.SetActive(false);
         }
 
+
+        
         private void OnMouseBodyRotationPerformed(InputAction.CallbackContext value)
         {
             var mousePosition = value.ReadValue<Vector2>();
@@ -135,20 +143,32 @@ namespace gishadev.fort.Player
             }
         }
 
-        private  async void OnMeleePerformed(InputAction.CallbackContext value)
+        private async void OnMeleePerformed(InputAction.CallbackContext value)
         {
             if (EquippedMelee.IsAttacking)
                 return;
-            
+
             CurrentWeapon = EquippedMelee;
+            
+            EquippedMelee.gameObject.SetActive(true);
             EquippedGun.gameObject.SetActive(false);
 
+            _animator.enabled = true;
+            _animator.SetTrigger(Constants.MELEE_SWING_TRIGGER_NAME);
+
             EquippedMelee.OnAttackPerformed();
+        }
+        
+        public async void OnMeleeAttackFinished()
+        {
+            _animator.enabled = false;
+            RestoreHandTransforms();
+
+            CurrentWeapon = EquippedGun;
+            EquippedMelee.gameObject.SetActive(false);
+            EquippedGun.gameObject.SetActive(true);
             await UniTask.WaitForSeconds(EquippedMelee.MeleeDataSO.AttackDelay);
             EquippedMelee.OnAttackCanceled();
-            
-            CurrentWeapon = EquippedGun;
-            EquippedGun.gameObject.SetActive(true);
         }
 
         private void OnShootPerformed(InputAction.CallbackContext value)
@@ -166,12 +186,12 @@ namespace gishadev.fort.Player
 
             EquippedGun.OnAttackCanceled();
         }
-        
+
         private void OnReloadPerformed(InputAction.CallbackContext obj)
         {
             if (CurrentWeapon != EquippedGun)
                 return;
-            
+
             EquippedGun.Reload();
         }
 
@@ -185,6 +205,12 @@ namespace gishadev.fort.Player
             trans.rotation = Quaternion.AngleAxis(angle, Vector3.up);
 
             // Debug.DrawRay(trans.position, direction, Color.yellow, 1f);
+        }
+
+        private void RestoreHandTransforms()
+        {
+            hand.localPosition = _cachedHandPosition;
+            hand.rotation = Quaternion.identity;
         }
     }
 }
