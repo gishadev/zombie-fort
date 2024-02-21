@@ -16,7 +16,7 @@ MonoBehaviour:
   damage: 3
   price: 10
   isAutomatic: 1
-  isInfinityMagazines: 0
+  isInfinityMagazines: 1
   shootDelay: 0.1
   shootForce: 10
   startAmmoInMagazine: 30

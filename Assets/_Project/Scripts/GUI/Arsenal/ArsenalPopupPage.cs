@@ -55,8 +55,17 @@ namespace gishadev.fort.GUI
         {
             _selectedWeaponData = weaponDataSO;
             selectedWeaponNameTMP.text = $"{weaponDataSO.name}/{weaponDataSO.Price}";
-            buyButton.gameObject.SetActive(true);
-            equipButton.gameObject.SetActive(true);
+
+            if (_playerInventoryController.OwnedWeapons.Contains(weaponDataSO))
+            {
+                buyButton.gameObject.SetActive(false);
+                equipButton.gameObject.SetActive(true);
+            }
+            else
+            {
+                buyButton.gameObject.SetActive(true);
+                equipButton.gameObject.SetActive(false);
+            }
         }
 
         private void OnBuyButtonClicked()
@@ -69,6 +78,8 @@ namespace gishadev.fort.GUI
 
             _moneyController.AddMoney(-_selectedWeaponData.Price);
             _playerInventoryController.AddWeapon(_selectedWeaponData);
+
+            OnWeaponGUIPointerDown(_selectedWeaponData);
         }
 
         private void OnEquipButtonClicked()
@@ -80,6 +91,8 @@ namespace gishadev.fort.GUI
                 return;
 
             FindObjectOfType<WeaponController>().SwitchWeapon(_selectedWeaponData);
+            
+            OnWeaponGUIPointerDown(_selectedWeaponData);
         }
     }
 }
