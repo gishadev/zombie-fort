@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace gishadev.fort.World
+namespace gishadev.fort.World.Shop
 {
     public class Arsenal : MonoBehaviour
     {

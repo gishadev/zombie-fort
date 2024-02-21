@@ -10,8 +10,7 @@ namespace gishadev.fort.Player
 {
     public class WeaponController : MonoBehaviour
     {
-        [SerializeField] private GunDataSO defaultGunData;
-        [SerializeField] private MeleeDataSO defaultMeleeData;
+        [SerializeField] private MeleeDataSO startMelee;
 
         [SerializeField] private Transform hand;
         [SerializeField] private MMF_Player shootFeedback;
@@ -41,10 +40,7 @@ namespace gishadev.fort.Player
         private void Start()
         {
             _cachedHandPosition = hand.localPosition;
-            SwitchGun(defaultGunData);
-            CurrentWeapon = EquippedGun;
-
-            SwitchMelee(defaultMeleeData);
+            SwitchMelee(startMelee);
         }
 
         private void OnEnable()
@@ -60,7 +56,7 @@ namespace gishadev.fort.Player
             _customInput.Character.Melee.performed += OnMeleePerformed;
 
             Weapon.Attack += OnFirearmAttack;
-            Gun.OutOfAmmo += OnGunOutOfAmmo;
+            // Gun.OutOfAmmo += OnGunOutOfAmmo;
         }
 
         private void OnDisable()
@@ -73,9 +69,17 @@ namespace gishadev.fort.Player
             _customInput.Character.Melee.performed -= OnMeleePerformed;
 
             Weapon.Attack -= OnFirearmAttack;
-            Gun.OutOfAmmo -= OnGunOutOfAmmo;
+            // Gun.OutOfAmmo -= OnGunOutOfAmmo;
 
             _customInput.Disable();
+        }
+
+        public void SwitchWeapon(WeaponDataSO weaponDataSO)
+        {
+            if (weaponDataSO is GunDataSO gunDataSO)
+                SwitchGun(gunDataSO);
+            else if (weaponDataSO is MeleeDataSO meleeDataSO)
+                SwitchMelee(meleeDataSO);
         }
 
         public void SwitchGun(GunDataSO gunDataSO)
@@ -118,7 +122,6 @@ namespace gishadev.fort.Player
         }
 
 
-        
         private void OnMouseBodyRotationPerformed(InputAction.CallbackContext value)
         {
             var mousePosition = value.ReadValue<Vector2>();
@@ -149,16 +152,18 @@ namespace gishadev.fort.Player
                 return;
 
             CurrentWeapon = EquippedMelee;
-            
+
             EquippedMelee.gameObject.SetActive(true);
-            EquippedGun.gameObject.SetActive(false);
+
+            if (EquippedGun != null)
+                EquippedGun.gameObject.SetActive(false);
 
             _animator.enabled = true;
             _animator.SetTrigger(Constants.MELEE_SWING_TRIGGER_NAME);
 
             EquippedMelee.OnAttackPerformed();
         }
-        
+
         public async void OnMeleeAttackFinished()
         {
             _animator.enabled = false;
@@ -166,13 +171,18 @@ namespace gishadev.fort.Player
 
             CurrentWeapon = EquippedGun;
             EquippedMelee.gameObject.SetActive(false);
-            EquippedGun.gameObject.SetActive(true);
+            if (EquippedGun != null)
+                EquippedGun.gameObject.SetActive(true);
+            
             await UniTask.WaitForSeconds(EquippedMelee.MeleeDataSO.AttackDelay);
             EquippedMelee.OnAttackCanceled();
         }
 
         private void OnShootPerformed(InputAction.CallbackContext value)
         {
+            if (EquippedGun == null)
+                return;
+
             if (CurrentWeapon != EquippedGun || EquippedGun.IsAttacking)
                 return;
 
@@ -181,6 +191,9 @@ namespace gishadev.fort.Player
 
         private void OnShootCanceled(InputAction.CallbackContext value)
         {
+            if (EquippedGun == null)
+                return;
+
             if (CurrentWeapon != EquippedGun)
                 return;
 
@@ -189,6 +202,9 @@ namespace gishadev.fort.Player
 
         private void OnReloadPerformed(InputAction.CallbackContext obj)
         {
+            if (EquippedGun == null)
+                return;
+
             if (CurrentWeapon != EquippedGun)
                 return;
 
@@ -196,7 +212,7 @@ namespace gishadev.fort.Player
         }
 
         private void OnFirearmAttack(Weapon weapon) => shootFeedback.PlayFeedbacks();
-        private void OnGunOutOfAmmo(Gun gun) => SwitchGun(defaultGunData);
+        // private void OnGunOutOfAmmo(Gun gun) => SwitchGun(defaultGunData);
 
         private void RotateTowardsHit(Transform trans, Vector3 hitPoint, float angleOffset = 0f)
         {

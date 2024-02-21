@@ -244,8 +244,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f685c382e3f84a3d84f2b6837d5aece8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultGunData: {fileID: 11400000, guid: 4f01acaae6d12674f8914add0e8266a6, type: 2}
-  defaultMeleeData: {fileID: 11400000, guid: ff508895adad25643a91005f226ee70b, type: 2}
+  startMelee: {fileID: 11400000, guid: ff508895adad25643a91005f226ee70b, type: 2}
   hand: {fileID: 8216762111192693427}
   shootFeedback: {fileID: 8250760514215356205}
 --- !u!114 &8641558417957174925

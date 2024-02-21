@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 
 namespace gishadev.fort.GUI
 {
-    public class WeaponGUIElementHandler : MonoBehaviour, IPointerDownHandler
+    public class ArsenalWeaponGUIElementHandler : MonoBehaviour, IPointerDownHandler
     {
         [SerializeField] private WeaponDataSO weaponDataSO;
         public event Action<WeaponDataSO> PointerDown;
