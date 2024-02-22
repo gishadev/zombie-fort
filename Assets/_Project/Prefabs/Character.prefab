@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 4939312603498295546}
   - component: {fileID: 6261995093200612843}
   - component: {fileID: 2122459575007710586}
-  - component: {fileID: 8641558417957174925}
+  - component: {fileID: 8511833634498550541}
   m_Layer: 8
   m_Name: Character
   m_TagString: Player
@@ -247,7 +247,7 @@ MonoBehaviour:
   startMelee: {fileID: 11400000, guid: ff508895adad25643a91005f226ee70b, type: 2}
   hand: {fileID: 8216762111192693427}
   shootFeedback: {fileID: 8250760514215356205}
---- !u!114 &8641558417957174925
+--- !u!114 &8511833634498550541
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -256,11 +256,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 6261995093200612849}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bbdc007d83a4b80b8087c5abae8d9df, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cd95ed092d04e4d8dd709381a060ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  magnetizeRadius: 5
-  checkInterval: 0.1
 --- !u!1 &6400963154571099973
 GameObject:
   m_ObjectHideFlags: 0
