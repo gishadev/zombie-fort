@@ -1,6 +1,6 @@
 ﻿using System;
 using gishadev.fort.Enemy;
-using gishadev.tools.SceneLoading;
+using gishadev.fort.World;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Zenject;
@@ -14,7 +14,7 @@ namespace gishadev.fort.Core
 
         public static event Action Won;
         public static event Action Lost;
-        
+
         private Player.Player _player;
 
         private void Awake()
@@ -27,22 +27,41 @@ namespace gishadev.fort.Core
             _enemySpawner.StartSpawning();
         }
 
-        private void OnEnable() => _player.HealthChanged += OnPlayerHealthChanged;
+        private void OnEnable()
+        {
+            _player.HealthChanged += OnPlayerHealthChanged;
+            Helipad.HelipadSpawned += OnHelipadSpawned;
+        }
 
-        private void OnDisable() => _player.HealthChanged -= OnPlayerHealthChanged;
+        private void OnDisable()
+        {
+            _player.HealthChanged -= OnPlayerHealthChanged;
+            Helipad.HelipadSpawned -= OnHelipadSpawned;
+        }
 
         public static void RestartGame()
         {
             var currentSceneName = SceneManager.GetActiveScene().name;
             SceneManager.LoadScene(currentSceneName);
         }
-        
-        private void Win() => Won?.Invoke();
-        private void Lose() => Lost?.Invoke();
+
+        private void Win()
+        {
+            Debug.Log("Win");
+            Won?.Invoke();
+        }
+
+        private void Lose()
+        {
+            Debug.Log("Lose");
+            Lost?.Invoke();
+        }
 
         private void OnPlayerHealthChanged(int health)
         {
             if (health <= 0) Lose();
         }
+
+        private void OnHelipadSpawned(Helipad helipad) => Win();
     }
 }
