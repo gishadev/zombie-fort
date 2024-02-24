@@ -8,7 +8,10 @@ namespace gishadev.fort.World
 {
     public class Location : MonoBehaviour
     {
-        [SerializeField] private NavMeshSurface _navMeshSurface;
+        [Required] [SerializeField] private NavMeshSurface _navMeshSurface;
+        [Required] [SerializeField] private Arsenal arsenal;
+
+        public Arsenal Arsenal => arsenal;
 
         private void OnEnable() => ShopBuyHandler.BuySucceeded += OnBuySucceeded;
         private void OnDisable() => ShopBuyHandler.BuySucceeded -= OnBuySucceeded;

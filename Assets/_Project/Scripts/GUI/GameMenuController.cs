@@ -16,7 +16,7 @@ namespace gishadev.fort.GUI
         protected override void Awake()
         {
             base.Awake();
-            _arsenal = FindObjectOfType<Arsenal>(true);
+            _arsenal = FindObjectOfType<Location>().Arsenal;
         }
 
         private void OnEnable()
