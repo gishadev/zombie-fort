@@ -18,9 +18,10 @@ namespace gishadev.fort.Enemy
 
         private Transform _parent;
 
-        public EnemySpawner()
+        public void Init()
         {
             _parent = new GameObject("Enemies").transform;
+            StartSpawning();
         }
 
         public void StartSpawning()

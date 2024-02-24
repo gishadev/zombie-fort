@@ -1,5 +1,6 @@
 ﻿using System;
 using gishadev.fort.Enemy;
+using gishadev.fort.Money;
 using gishadev.fort.World;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -11,7 +12,8 @@ namespace gishadev.fort.Core
     public class GameManager : MonoBehaviour
     {
         [Inject] private IEnemySpawner _enemySpawner;
-
+        [Inject] private IMoneyController _moneyController;
+        
         public static event Action Won;
         public static event Action Lost;
 
@@ -24,7 +26,8 @@ namespace gishadev.fort.Core
 
         private void Start()
         {
-            _enemySpawner.StartSpawning();
+            _enemySpawner.Init();
+            _moneyController.Init();
         }
 
         private void OnEnable()

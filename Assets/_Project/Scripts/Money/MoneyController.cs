@@ -7,6 +7,11 @@ namespace gishadev.fort.Money
         public int MoneyCount { get; private set; }
         public event Action<int> MoneyChanged;
 
+        public void Init()
+        {
+            ChangeMoney(0);
+        }
+
         public void AddMoney(int amountToAdd)
         {
             ChangeMoney(MoneyCount + amountToAdd);

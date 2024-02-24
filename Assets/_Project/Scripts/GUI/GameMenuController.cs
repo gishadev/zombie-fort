@@ -9,6 +9,7 @@ namespace gishadev.fort.GUI
     public class GameMenuController : MenuController
     {
         [SerializeField] private Page losePopupPage;
+        [SerializeField] private Page winPopupPage;
         [SerializeField] private Page arsenalPopupPage;
 
         private Arsenal _arsenal;
@@ -44,6 +45,7 @@ namespace gishadev.fort.GUI
 
         private void OnGameWon()
         {
+            PushPage(winPopupPage);
         }
 
         private void OnArsenalTriggerEntered() => PushPage(arsenalPopupPage);
