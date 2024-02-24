@@ -9,7 +9,8 @@ namespace gishadev.fort.Enemy
     public class Zombie : EnemyBase
     {
         [SerializeField] private float attackRange = 0.2f;
-        
+        [SerializeField] private float chaseRange = 2f;
+
         [Inject] private IMoneySpawner _moneySpawner;
 
         public override event Action<int> HealthChanged;
@@ -21,22 +22,29 @@ namespace gishadev.fort.Enemy
             var idle = new Idle();
             var chase = new Chase(this, EnemyMovement);
             var attack = new Attack(this);
+            var wander = new Wander(EnemyMovement);
             var dead = new Dead(this, _moneySpawner);
 
-            At(idle, chase, PlayerExists);
-            
-            At(chase, attack, IsPlayerInAttackRange);
-            At(chase, idle, () => !PlayerExists());
-            
-            At(attack, idle, () => !IsPlayerInAttackRange());
+            At(idle, wander, PlayerExists);
+
+            At(chase, attack, () => IsPlayerInRange(attackRange));
+            At(chase, wander, () => !PlayerExists() || !IsPlayerInRange(chaseRange));
+
+            At(attack, chase, () => !IsPlayerInRange(attackRange) && IsPlayerInRange(chaseRange));
+            At(attack, wander, () => !IsPlayerInRange(attackRange) && !IsPlayerInRange(chaseRange));
+
+            At(wander, chase, () => IsPlayerInRange(chaseRange));
             
             Aat(dead, () => IsDead);
 
             StateMachine.SetState(idle);
 
-            bool IsPlayerInAttackRange() => PlayerExists() && Vector3.Distance(transform.position, GetPlayer().transform.position) < attackRange;
+            bool IsPlayerInRange(float range) => PlayerExists() &&
+                                           Vector3.Distance(transform.position, GetPlayer().transform.position) <
+                                           range;
+
             bool PlayerExists() => GetPlayer() != null;
-            
+
             void At(IState from, IState to, Func<bool> cond) => StateMachine.AddTransition(from, to, cond);
             void Aat(IState to, Func<bool> cond) => StateMachine.AddAnyTransition(to, cond);
         }
@@ -49,7 +57,7 @@ namespace gishadev.fort.Enemy
                 IsDead = true;
             else
                 EnemyMovement.KnockBack(hitForce);
-            
+
             HealthChanged?.Invoke(Health);
         }
 
@@ -57,6 +65,9 @@ namespace gishadev.fort.Enemy
         {
             Gizmos.color = Color.red;
             Gizmos.DrawWireSphere(transform.position, attackRange);
+
+            Gizmos.color = Color.blue;
+            Gizmos.DrawWireSphere(transform.position, chaseRange);
         }
     }
 }

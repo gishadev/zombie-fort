@@ -168,4 +168,5 @@ MonoBehaviour:
   startHealth: 5
   attackDelay: 1
   attackDamage: 10
-  attackRange: 1
+  attackRange: 1.5
+  chaseRange: 4

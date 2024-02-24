@@ -9,6 +9,7 @@ namespace gishadev.fort.Enemy
     {
         [SerializeField] private float knockBackDelay = 0.2f;
 
+        public float DistanceToDestination => _agent.remainingDistance;
         private NavMeshAgent _agent;
         private Rigidbody _rb;
 
@@ -33,6 +34,12 @@ namespace gishadev.fort.Enemy
 
             _agent.SetDestination(target);
             Resume();
+        }
+        
+        public void Stop()
+        {
+            _agent.isStopped = true;
+            _rb.isKinematic = true;
         }
 
         private void Resume()
