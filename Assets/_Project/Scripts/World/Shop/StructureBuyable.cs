@@ -5,9 +5,18 @@ namespace gishadev.fort.World.Shop
 {
     public class StructureBuyable : Buyable
     {
-        [Required] [SerializeField] private GameObject objectToEnable;
+        [Required] [SerializeField] private GameObject[] objectsToEnable;
 
-        private void Awake() => objectToEnable.SetActive(false);
-        protected override void OnBuySuccess() => objectToEnable.SetActive(true);
+        private void Awake()
+        {
+            foreach (var obj in objectsToEnable)
+                obj.SetActive(false);
+        }
+
+        protected override void OnBuySuccess()
+        {
+            foreach (var obj in objectsToEnable)
+                obj.SetActive(true);
+        }
     }
 }

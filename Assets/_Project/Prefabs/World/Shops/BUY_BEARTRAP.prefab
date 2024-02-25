@@ -62,7 +62,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Price>k__BackingField: 10
-  objectToEnable: {fileID: 3997619704451510515}
+  objectsToEnable:
+  - {fileID: 3997619704451510515}
 --- !u!1001 &2790504080226704887
 PrefabInstance:
   m_ObjectHideFlags: 0
