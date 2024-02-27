@@ -82,6 +82,7 @@ GameObject:
   - component: {fileID: 6261995093200612843}
   - component: {fileID: 2122459575007710586}
   - component: {fileID: 8511833634498550541}
+  - component: {fileID: 1996942205}
   m_Layer: 8
   m_Name: Character
   m_TagString: Player
@@ -259,6 +260,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6cd95ed092d04e4d8dd709381a060ca7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1996942205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6261995093200612849}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 788df6167b15494c8ccc0a63e0a4c412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeMaxAutoAttackRange: 2
+  firearmMaxAutoAttackRange: 12
 --- !u!1 &6400963154571099973
 GameObject:
   m_ObjectHideFlags: 0
