@@ -5,7 +5,6 @@ namespace gishadev.fort.Weapons
     [CreateAssetMenu(fileName = "GunDataSO", menuName = "ScriptableObjects/GunDataSO")]
     public class GunDataSO : WeaponDataSO
     {
-        [SerializeField] private bool isAutomatic;
         [SerializeField] private bool isInfinityMagazines;
 
         [SerializeField] private float shootDelay = 0.1f;
@@ -16,7 +15,6 @@ namespace gishadev.fort.Weapons
 
         [SerializeField] private float reloadTime = 1f;
 
-        public bool IsAutomatic => isAutomatic;
         public float ShootDelay => shootDelay;
         public float ShootForce => shootForce;
         public bool IsInfinityMagazines => isInfinityMagazines;

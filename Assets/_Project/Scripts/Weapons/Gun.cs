@@ -15,8 +15,7 @@ namespace gishadev.fort.Weapons
         public static event Action<Gun> OutOfAmmo;
         public static event Action<Gun> Reloaded;
 
-
-        public override bool IsAttacking { get;  protected set; }
+        public override bool IsAttacking { get; protected set; }
         public GunDataSO GunDataSO { get; private set; }
         public int CurrentAmmoInMagazine { get; private set; }
         public int CurrentAmmo { get; private set; }
@@ -25,15 +24,16 @@ namespace gishadev.fort.Weapons
 
         private RayfireGun _rayfireGun;
         private GunMesh _gunMesh;
-        private CancellationTokenSource _autoCts, _mainCts;
+        private CancellationTokenSource _lineCts;
         private bool _isReloading;
 
         protected override void Awake()
         {
             base.Awake();
             _rayfireGun = GetComponent<RayfireGun>();
-            _mainCts = new CancellationTokenSource();
-            _mainCts.RegisterRaiseCancelOnDestroy(gameObject);
+            
+            _lineCts = new CancellationTokenSource();
+            _lineCts.RegisterRaiseCancelOnDestroy(gameObject);
         }
 
         public void SetupGun(GunDataSO gunDataSO, GunMesh gunMesh)
@@ -50,19 +50,11 @@ namespace gishadev.fort.Weapons
             if (_isReloading)
                 return;
 
-            if (GunDataSO.IsAutomatic)
-            {
-                _autoCts = CancellationTokenSource.CreateLinkedTokenSource(_mainCts.Token);
-                AutomaticShootAsync();
-            }
-            else
-                SingleShootAsync();
+            Shoot();
         }
 
         public override void OnAttackCanceled()
         {
-            if (GunDataSO.IsAutomatic && _autoCts != null)
-                _autoCts.Cancel();
         }
 
         public void RefillAmmo()
@@ -116,15 +108,13 @@ namespace gishadev.fort.Weapons
 
         #region Shooting
 
-        private async void SingleShootAsync()
+        private void Shoot()
         {
             if (CurrentAmmoInMagazine <= 0)
             {
                 Reload();
                 return;
             }
-
-            IsAttacking = true;
 
             _rayfireGun.Shoot(ShootPoint.position, ShootPoint.forward);
             if (Physics.Raycast(ShootPoint.position, ShootPoint.forward, out var hit, 100))
@@ -140,26 +130,11 @@ namespace gishadev.fort.Weapons
             // Debug.DrawRay(shootPoint.position, shootPoint.forward * 100, Color.red, 1f);
             CurrentAmmoInMagazine--;
             RaiseAttackEvent(this);
-
-            await UniTask.WaitForSeconds(GunDataSO.ShootDelay, cancellationToken: _mainCts.Token)
-                .SuppressCancellationThrow();
-            
-            IsAttacking = false;
-        }
-
-        private async void AutomaticShootAsync()
-        {
-            while (!_autoCts.IsCancellationRequested)
-            {
-                SingleShootAsync();
-                await UniTask.WaitForSeconds(GunDataSO.ShootDelay, cancellationToken: _autoCts.Token)
-                    .SuppressCancellationThrow();
-            }
         }
 
         private async void LineEffectAsync(Vector3 start, Vector3 end)
         {
-            if (_mainCts.IsCancellationRequested)
+            if (_lineCts.IsCancellationRequested)
                 return;
 
             lineRenderer.enabled = true;
@@ -167,8 +142,8 @@ namespace gishadev.fort.Weapons
             lineRenderer.SetPosition(0, start);
             lineRenderer.SetPosition(1, end);
 
-            await UniTask.WaitForSeconds(0.05f, cancellationToken: _mainCts.Token).SuppressCancellationThrow();
-            if (_mainCts.IsCancellationRequested)
+            await UniTask.WaitForSeconds(0.05f, cancellationToken: _lineCts.Token).SuppressCancellationThrow();
+            if (_lineCts.IsCancellationRequested)
                 return;
 
             lineRenderer.enabled = false;

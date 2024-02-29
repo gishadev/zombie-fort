@@ -7,6 +7,7 @@ using UnityEngine;
 
 namespace gishadev.fort.Player
 {
+    [RequireComponent(typeof(WeaponController))]
     public class PlayerAutoAttack : MonoBehaviour
     {
         [SerializeField] private float meleeMaxAutoAttackRange = 1f;
@@ -14,26 +15,11 @@ namespace gishadev.fort.Player
 
         private List<EnemyBase> _enemiesInRange;
         private StateMachine _stateMachine;
+        private WeaponController _weaponController;
 
-        private void InitStateMachine()
+        private void Awake()
         {
-            _stateMachine = new StateMachine();
-
-            var noAutoAttack = new PlayerStates.NoAutoAttack();
-            var meleeAutoAttack = new PlayerStates.MeleeAutoAttack();
-            var firearmAutoAttack = new PlayerStates.FirearmAutoAttack();
-
-            Aat(noAutoAttack, () => !IsEnemyInRange(meleeMaxAutoAttackRange) && !IsEnemyInRange(firearmMaxAutoAttackRange));
-            Aat(meleeAutoAttack, () => IsEnemyInRange(meleeMaxAutoAttackRange) && IsEnemyInRange(firearmMaxAutoAttackRange));
-            Aat(firearmAutoAttack, () => !IsEnemyInRange(meleeMaxAutoAttackRange) && IsEnemyInRange(firearmMaxAutoAttackRange));
-
-            _stateMachine.SetState(noAutoAttack);
-
-            bool IsEnemyInRange(float range) => _enemiesInRange.Any(x =>
-                Vector3.Distance(transform.position, x.transform.position) < range);
-
-            void At(IState from, IState to, Func<bool> cond) => _stateMachine.AddTransition(from, to, cond);
-            void Aat(IState to, Func<bool> cond) => _stateMachine.AddAnyTransition(to, cond);
+            _weaponController = GetComponent<WeaponController>();
         }
 
         private void Start() => InitStateMachine();
@@ -42,6 +28,53 @@ namespace gishadev.fort.Player
         {
             _enemiesInRange = GetAllEnemiesInRange(firearmMaxAutoAttackRange + 1);
             _stateMachine.Tick();
+        }
+
+        public EnemyBase GetNearestEnemy()
+        {
+            var enemies = GetAllEnemiesInRange(firearmMaxAutoAttackRange);
+            if (enemies.Count == 0)
+                return null;
+
+            var nearestEnemy = enemies[0];
+            var nearestDistance = (transform.position - nearestEnemy.transform.position).sqrMagnitude;
+
+            foreach (var enemy in enemies)
+            {
+                var distance = (transform.position - enemy.transform.position).sqrMagnitude;
+                if (distance < nearestDistance)
+                {
+                    nearestDistance = distance;
+                    nearestEnemy = enemy;
+                }
+            }
+
+            return nearestEnemy;
+        }
+
+        private void InitStateMachine()
+        {
+            _stateMachine = new StateMachine();
+
+            var noAutoAttack = new PlayerStates.NoAutoAttack(_weaponController);
+            var meleeAutoAttack = new PlayerStates.MeleeAutoAttack(this, _weaponController);
+            var firearmAutoAttack = new PlayerStates.FirearmAutoAttack(this, _weaponController);
+
+            Aat(noAutoAttack,
+                () => !IsEnemyInRange(meleeMaxAutoAttackRange) && !IsEnemyInRange(firearmMaxAutoAttackRange));
+            Aat(meleeAutoAttack,
+                () => IsEnemyInRange(meleeMaxAutoAttackRange) && IsEnemyInRange(firearmMaxAutoAttackRange));
+            Aat(firearmAutoAttack,
+                () => !IsEnemyInRange(meleeMaxAutoAttackRange) && IsEnemyInRange(firearmMaxAutoAttackRange) &&
+                      _weaponController.EquippedGun != null);
+
+            _stateMachine.SetState(noAutoAttack);
+
+            bool IsEnemyInRange(float range) => _enemiesInRange.Any(x =>
+                Vector3.Distance(transform.position, x.transform.position) < range);
+
+            void At(IState from, IState to, Func<bool> cond) => _stateMachine.AddTransition(from, to, cond);
+            void Aat(IState to, Func<bool> cond) => _stateMachine.AddAnyTransition(to, cond);
         }
 
         private List<EnemyBase> GetAllEnemiesInRange(float range)

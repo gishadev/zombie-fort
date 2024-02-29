@@ -5,6 +5,13 @@ namespace gishadev.fort.Player.PlayerStates
 {
     public class NoAutoAttack : IState
     {
+        private readonly WeaponController _weaponController;
+
+        public NoAutoAttack(WeaponController weaponController)
+        {
+            _weaponController = weaponController;
+        }
+        
         public void Tick()
         {
         }
