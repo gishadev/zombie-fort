@@ -11,7 +11,7 @@ namespace gishadev.fort.Weapons
     [RequireComponent(typeof(RayfireGun))]
     public class Gun : Weapon
     {
-        [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private GameObject lineRendererPrefab;
 
         public static event Action<Gun> OutOfAmmo;
         public static event Action<Gun> Reloaded;
@@ -28,6 +28,7 @@ namespace gishadev.fort.Weapons
         private CancellationTokenSource _lineCts;
         private LayerMask _nonPlayerLayers;
         private bool _isReloading;
+        private LineRenderer[] _lineRenderers;
 
         protected override void Awake()
         {
@@ -46,6 +47,7 @@ namespace gishadev.fort.Weapons
             CurrentAmmo = AllAmmoInMagazines;
             CurrentAmmoInMagazine = GunDataSO.StartAmmoInMagazine;
             _gunMesh = gunMesh;
+            InitLineRenderers();
         }
 
 
@@ -120,41 +122,53 @@ namespace gishadev.fort.Weapons
                 return;
             }
 
-            var randAccuracy = Random.Range(GunDataSO.MinAccuracy, GunDataSO.MaxAccuracy);
-            var shootOffset = Random.insideUnitCircle * (GunDataSO.MaxShootOffset * (1 - randAccuracy));
-            var shootRay = new Ray(ShootPoint.position, ShootPoint.forward + (Vector3) shootOffset);
-
-            _rayfireGun.Shoot(shootRay.origin, shootRay.direction);
-            if (Physics.Raycast(shootRay, out var hit, 100, _nonPlayerLayers))
+            for (int i = 0; i < GunDataSO.ShootRaysCount; i++)
             {
-                var damageable = hit.collider.GetComponent<IDamageable>();
-                damageable?.TakeDamage(GunDataSO.Damage, ShootPoint.forward * GunDataSO.ShootForce);
+                var randAccuracy = Random.Range(GunDataSO.MinAccuracy, GunDataSO.MaxAccuracy);
+                var shootOffset = Random.insideUnitCircle * (GunDataSO.MaxShootOffset * (1 - randAccuracy));
+                var shootRay = new Ray(ShootPoint.position, ShootPoint.forward + (Vector3) shootOffset);
 
-                LineEffectAsync(shootRay.origin, hit.point);
+                _rayfireGun.Shoot(shootRay.origin, shootRay.direction);
+                if (Physics.Raycast(shootRay, out var hit, 100, _nonPlayerLayers))
+                {
+                    var damageable = hit.collider.GetComponent<IDamageable>();
+                    damageable?.TakeDamage(GunDataSO.Damage, ShootPoint.forward * GunDataSO.ShootForce);
+
+                    LineEffectAsync(i,shootRay.origin, hit.point);
+                }
+                else
+                    LineEffectAsync(i,shootRay.origin, shootRay.origin + shootRay.direction * 100);
             }
-            else
-                LineEffectAsync(shootRay.origin, shootRay.origin + shootRay.direction * 100);
 
-            // Debug.DrawRay(shootPoint.position, shootPoint.forward * 100, Color.red, 1f);
             CurrentAmmoInMagazine--;
             RaiseAttackEvent(this);
         }
 
-        private async void LineEffectAsync(Vector3 start, Vector3 end)
+        private void InitLineRenderers()
+        {
+            _lineRenderers = new LineRenderer[GunDataSO.ShootRaysCount];
+            for (int i = 0; i < GunDataSO.ShootRaysCount; i++)
+            {
+                var lineRenderer = Instantiate(lineRendererPrefab, transform).GetComponent<LineRenderer>();
+                _lineRenderers[i] = lineRenderer;
+            }
+        }
+        
+        private async void LineEffectAsync(int index,Vector3 start, Vector3 end)
         {
             if (_lineCts.IsCancellationRequested)
                 return;
 
-            lineRenderer.enabled = true;
+            _lineRenderers[index].enabled = true;
 
-            lineRenderer.SetPosition(0, start);
-            lineRenderer.SetPosition(1, end);
+            _lineRenderers[index].SetPosition(0, start);
+            _lineRenderers[index].SetPosition(1, end);
 
             await UniTask.WaitForSeconds(0.05f, cancellationToken: _lineCts.Token).SuppressCancellationThrow();
             if (_lineCts.IsCancellationRequested)
                 return;
 
-            lineRenderer.enabled = false;
+            _lineRenderers[index].enabled = false;
         }
 
         #endregion

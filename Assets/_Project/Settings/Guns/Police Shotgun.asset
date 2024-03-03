@@ -15,12 +15,13 @@ MonoBehaviour:
   weaponMeshPrefab: {fileID: 3578010769158895805, guid: 178c98dd78cb7a64295cf5d407eb16ce, type: 3}
   damage: 3
   price: 10
-  isInfinityMagazines: 1
   shootDelay: 0.7
   shootForce: 30
-  maxAccuracy: 0.8
+  shootRaysCount: 3
+  maxAccuracy: 0.7
   minAccuracy: 0.4
-  maxShootOffset: 1
+  maxShootOffset: 0.7
+  isInfinityMagazines: 1
   startAmmoInMagazine: 8
   startMagazinesCount: 3
   reloadTime: 0.5
