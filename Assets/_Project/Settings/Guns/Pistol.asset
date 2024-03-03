@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponMeshPrefab: {fileID: 8948626343743632271, guid: f145582f1b6afa646a1e0fc8a988dcf7, type: 3}
   damage: 1
-  isAutomatic: 0
+  price: 5
   isInfinityMagazines: 1
   shootDelay: 0.2
   shootForce: 10
+  maxAccuracy: 0.8
+  minAccuracy: 0.6
+  maxShootOffset: 0.5
   startAmmoInMagazine: 14
   startMagazinesCount: 3
   reloadTime: 1

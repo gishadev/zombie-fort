@@ -18,6 +18,9 @@ MonoBehaviour:
   isInfinityMagazines: 1
   shootDelay: 0.1
   shootForce: 10
+  maxAccuracy: 0.8
+  minAccuracy: 0.4
+  maxShootOffset: 0.5
   startAmmoInMagazine: 25
   startMagazinesCount: 3
   reloadTime: 0.7

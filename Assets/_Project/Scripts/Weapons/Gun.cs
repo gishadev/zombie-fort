@@ -4,6 +4,7 @@ using Cysharp.Threading.Tasks;
 using gishadev.fort.Core;
 using RayFire;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace gishadev.fort.Weapons
 {
@@ -119,16 +120,20 @@ namespace gishadev.fort.Weapons
                 return;
             }
 
-            _rayfireGun.Shoot(ShootPoint.position, ShootPoint.forward);
-            if (Physics.Raycast(ShootPoint.position, ShootPoint.forward, out var hit, 100, _nonPlayerLayers))
+            var randAccuracy = Random.Range(GunDataSO.MinAccuracy, GunDataSO.MaxAccuracy);
+            var shootOffset = Random.insideUnitCircle * (GunDataSO.MaxShootOffset * (1 - randAccuracy));
+            var shootRay = new Ray(ShootPoint.position, ShootPoint.forward + (Vector3) shootOffset);
+
+            _rayfireGun.Shoot(shootRay.origin, shootRay.direction);
+            if (Physics.Raycast(shootRay, out var hit, 100, _nonPlayerLayers))
             {
                 var damageable = hit.collider.GetComponent<IDamageable>();
                 damageable?.TakeDamage(GunDataSO.Damage, ShootPoint.forward * GunDataSO.ShootForce);
 
-                LineEffectAsync(ShootPoint.position, hit.point);
+                LineEffectAsync(shootRay.origin, hit.point);
             }
             else
-                LineEffectAsync(ShootPoint.position, ShootPoint.position + ShootPoint.forward * 100);
+                LineEffectAsync(shootRay.origin, shootRay.origin + shootRay.direction * 100);
 
             // Debug.DrawRay(shootPoint.position, shootPoint.forward * 100, Color.red, 1f);
             CurrentAmmoInMagazine--;

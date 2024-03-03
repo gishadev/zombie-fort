@@ -16,8 +16,11 @@ MonoBehaviour:
   damage: 3
   price: 10
   isInfinityMagazines: 1
-  shootDelay: 0.3
+  shootDelay: 0.7
   shootForce: 30
+  maxAccuracy: 0.8
+  minAccuracy: 0.4
+  maxShootOffset: 1
   startAmmoInMagazine: 8
   startMagazinesCount: 3
   reloadTime: 0.5
