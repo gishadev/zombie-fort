@@ -25,15 +25,18 @@ namespace gishadev.fort.Weapons
         private RayfireGun _rayfireGun;
         private GunMesh _gunMesh;
         private CancellationTokenSource _lineCts;
+        private LayerMask _nonPlayerLayers;
         private bool _isReloading;
 
         protected override void Awake()
         {
             base.Awake();
             _rayfireGun = GetComponent<RayfireGun>();
-            
+
             _lineCts = new CancellationTokenSource();
             _lineCts.RegisterRaiseCancelOnDestroy(gameObject);
+
+            _nonPlayerLayers = ~(1 << LayerMask.NameToLayer("Player"));
         }
 
         public void SetupGun(GunDataSO gunDataSO, GunMesh gunMesh)
@@ -117,7 +120,7 @@ namespace gishadev.fort.Weapons
             }
 
             _rayfireGun.Shoot(ShootPoint.position, ShootPoint.forward);
-            if (Physics.Raycast(ShootPoint.position, ShootPoint.forward, out var hit, 100))
+            if (Physics.Raycast(ShootPoint.position, ShootPoint.forward, out var hit, 100, _nonPlayerLayers))
             {
                 var damageable = hit.collider.GetComponent<IDamageable>();
                 damageable?.TakeDamage(GunDataSO.Damage, ShootPoint.forward * GunDataSO.ShootForce);

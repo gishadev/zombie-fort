@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7b668f5337d41518d4e92cf2e68f2e0, type: 3}
-  m_Name: AK47
+  m_Name: MP5
   m_EditorClassIdentifier: 
-  weaponMeshPrefab: {fileID: 1004323821908547056, guid: dd8afb1774b447d4bb4733d51d2d94d4, type: 3}
-  damage: 3
-  price: 10
+  weaponMeshPrefab: {fileID: 3881776467963522772, guid: 17f44ba8254759242bb25c59a9ffd899, type: 3}
+  damage: 1
+  price: 15
   isInfinityMagazines: 1
   shootDelay: 0.1
   shootForce: 10
-  startAmmoInMagazine: 30
+  startAmmoInMagazine: 25
   startMagazinesCount: 3
-  reloadTime: 1
+  reloadTime: 0.7
