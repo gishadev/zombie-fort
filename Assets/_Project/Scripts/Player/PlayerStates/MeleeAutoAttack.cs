@@ -28,6 +28,8 @@ namespace gishadev.fort.Player.PlayerStates
         public void OnEnter()
         {
             _attackCTS = new CancellationTokenSource();
+            _nearestEnemy = _autoAttack.GetNearestEnemy();
+            
             MeleeAttackingAsync();
         }
 
