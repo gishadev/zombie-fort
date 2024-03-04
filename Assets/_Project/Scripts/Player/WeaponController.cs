@@ -70,8 +70,8 @@ namespace gishadev.fort.Player
 
         public void RotateTowardsTarget(Transform target)
         {
-            RotateTowards(transform, target.position);
-            RotateTowards(hand, target.position, -90f);
+            PlayerCharacterMovement.RotateTowards(transform, target.position);
+            PlayerCharacterMovement.RotateTowards(hand, target.position, -90f);
         }
 
         #region Melee
@@ -190,14 +190,7 @@ namespace gishadev.fort.Player
 
         #endregion
 
-        private void RotateTowards(Transform trans, Vector3 point, float angleOffset = 0f)
-        {
-            var direction = point - trans.position;
-            var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + angleOffset;
-            trans.rotation = Quaternion.AngleAxis(angle, Vector3.up);
 
-            // Debug.DrawRay(trans.position, direction, Color.yellow, 1f);
-        }
 
         private void RestoreHandTransforms()
         {

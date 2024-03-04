@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace gishadev.fort.Player
 {
-    [RequireComponent(typeof(WeaponController))]
+    [RequireComponent(typeof(WeaponController), typeof(PlayerCharacterMovement))]
     public class PlayerAutoAttack : MonoBehaviour
     {
         [SerializeField] private float meleeMaxAutoAttackRange = 1f;
@@ -16,9 +16,11 @@ namespace gishadev.fort.Player
         private List<EnemyBase> _enemiesInRange;
         private StateMachine _stateMachine;
         private WeaponController _weaponController;
+        private PlayerCharacterMovement _playerCharacterMovement;
 
         private void Awake()
         {
+            _playerCharacterMovement = GetComponent<PlayerCharacterMovement>();
             _weaponController = GetComponent<WeaponController>();
         }
 
@@ -56,7 +58,7 @@ namespace gishadev.fort.Player
         {
             _stateMachine = new StateMachine();
 
-            var noAutoAttack = new PlayerStates.NoAutoAttack(_weaponController);
+            var noAutoAttack = new PlayerStates.NoAutoAttack(_playerCharacterMovement);
             var meleeAutoAttack = new PlayerStates.MeleeAutoAttack(this, _weaponController);
             var firearmAutoAttack = new PlayerStates.FirearmAutoAttack(this, _weaponController);
 

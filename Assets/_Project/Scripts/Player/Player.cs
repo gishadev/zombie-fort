@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using gishadev.fort.Core;
-using gishadev.fort.Weapons;
 using UnityEngine;
 using Zenject;
 
@@ -14,7 +12,6 @@ namespace gishadev.fort.Player
         public int Health { get; private set; }
         public int MaxHealth => _gameDataSO.PlayerMaxHealth;
         public event Action<int> HealthChanged;
-
 
         private void Awake()
         {

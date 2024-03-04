@@ -6,7 +6,7 @@ using Zenject;
 namespace gishadev.fort.Player
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class CharacterMovement : MonoBehaviour
+    public class PlayerCharacterMovement : MonoBehaviour
     {
         [Inject] private GameDataSO _gameDataSO;
 
@@ -15,6 +15,8 @@ namespace gishadev.fort.Player
 
         private Vector2 _input;
 
+        public Vector2 Input => _input;
+
         private void Awake()
         {
             _rb = GetComponent<Rigidbody>();
@@ -22,7 +24,7 @@ namespace gishadev.fort.Player
 
         private void FixedUpdate()
         {
-            var movementDirection = new Vector3(_input.x, 0f, _input.y);
+            var movementDirection = new Vector3(Input.x, 0f, Input.y);
             _rb.velocity = movementDirection * _gameDataSO.PlayerMovementSpeed;
         }
 
@@ -49,6 +51,13 @@ namespace gishadev.fort.Player
         private void OnMovementCanceled(InputAction.CallbackContext value)
         {
             _input = Vector2.zero;
+        }
+        
+        public static void RotateTowards(Transform trans, Vector3 point, float angleOffset = 0f)
+        {
+            var direction = point - trans.position;
+            var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + angleOffset;
+            trans.rotation = Quaternion.AngleAxis(angle, Vector3.up);
         }
     }
 }
