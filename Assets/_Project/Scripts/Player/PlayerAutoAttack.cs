@@ -63,7 +63,12 @@ namespace gishadev.fort.Player
             var firearmAutoAttack = new PlayerStates.FirearmAutoAttack(this, _weaponController);
 
             Aat(noAutoAttack,
-                () => !IsEnemyInRange(meleeMaxAutoAttackRange) && !IsEnemyInRange(firearmMaxAutoAttackRange));
+                () => !IsEnemyInRange(meleeMaxAutoAttackRange) && IsEnemyInRange(firearmMaxAutoAttackRange) &&
+                      _weaponController.EquippedGun == null);
+            Aat(noAutoAttack,
+                () => !IsEnemyInRange(meleeMaxAutoAttackRange) && !IsEnemyInRange(firearmMaxAutoAttackRange) &&
+                      _weaponController.EquippedGun != null);
+            
             Aat(meleeAutoAttack,
                 () => IsEnemyInRange(meleeMaxAutoAttackRange) && IsEnemyInRange(firearmMaxAutoAttackRange));
             Aat(firearmAutoAttack,

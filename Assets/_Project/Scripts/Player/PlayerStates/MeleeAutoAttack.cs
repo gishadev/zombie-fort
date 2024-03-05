@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using gishadev.fort.Enemy;
 using gishadev.tools.StateMachine;
+using UnityEngine;
 
 namespace gishadev.fort.Player.PlayerStates
 {
@@ -27,6 +28,8 @@ namespace gishadev.fort.Player.PlayerStates
 
         public void OnEnter()
         {
+            Debug.Log("Melee Auto Attack");
+            
             _attackCTS = new CancellationTokenSource();
             _nearestEnemy = _autoAttack.GetNearestEnemy();
             

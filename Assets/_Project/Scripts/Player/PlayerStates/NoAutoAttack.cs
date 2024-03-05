@@ -1,4 +1,5 @@
 ﻿using gishadev.tools.StateMachine;
+using UnityEngine;
 
 namespace gishadev.fort.Player.PlayerStates
 {
@@ -25,6 +26,7 @@ namespace gishadev.fort.Player.PlayerStates
 
         public void OnEnter()
         {
+            Debug.Log("No Auto Attack");
         }
 
         public void OnExit()

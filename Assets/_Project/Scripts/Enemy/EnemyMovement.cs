@@ -23,7 +23,7 @@ namespace gishadev.fort.Enemy
 
             _destroyCts = new CancellationTokenSource();
             _destroyCts.RegisterRaiseCancelOnDestroy(gameObject);
-            
+
             Resume();
         }
 
@@ -35,7 +35,7 @@ namespace gishadev.fort.Enemy
             _agent.SetDestination(target);
             Resume();
         }
-        
+
         public void Stop()
         {
             _agent.isStopped = true;
@@ -57,9 +57,15 @@ namespace gishadev.fort.Enemy
             _agent.isStopped = true;
             _rb.isKinematic = false;
             _isKnockBacking = true;
-            
+
             _rb.AddForce(knockVelocity, ForceMode.Impulse);
-            await UniTask.WaitForSeconds(knockBackDelay, cancellationToken:_destroyCts.Token).SuppressCancellationThrow();
+            await UniTask
+                .WaitForSeconds(knockBackDelay, cancellationToken: _destroyCts.Token)
+                .SuppressCancellationThrow();
+
+            if (_destroyCts.Token.IsCancellationRequested)
+                return;
+            
             Resume();
         }
     }

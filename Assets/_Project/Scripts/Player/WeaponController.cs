@@ -19,7 +19,6 @@ namespace gishadev.fort.Player
         [Inject] private GameDataSO _gameDataSO;
         public Gun EquippedGun { get; private set; }
         public Melee EquippedMelee { get; private set; }
-        public Weapon CurrentWeapon { get; private set; }
 
         private Vector3 _cachedHandPosition;
 
@@ -100,8 +99,6 @@ namespace gishadev.fort.Player
             if (EquippedMelee.IsAttacking)
                 return;
 
-            CurrentWeapon = EquippedMelee;
-
             EquippedMelee.gameObject.SetActive(true);
 
             if (EquippedGun != null)
@@ -119,7 +116,6 @@ namespace gishadev.fort.Player
             _animator.enabled = false;
             RestoreHandTransforms();
 
-            CurrentWeapon = EquippedGun;
             EquippedMelee.gameObject.SetActive(false);
             if (EquippedGun != null)
                 EquippedGun.gameObject.SetActive(true);
@@ -154,10 +150,7 @@ namespace gishadev.fort.Player
 
         public void FirearmAttack(IDamageable damageable)
         {
-            if (EquippedGun == null)
-                return;
-
-            if (CurrentWeapon != EquippedGun || EquippedGun.IsAttacking)
+            if (EquippedGun == null || EquippedGun.IsAttacking)
                 return;
 
             EquippedGun.OnAttackPerformed();
@@ -171,9 +164,6 @@ namespace gishadev.fort.Player
             if (EquippedGun == null)
                 return;
 
-            if (CurrentWeapon != EquippedGun)
-                return;
-
             EquippedGun.OnAttackCanceled();
         }
 
@@ -182,14 +172,10 @@ namespace gishadev.fort.Player
             if (EquippedGun == null)
                 return;
 
-            if (CurrentWeapon != EquippedGun)
-                return;
-
             EquippedGun.Reload();
         }
 
         #endregion
-
 
 
         private void RestoreHandTransforms()
