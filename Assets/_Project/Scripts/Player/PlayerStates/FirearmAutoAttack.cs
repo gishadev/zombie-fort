@@ -1,5 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
+using gishadev.fort.Core;
 using gishadev.fort.Enemy;
 using gishadev.tools.StateMachine;
 using UnityEngine;
@@ -45,12 +46,22 @@ namespace gishadev.fort.Player.PlayerStates
         {
             while (_nearestEnemy != null && !_attackCTS.Token.IsCancellationRequested)
             {
-                _weaponController.FirearmAttack(_nearestEnemy);
+                if (!IsViewObstructed())
+                    _weaponController.FirearmAttack(_nearestEnemy);
+
                 await UniTask
                     .WaitForSeconds(_weaponController.EquippedGun.GunDataSO.ShootDelay,
                         cancellationToken: _attackCTS.Token)
                     .SuppressCancellationThrow();
             }
+        }
+
+        private bool IsViewObstructed()
+        {
+            var ray = new Ray(_weaponController.EquippedGun.ShootPoint.position,
+                _nearestEnemy.transform.position - _weaponController.EquippedGun.ShootPoint.position);
+            return Physics.Raycast(ray, out var hitInfo) &&
+                   !hitInfo.collider.CompareTag(Constants.ENEMY_TAG_NAME);
         }
     }
 }
