@@ -16,9 +16,10 @@ GameObject:
   - component: {fileID: 5999902075613242027}
   - component: {fileID: 5999902075613242024}
   - component: {fileID: -5034210260368121544}
+  - component: {fileID: 5692670870359065505}
   m_Layer: 9
   m_Name: Pillar
-  m_TagString: Untagged
+  m_TagString: Attackable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30,7 +31,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5999902075613242041}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.26, y: 1.8571, z: 6.9}
   m_LocalScale: {x: 1, y: 3.7124379, z: 1}
   m_ConstrainProportionsScale: 0
@@ -139,11 +140,11 @@ MonoBehaviour:
     physicsDataCorState: 0
   activation:
     local: 0
-    byOffset: 0.3
+    byOffset: 0
     byVelocity: 0
-    byDamage: 40
+    byDamage: 0
     byActivator: 0
-    byImpact: 1
+    byImpact: 0
     byConnectivity: 0
     unyielding: 0
     activatable: 0
@@ -453,3 +454,16 @@ NavMeshObstacle:
   m_CarveOnlyStationary: 1
   m_Center: {x: 0, y: 0, z: 0}
   m_TimeToStationary: 0.5
+--- !u!114 &5692670870359065505
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5999902075613242041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e148997240214a93a319333f487bcb07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startHealth: 5

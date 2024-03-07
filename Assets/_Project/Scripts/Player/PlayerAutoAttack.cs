@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using gishadev.fort.Core;
 using gishadev.fort.Enemy;
 using gishadev.tools.StateMachine;
 using UnityEngine;
@@ -13,7 +14,7 @@ namespace gishadev.fort.Player
         [SerializeField] private float meleeMaxAutoAttackRange = 1f;
         [SerializeField] private float firearmMaxAutoAttackRange = 10f;
 
-        private List<EnemyBase> _enemiesInRange;
+        private List<IAutoAttackable> _autoAttackablesInRange;
         private StateMachine _stateMachine;
         private WeaponController _weaponController;
         private PlayerCharacterMovement _playerCharacterMovement;
@@ -28,13 +29,13 @@ namespace gishadev.fort.Player
 
         private void Update()
         {
-            _enemiesInRange = GetAllEnemiesInRange(firearmMaxAutoAttackRange + 1);
+            _autoAttackablesInRange = GetAllAttackablesInRange(firearmMaxAutoAttackRange + 1);
             _stateMachine.Tick();
         }
 
-        public EnemyBase GetNearestEnemy()
+        public IAutoAttackable GetNearestAttackable()
         {
-            var enemies = GetAllEnemiesInRange(firearmMaxAutoAttackRange);
+            var enemies = GetAllAttackablesInRange(firearmMaxAutoAttackRange);
             if (enemies.Count == 0)
                 return null;
 
@@ -77,21 +78,21 @@ namespace gishadev.fort.Player
 
             _stateMachine.SetState(noAutoAttack);
 
-            bool IsEnemyInRange(float range) => _enemiesInRange.Any(x =>
+            bool IsEnemyInRange(float range) => _autoAttackablesInRange.Any(x =>
                 Vector3.Distance(transform.position, x.transform.position) < range);
 
             void At(IState from, IState to, Func<bool> cond) => _stateMachine.AddTransition(from, to, cond);
             void Aat(IState to, Func<bool> cond) => _stateMachine.AddAnyTransition(to, cond);
         }
 
-        private List<EnemyBase> GetAllEnemiesInRange(float range)
+        private List<IAutoAttackable> GetAllAttackablesInRange(float range)
         {
-            var enemies = FindObjectsOfType<EnemyBase>();
-            var enemiesInRange = new List<EnemyBase>();
-            enemiesInRange.AddRange(enemies.Where(x =>
+            var autoAttackables = FindObjectsOfType<MonoBehaviour>().OfType<IAutoAttackable>();
+            var autoAttackablesInRange = new List<IAutoAttackable>();
+            autoAttackablesInRange.AddRange(autoAttackables.Where(x =>
                 Vector3.Distance(transform.position, x.transform.position) < range));
 
-            return enemiesInRange;
+            return autoAttackablesInRange;
         }
 
         private void OnDrawGizmos()

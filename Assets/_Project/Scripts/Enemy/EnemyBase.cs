@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace gishadev.fort.Enemy
 {
-    public abstract class EnemyBase : MonoBehaviour, IDamageable
+    public abstract class EnemyBase : MonoBehaviour, IAutoAttackable
     {
         [SerializeField] private int startHealth = 5;
         [SerializeField] private float attackDelay = 1f;

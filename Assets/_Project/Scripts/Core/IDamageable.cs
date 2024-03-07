@@ -9,4 +9,10 @@ namespace gishadev.fort.Core
         void TakeDamage(int damage, Vector3 hitForce);
         event Action<int> HealthChanged;
     }
+    
+    public interface IAutoAttackable : IDamageable
+    {
+        Transform transform { get; }
+        GameObject gameObject { get; }
+    }
 }

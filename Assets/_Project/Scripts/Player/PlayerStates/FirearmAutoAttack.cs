@@ -1,7 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
 using gishadev.fort.Core;
-using gishadev.fort.Enemy;
 using gishadev.tools.StateMachine;
 using UnityEngine;
 
@@ -12,7 +11,7 @@ namespace gishadev.fort.Player.PlayerStates
         private readonly PlayerAutoAttack _autoAttack;
         private readonly WeaponController _weaponController;
 
-        private EnemyBase _nearestEnemy;
+        private IAutoAttackable _nearestAttackable;
         private CancellationTokenSource _attackCTS;
 
         public FirearmAutoAttack(PlayerAutoAttack autoAttack, WeaponController weaponController)
@@ -23,15 +22,15 @@ namespace gishadev.fort.Player.PlayerStates
 
         public void Tick()
         {
-            _nearestEnemy = _autoAttack.GetNearestEnemy();
-            _weaponController.RotateTowardsTarget(_nearestEnemy.transform);
+            _nearestAttackable = _autoAttack.GetNearestAttackable();
+            _weaponController.RotateTowardsTarget(_nearestAttackable.transform);
         }
 
         public void OnEnter()
         {
             Debug.Log("Firearm Auto Attack");
             _attackCTS = new CancellationTokenSource();
-            _nearestEnemy = _autoAttack.GetNearestEnemy();
+            _nearestAttackable = _autoAttack.GetNearestAttackable();
 
             FirearmAttackingAsync();
         }
@@ -44,10 +43,10 @@ namespace gishadev.fort.Player.PlayerStates
 
         private async void FirearmAttackingAsync()
         {
-            while (_nearestEnemy != null && !_attackCTS.Token.IsCancellationRequested)
+            while (_nearestAttackable != null && !_attackCTS.Token.IsCancellationRequested)
             {
                 if (!IsViewObstructed())
-                    _weaponController.FirearmAttack(_nearestEnemy);
+                    _weaponController.FirearmAttack(_nearestAttackable);
 
                 await UniTask
                     .WaitForSeconds(_weaponController.EquippedGun.GunDataSO.ShootDelay,
@@ -59,9 +58,9 @@ namespace gishadev.fort.Player.PlayerStates
         private bool IsViewObstructed()
         {
             var ray = new Ray(_weaponController.EquippedGun.ShootPoint.position,
-                _nearestEnemy.transform.position - _weaponController.EquippedGun.ShootPoint.position);
+                _nearestAttackable.transform.position - _weaponController.EquippedGun.ShootPoint.position);
             return Physics.Raycast(ray, out var hitInfo) &&
-                   !hitInfo.collider.CompareTag(Constants.ENEMY_TAG_NAME);
+                   !hitInfo.collider.CompareTag(Constants.ATTACKABLE_TAG_NAME);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using Cysharp.Threading.Tasks;
-using gishadev.fort.Enemy;
+using gishadev.fort.Core;
 using gishadev.tools.StateMachine;
 using UnityEngine;
 
@@ -11,7 +11,7 @@ namespace gishadev.fort.Player.PlayerStates
         private readonly PlayerAutoAttack _autoAttack;
         private readonly WeaponController _weaponController;
 
-        private EnemyBase _nearestEnemy;
+        private IAutoAttackable _nearestAttackable;
         private CancellationTokenSource _attackCTS;
 
         public MeleeAutoAttack(PlayerAutoAttack autoAttack, WeaponController weaponController)
@@ -22,8 +22,8 @@ namespace gishadev.fort.Player.PlayerStates
 
         public void Tick()
         {
-            _nearestEnemy = _autoAttack.GetNearestEnemy();
-            _weaponController.RotateTowardsTarget(_nearestEnemy.transform);
+            _nearestAttackable = _autoAttack.GetNearestAttackable();
+            _weaponController.RotateTowardsTarget(_nearestAttackable.transform);
         }
 
         public void OnEnter()
@@ -31,7 +31,7 @@ namespace gishadev.fort.Player.PlayerStates
             Debug.Log("Melee Auto Attack");
             
             _attackCTS = new CancellationTokenSource();
-            _nearestEnemy = _autoAttack.GetNearestEnemy();
+            _nearestAttackable = _autoAttack.GetNearestAttackable();
             
             MeleeAttackingAsync();
         }
@@ -43,9 +43,9 @@ namespace gishadev.fort.Player.PlayerStates
 
         private async void MeleeAttackingAsync()
         {
-            while (_nearestEnemy != null && !_attackCTS.Token.IsCancellationRequested)
+            while (_nearestAttackable != null && !_attackCTS.Token.IsCancellationRequested)
             {
-                _weaponController.MeleeAttack(_nearestEnemy);
+                _weaponController.MeleeAttack(_nearestAttackable);
                 await UniTask
                     .WaitForSeconds(_weaponController.EquippedMelee.MeleeDataSO.AttackDelay,
                         cancellationToken: _attackCTS.Token)
