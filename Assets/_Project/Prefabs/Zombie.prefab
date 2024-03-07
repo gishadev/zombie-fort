@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 782875567287236397}
   - component: {fileID: 782875567287236399}
   - component: {fileID: 782875567287236398}
+  - component: {fileID: 6514492397052046709}
   m_Layer: 0
   m_Name: Zombie
   m_TagString: Attackable
@@ -170,3 +171,16 @@ MonoBehaviour:
   attackDamage: 10
   attackRange: 1.5
   chaseRange: 4
+--- !u!114 &6514492397052046709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 782875567287236391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47feba1afdc3405eab3ebc0ad3b757e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinsCount: 3

@@ -1,8 +1,6 @@
 ﻿using System;
-using gishadev.fort.Money;
 using gishadev.tools.StateMachine;
 using UnityEngine;
-using Zenject;
 
 namespace gishadev.fort.Enemy
 {
@@ -10,8 +8,6 @@ namespace gishadev.fort.Enemy
     {
         [SerializeField] private float attackRange = 0.2f;
         [SerializeField] private float chaseRange = 2f;
-
-        [Inject] private IMoneySpawner _moneySpawner;
 
         public override event Action<int> HealthChanged;
 
@@ -23,7 +19,7 @@ namespace gishadev.fort.Enemy
             var chase = new Chase(this, EnemyMovement);
             var attack = new Attack(this);
             var wander = new Wander(EnemyMovement);
-            var dead = new Dead(this, _moneySpawner);
+            var dead = new Dead(this);
 
             At(idle, wander, PlayerExists);
 
