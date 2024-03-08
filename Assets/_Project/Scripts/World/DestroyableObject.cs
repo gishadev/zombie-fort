@@ -26,13 +26,12 @@ namespace gishadev.fort.World
             Health -= damage;
 
             HealthChanged?.Invoke(Health);
-            
+
             if (Health <= 0)
             {
                 _rayfireRigid.Activate();
                 _rayfireRigid.Demolish();
             }
         }
-
     }
 }

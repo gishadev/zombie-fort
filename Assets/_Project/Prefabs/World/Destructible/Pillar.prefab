@@ -116,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialization: 1
-  simulationType: 2
+  simulationType: 0
   objectType: 0
   demolitionType: 2
   physics:
