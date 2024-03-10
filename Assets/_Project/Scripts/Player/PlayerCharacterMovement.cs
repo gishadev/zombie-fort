@@ -1,4 +1,5 @@
-﻿using gishadev.fort.Core;
+﻿using System;
+using gishadev.fort.Core;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Zenject;
@@ -9,16 +10,17 @@ namespace gishadev.fort.Player
     public class PlayerCharacterMovement : MonoBehaviour
     {
         [Inject] private GameDataSO _gameDataSO;
+        
+        public Vector2 Input => _input;
 
         private CustomInput _customInput;
-        private Rigidbody _rb;
-
         private Vector2 _input;
-
-        public Vector2 Input => _input;
+        private Rigidbody _rb;
+        private Animator _animator;
 
         private void Awake()
         {
+            _animator = GetComponent<Animator>();
             _rb = GetComponent<Rigidbody>();
         }
 
@@ -26,6 +28,11 @@ namespace gishadev.fort.Player
         {
             var movementDirection = new Vector3(Input.x, 0f, Input.y);
             _rb.velocity = movementDirection * _gameDataSO.PlayerMovementSpeed;
+        }
+
+        private void LateUpdate()
+        {
+            CalculateMovementBlendTree();
         }
 
         private void OnEnable()
@@ -58,6 +65,11 @@ namespace gishadev.fort.Player
             var direction = point - trans.position;
             var angle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + angleOffset;
             trans.rotation = Quaternion.AngleAxis(angle, Vector3.up);
+        }
+        
+        private void CalculateMovementBlendTree()
+        {
+            _animator.SetFloat(Constants.MovementMagnitude, _input.magnitude);
         }
     }
 }

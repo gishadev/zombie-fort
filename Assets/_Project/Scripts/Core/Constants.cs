@@ -10,5 +10,8 @@ namespace gishadev.fort.Core
         public const string ATTACKABLE_TAG_NAME = "Attackable";
         
         public static int MELEE_SWING_TRIGGER_NAME = Animator.StringToHash("MeleeSwing");
+        public static readonly int XMovement = Animator.StringToHash("XMovement");
+        public static readonly int YMovement = Animator.StringToHash("YMovement");
+        public static readonly int MovementMagnitude = Animator.StringToHash("MovementMagnitude");
     }
 }

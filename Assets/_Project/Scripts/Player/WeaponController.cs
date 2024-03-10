@@ -26,14 +26,9 @@ namespace gishadev.fort.Player
         private MeleeDataSO _selectedMeleeData;
 
         private CustomInput _customInput;
-        private Camera _cam;
-        private Animator _animator;
 
         private void Awake()
         {
-            _cam = Camera.main;
-            _animator = GetComponent<Animator>();
-            _animator.enabled = false;
         }
 
         private void Start()
@@ -104,8 +99,7 @@ namespace gishadev.fort.Player
             if (EquippedGun != null)
                 EquippedGun.gameObject.SetActive(false);
 
-            _animator.enabled = true;
-            _animator.SetTrigger(Constants.MELEE_SWING_TRIGGER_NAME);
+            // _animator.SetTrigger(Constants.MELEE_SWING_TRIGGER_NAME);
 
             EquippedMelee.OnAttackPerformed();
         }
@@ -113,7 +107,6 @@ namespace gishadev.fort.Player
         // For animation event.
         public async void OnMeleeAttackFinished()
         {
-            _animator.enabled = false;
             RestoreHandTransforms();
 
             EquippedMelee.gameObject.SetActive(false);
