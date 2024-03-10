@@ -21,11 +21,15 @@ namespace gishadev.fort.World
                 fragment.gameObject.SetActive(false);
                 fragment.isKinematic = true;
             }
+
         }
 
-        public void Demolish() => Demolish(Vector3.zero);
+        public void Demolish()
+        {
+            Demolish(Vector3.zero);
+        }
 
-        public async void Demolish(Vector3 hitForce)
+        public void Demolish(Vector3 hitForce)
         {
             transform.SetParent(null);
             foreach (var fragment in _fragments)
@@ -36,15 +40,19 @@ namespace gishadev.fort.World
 
                 DeactivateAsync(fragment.gameObject);
             }
-
-            await UniTask.WaitForSeconds(deactivateDelay + deactivateDuration);
-            Destroy(gameObject);
+            
+            Invoke(nameof(Destroy), deactivateDuration + deactivateDelay);
         }
 
         private async void DeactivateAsync(GameObject fragmentObj)
         {
             await UniTask.WaitForSeconds(deactivateDelay);
             fragmentObj.transform.DOScale(Vector3.zero, deactivateDuration);
+        }
+
+        private void Destroy()
+        {
+            Destroy(gameObject);
         }
 
         [Button]
