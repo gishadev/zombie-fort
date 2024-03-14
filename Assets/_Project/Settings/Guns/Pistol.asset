@@ -15,12 +15,16 @@ MonoBehaviour:
   weaponMeshPrefab: {fileID: 8948626343743632271, guid: f145582f1b6afa646a1e0fc8a988dcf7, type: 3}
   damage: 1
   price: 5
-  isInfinityMagazines: 1
+  weaponState: 2
   shootDelay: 0.2
   shootForce: 10
+  shootRaysCount: 1
+  localHandPosition: {x: 0.13, y: -0.043, z: 0.012}
+  localHandEulerAngles: {x: 92.58701, y: -69.13202, z: -70.375}
   maxAccuracy: 0.8
   minAccuracy: 0.6
   maxShootOffset: 0.5
+  isInfinityMagazines: 1
   startAmmoInMagazine: 14
   startMagazinesCount: 3
   reloadTime: 1

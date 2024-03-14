@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using gishadev.fort.Core;
-using gishadev.fort.Enemy;
 using gishadev.tools.StateMachine;
 using UnityEngine;
 

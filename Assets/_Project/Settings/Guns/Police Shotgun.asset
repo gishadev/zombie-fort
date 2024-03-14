@@ -12,9 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b668f5337d41518d4e92cf2e68f2e0, type: 3}
   m_Name: Police Shotgun
   m_EditorClassIdentifier: 
+  localHandPosition: {x: 0.021, y: 0, z: 0.047}
+  localHandEulerAngles: {x: 91.465, y: -2.247009, z: -1.884003}
   weaponMeshPrefab: {fileID: 3578010769158895805, guid: 178c98dd78cb7a64295cf5d407eb16ce, type: 3}
   damage: 3
   price: 10
+  weaponState: 3
   shootDelay: 0.7
   shootForce: 30
   shootRaysCount: 3

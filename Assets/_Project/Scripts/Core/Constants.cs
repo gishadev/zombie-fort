@@ -4,14 +4,16 @@ namespace gishadev.fort.Core
 {
     public static class Constants
     {
-        public const string GROUND_LAYER_NAME = "Ground";
-        public const string PLAYER_TAG_NAME = "Player";
-        public const string ENEMY_TAG_NAME = "Enemy";
-        public const string ATTACKABLE_TAG_NAME = "Attackable";
-        
-        public static int MELEE_SWING_TRIGGER_NAME = Animator.StringToHash("MeleeSwing");
-        public static readonly int XMovement = Animator.StringToHash("XMovement");
-        public static readonly int YMovement = Animator.StringToHash("YMovement");
-        public static readonly int MovementMagnitude = Animator.StringToHash("MovementMagnitude");
+        public const string LAYER_NAME_GROUND = "Ground";
+        public const string TAG_NAME_PLAYER = "Player";
+        public const string TAG_NAME_ENEMY = "Enemy";
+        public const string TAG_NAME_ATTACKABLE = "Attackable";
+
+        public static readonly int HASH_X_MOVEMENT = Animator.StringToHash("XMovement");
+        public static readonly int HASH_Y_MOVEMENT = Animator.StringToHash("YMovement");
+        public static readonly int HASH_MOVE_MAGNITUDE = Animator.StringToHash("MovementMagnitude");
+        public static readonly int HASH_ATTACK = Animator.StringToHash("Attack");
+        public static readonly int HASH_WEAPON_STATE = Animator.StringToHash("WeaponState");
+        public static readonly int HASH_IS_AIMING = Animator.StringToHash("IsAiming");
     }
 }

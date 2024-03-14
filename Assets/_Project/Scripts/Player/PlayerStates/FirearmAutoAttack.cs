@@ -31,7 +31,8 @@ namespace gishadev.fort.Player.PlayerStates
             Debug.Log("Firearm Auto Attack");
             _attackCTS = new CancellationTokenSource();
             _nearestAttackable = _autoAttack.GetNearestAttackable();
-
+            _weaponController.SetAiming(true);
+            
             FirearmAttackingAsync();
         }
 
@@ -39,6 +40,7 @@ namespace gishadev.fort.Player.PlayerStates
         {
             _weaponController.FirearmCancel();
             _attackCTS.Cancel();
+            _weaponController.SetAiming(false);
         }
 
         private async void FirearmAttackingAsync()
@@ -46,7 +48,7 @@ namespace gishadev.fort.Player.PlayerStates
             while (_nearestAttackable != null && !_attackCTS.Token.IsCancellationRequested)
             {
                 if (!IsViewObstructed())
-                    _weaponController.FirearmAttack(_nearestAttackable);
+                    _weaponController.FirearmAttack();
 
                 await UniTask
                     .WaitForSeconds(_weaponController.EquippedGun.GunDataSO.ShootDelay,
@@ -60,7 +62,7 @@ namespace gishadev.fort.Player.PlayerStates
             var ray = new Ray(_weaponController.EquippedGun.ShootPoint.position,
                 _nearestAttackable.transform.position - _weaponController.EquippedGun.ShootPoint.position);
             return Physics.Raycast(ray, out var hitInfo) &&
-                   !hitInfo.collider.CompareTag(Constants.ATTACKABLE_TAG_NAME);
+                   !hitInfo.collider.CompareTag(Constants.TAG_NAME_ATTACKABLE);
         }
     }
 }

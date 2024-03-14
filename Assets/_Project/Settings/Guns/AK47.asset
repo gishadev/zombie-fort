@@ -12,15 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b668f5337d41518d4e92cf2e68f2e0, type: 3}
   m_Name: AK47
   m_EditorClassIdentifier: 
+  localHandPosition: {x: 0.031, y: 0, z: -0.044}
+  localHandEulerAngles: {x: 86.059, y: -74.005, z: -73.714}
   weaponMeshPrefab: {fileID: 1004323821908547056, guid: dd8afb1774b447d4bb4733d51d2d94d4, type: 3}
   damage: 3
   price: 10
-  isInfinityMagazines: 1
+  weaponState: 3
   shootDelay: 0.1
   shootForce: 10
+  shootRaysCount: 1
   maxAccuracy: 0.8
   minAccuracy: 0.4
   maxShootOffset: 0.5
+  isInfinityMagazines: 1
   startAmmoInMagazine: 30
   startMagazinesCount: 3
   reloadTime: 1

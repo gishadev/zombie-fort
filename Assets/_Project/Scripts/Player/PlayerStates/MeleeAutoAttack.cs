@@ -29,23 +29,26 @@ namespace gishadev.fort.Player.PlayerStates
         public void OnEnter()
         {
             Debug.Log("Melee Auto Attack");
-            
+
             _attackCTS = new CancellationTokenSource();
             _nearestAttackable = _autoAttack.GetNearestAttackable();
-            
+
             MeleeAttackingAsync();
+
+            _weaponController.SetAiming(true);
         }
 
         public void OnExit()
         {
             _attackCTS.Cancel();
+            _weaponController.SetAiming(false);
         }
 
         private async void MeleeAttackingAsync()
         {
             while (_nearestAttackable != null && !_attackCTS.Token.IsCancellationRequested)
             {
-                _weaponController.MeleeAttack(_nearestAttackable);
+                _weaponController.MeleeAttack();
                 await UniTask
                     .WaitForSeconds(_weaponController.EquippedMelee.MeleeDataSO.AttackDelay,
                         cancellationToken: _attackCTS.Token)

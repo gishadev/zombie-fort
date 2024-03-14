@@ -12,15 +12,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7b668f5337d41518d4e92cf2e68f2e0, type: 3}
   m_Name: MP5
   m_EditorClassIdentifier: 
+  localHandPosition: {x: 0.007, y: -0.017, z: -0.097}
+  localHandEulerAngles: {x: 91.87701, y: 88.823, z: 89.189}
   weaponMeshPrefab: {fileID: 3881776467963522772, guid: 17f44ba8254759242bb25c59a9ffd899, type: 3}
   damage: 1
   price: 15
-  isInfinityMagazines: 1
+  weaponState: 3
   shootDelay: 0.1
   shootForce: 10
+  shootRaysCount: 1
   maxAccuracy: 0.8
   minAccuracy: 0.4
   maxShootOffset: 0.5
+  isInfinityMagazines: 1
   startAmmoInMagazine: 25
   startMagazinesCount: 3
   reloadTime: 0.7

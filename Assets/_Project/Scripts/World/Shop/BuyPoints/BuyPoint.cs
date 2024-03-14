@@ -30,7 +30,7 @@ namespace gishadev.fort.World.Shop.BuyPoints
         
         private void OnTriggerEnter(Collider other)
         {
-            if (!other.CompareTag(Constants.PLAYER_TAG_NAME))
+            if (!other.CompareTag(Constants.TAG_NAME_PLAYER))
                 return;
 
             Triggered?.Invoke();

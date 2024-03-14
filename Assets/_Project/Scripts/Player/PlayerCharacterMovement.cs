@@ -76,9 +76,9 @@ namespace gishadev.fort.Player
             Vector3 lookPerp = new Vector3(lookDir.z, 0f, -lookDir.x);
             float h = Mathf.Clamp(Vector3.Dot(moveDir, lookPerp), -1f, 1f);
 
-            _animator.SetFloat(Constants.XMovement, h);
-            _animator.SetFloat(Constants.YMovement, v);
-            _animator.SetFloat(Constants.MovementMagnitude, _input.magnitude);
+            _animator.SetFloat(Constants.HASH_X_MOVEMENT, h);
+            _animator.SetFloat(Constants.HASH_Y_MOVEMENT, v);
+            _animator.SetFloat(Constants.HASH_MOVE_MAGNITUDE, _input.magnitude);
         }
     }
 }

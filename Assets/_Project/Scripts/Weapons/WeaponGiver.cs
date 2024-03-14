@@ -12,7 +12,7 @@ namespace gishadev.fort.Weapons
             if (!other.TryGetComponent(out Player.Player player))
                 return;
 
-            player.GetComponent<WeaponController>().SwitchGun(newGunData);
+            player.GetComponent<WeaponController>().SwitchWeapon(newGunData);
             Destroy(gameObject);
         }
     }

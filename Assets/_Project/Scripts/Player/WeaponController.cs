@@ -17,6 +17,7 @@ namespace gishadev.fort.Player
 
         [Inject] private DiContainer _diContainer;
         [Inject] private GameDataSO _gameDataSO;
+
         public Gun EquippedGun { get; private set; }
         public Melee EquippedMelee { get; private set; }
 
@@ -26,15 +27,17 @@ namespace gishadev.fort.Player
         private MeleeDataSO _selectedMeleeData;
 
         private CustomInput _customInput;
+        private Animator _animator;
 
         private void Awake()
         {
+            _animator = GetComponent<Animator>();
         }
 
         private void Start()
         {
             _cachedHandPosition = hand.localPosition;
-            SwitchMelee(startMelee);
+            SwitchWeapon(startMelee);
         }
 
         private void OnEnable()
@@ -60,6 +63,8 @@ namespace gishadev.fort.Player
                 SwitchGun(gunDataSO);
             else if (weaponDataSO is MeleeDataSO meleeDataSO)
                 SwitchMelee(meleeDataSO);
+
+            _animator.SetInteger(Constants.HASH_WEAPON_STATE, (int) weaponDataSO.WeaponState);
         }
 
         public void RotateTowardsTarget(Transform target)
@@ -67,10 +72,12 @@ namespace gishadev.fort.Player
             PlayerCharacterMovement.RotateTowards(transform, target.position);
             PlayerCharacterMovement.RotateTowards(hand, target.position, -90f);
         }
+        
+        public void SetAiming(bool isAiming) => _animator.SetBool(Constants.HASH_IS_AIMING, isAiming);
 
         #region Melee
 
-        public void SwitchMelee(MeleeDataSO meleeDataSO)
+        private void SwitchMelee(MeleeDataSO meleeDataSO)
         {
             if (EquippedMelee != null)
                 Destroy(EquippedMelee.gameObject);
@@ -81,37 +88,30 @@ namespace gishadev.fort.Player
 
             var meleeMesh = _diContainer
                 .InstantiatePrefab(meleeDataSO.WeaponMeshPrefab, melee.transform);
-            meleeMesh.transform.localPosition = Vector3.zero;
+            
+            meleeMesh.transform.localPosition = meleeDataSO.LocalHandPosition;
+            meleeMesh.transform.localRotation = Quaternion.Euler(meleeDataSO.LocalHandEulerAngles);
 
             melee.SetupMelee(meleeDataSO);
 
             EquippedMelee = melee;
-            EquippedMelee.gameObject.SetActive(false);
         }
 
-        public void MeleeAttack(IDamageable damageable)
+        public void MeleeAttack()
         {
             if (EquippedMelee.IsAttacking)
                 return;
 
-            EquippedMelee.gameObject.SetActive(true);
-
-            if (EquippedGun != null)
-                EquippedGun.gameObject.SetActive(false);
-
-            // _animator.SetTrigger(Constants.MELEE_SWING_TRIGGER_NAME);
-
             EquippedMelee.OnAttackPerformed();
+            _animator.SetTrigger(Constants.HASH_ATTACK);
+
+            Invoke(nameof(OnMeleeAttackFinished), GetAnimationDuration());
         }
 
         // For animation event.
         public async void OnMeleeAttackFinished()
         {
             RestoreHandTransforms();
-
-            EquippedMelee.gameObject.SetActive(false);
-            if (EquippedGun != null)
-                EquippedGun.gameObject.SetActive(true);
 
             await UniTask.WaitForSeconds(EquippedMelee.MeleeDataSO.AttackDelay);
             EquippedMelee.OnAttackCanceled();
@@ -121,7 +121,7 @@ namespace gishadev.fort.Player
 
         #region Firearm
 
-        public void SwitchGun(GunDataSO gunDataSO)
+        private void SwitchGun(GunDataSO gunDataSO)
         {
             if (EquippedGun != null)
                 Destroy(EquippedGun.gameObject);
@@ -133,7 +133,9 @@ namespace gishadev.fort.Player
             var gunMesh = _diContainer
                 .InstantiatePrefab(gunDataSO.WeaponMeshPrefab, gun.transform)
                 .GetComponent<GunMesh>();
-            gunMesh.transform.localPosition = Vector3.zero;
+
+            gunMesh.transform.localPosition = gunDataSO.LocalHandPosition;
+            gunMesh.transform.localRotation = Quaternion.Euler(gunDataSO.LocalHandEulerAngles);
 
             gun.SetupGun(gunDataSO, gunMesh);
             gun.RefillAmmo();
@@ -141,12 +143,13 @@ namespace gishadev.fort.Player
             EquippedGun = gun;
         }
 
-        public void FirearmAttack(IDamageable damageable)
+        public void FirearmAttack()
         {
             if (EquippedGun == null || EquippedGun.IsAttacking)
                 return;
 
             EquippedGun.OnAttackPerformed();
+            _animator.SetTrigger(Constants.HASH_ATTACK);
         }
 
         private void OnFirearmAttack(Weapon weapon) => shootFeedback.PlayFeedbacks();
@@ -175,6 +178,12 @@ namespace gishadev.fort.Player
         {
             hand.localPosition = _cachedHandPosition;
             hand.rotation = Quaternion.identity;
+        }
+
+        private float GetAnimationDuration()
+        {
+            AnimatorStateInfo stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            return stateInfo.length;
         }
     }
 }

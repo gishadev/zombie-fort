@@ -37,5 +37,7 @@ namespace gishadev.fort.Weapons
         public float MinAccuracy => minAccuracy;
         public float MaxShootOffset => maxShootOffset;
         public int ShootRaysCount => shootRaysCount;
+
+
     }
 }
