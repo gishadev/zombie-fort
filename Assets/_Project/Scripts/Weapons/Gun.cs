@@ -51,12 +51,12 @@ namespace gishadev.fort.Weapons
         }
 
 
-        public override void OnAttackPerformed()
+        public override void OnAttackPerformed(IAutoAttackable attackable)
         {
             if (_isReloading)
                 return;
 
-            Shoot();
+            Shoot(attackable);
         }
 
         public override void OnAttackCanceled()
@@ -114,7 +114,7 @@ namespace gishadev.fort.Weapons
 
         #region Shooting
 
-        private void Shoot()
+        private void Shoot(IAutoAttackable attackable)
         {
             if (CurrentAmmoInMagazine <= 0)
             {
@@ -124,9 +124,10 @@ namespace gishadev.fort.Weapons
 
             for (int i = 0; i < GunDataSO.ShootRaysCount; i++)
             {
-                var randAccuracy = Random.Range(GunDataSO.MinAccuracy, GunDataSO.MaxAccuracy);
-                var shootOffset = Random.insideUnitCircle * (GunDataSO.MaxShootOffset * (1 - randAccuracy));
-                var shootRay = new Ray(ShootPoint.position, ShootPoint.forward + (Vector3) shootOffset);
+                float randAccuracy = Random.Range(GunDataSO.MinAccuracy, GunDataSO.MaxAccuracy);
+                Vector2 shootOffset = Random.insideUnitCircle * (GunDataSO.MaxShootOffset * (1 - randAccuracy));
+                Vector3 direction = attackable.transform.position - ShootPoint.transform.position;
+                var shootRay = new Ray(ShootPoint.position, direction + (Vector3) shootOffset);
 
                 _rayfireGun.Shoot(shootRay.origin, shootRay.direction);
                 if (Physics.Raycast(shootRay, out var hit, 100, _nonPlayerLayers))

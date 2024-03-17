@@ -48,7 +48,7 @@ namespace gishadev.fort.Player.PlayerStates
             while (_nearestAttackable != null && !_attackCTS.Token.IsCancellationRequested)
             {
                 if (!IsViewObstructed())
-                    _weaponController.FirearmAttack();
+                    _weaponController.FirearmAttack(_nearestAttackable);
 
                 await UniTask
                     .WaitForSeconds(_weaponController.EquippedGun.GunDataSO.ShootDelay,

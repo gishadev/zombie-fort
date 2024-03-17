@@ -36,7 +36,7 @@ namespace gishadev.fort.Weapons
             MeleeDataSO = meleeDataSO;
         }
 
-        public override void OnAttackPerformed()
+        public override void OnAttackPerformed(IAutoAttackable attackable)
         {
             IsAttacking = true;
             Debug.Log("melee attack performed!");

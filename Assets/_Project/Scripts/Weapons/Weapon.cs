@@ -1,4 +1,5 @@
 ﻿using System;
+using gishadev.fort.Core;
 using UnityEngine;
 
 namespace gishadev.fort.Weapons
@@ -6,7 +7,7 @@ namespace gishadev.fort.Weapons
     public abstract class Weapon : MonoBehaviour
     {
         public abstract bool IsAttacking { get; protected set; }
-        public abstract void OnAttackPerformed();
+        public abstract void OnAttackPerformed(IAutoAttackable autoAttackable);
         public abstract void OnAttackCanceled();
 
         public static event Action<Weapon> Attack;

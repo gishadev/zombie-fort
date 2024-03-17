@@ -48,7 +48,7 @@ namespace gishadev.fort.Player.PlayerStates
         {
             while (_nearestAttackable != null && !_attackCTS.Token.IsCancellationRequested)
             {
-                _weaponController.MeleeAttack();
+                _weaponController.MeleeAttack(_nearestAttackable);
                 await UniTask
                     .WaitForSeconds(_weaponController.EquippedMelee.MeleeDataSO.AttackDelay,
                         cancellationToken: _attackCTS.Token)

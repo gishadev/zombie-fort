@@ -97,12 +97,12 @@ namespace gishadev.fort.Player
             EquippedMelee = melee;
         }
 
-        public void MeleeAttack()
+        public void MeleeAttack(IAutoAttackable attackable)
         {
             if (EquippedMelee.IsAttacking)
                 return;
 
-            EquippedMelee.OnAttackPerformed();
+            EquippedMelee.OnAttackPerformed(attackable);
             _animator.SetTrigger(Constants.HASH_ATTACK);
 
             Invoke(nameof(OnMeleeAttackFinished), GetAnimationDuration());
@@ -143,12 +143,12 @@ namespace gishadev.fort.Player
             EquippedGun = gun;
         }
 
-        public void FirearmAttack()
+        public void FirearmAttack(IAutoAttackable attackable)
         {
             if (EquippedGun == null || EquippedGun.IsAttacking)
                 return;
 
-            EquippedGun.OnAttackPerformed();
+            EquippedGun.OnAttackPerformed(attackable);
             _animator.SetTrigger(Constants.HASH_ATTACK);
         }
 
