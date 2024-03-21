@@ -1784,7 +1784,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 788df6167b15494c8ccc0a63e0a4c412, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  meleeMaxAutoAttackRange: 2
+  meleeMaxAutoAttackRange: 3
   firearmMaxAutoAttackRange: 12
 --- !u!1 &7341021755950655868
 GameObject:
