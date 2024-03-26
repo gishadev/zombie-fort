@@ -12,7 +12,7 @@ namespace gishadev.fort.World.Shop.BuyPoints
 
         public void Init(Buyable buyable)
         {
-            pointTMP.text = $"BUY {buyable.Price}";
+            pointTMP.text = $"{buyable.Price}";
         }
 
         private void OnEnable() => ShopBuyHandler.BuySucceeded += OnBuySucceededTriggered;
