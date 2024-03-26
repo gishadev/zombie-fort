@@ -16,7 +16,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6953310869407339518
 Transform:
   m_ObjectHideFlags: 0
@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6953310869407339457}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.87, y: 0, z: -0.47}
   m_LocalScale: {x: 2, y: 0.5, z: 2}
   m_ConstrainProportionsScale: 0
@@ -66,15 +66,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5981113546579709649, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.8
+      value: -0.913
       objectReference: {fileID: 0}
     - target: {fileID: 5981113546579709649, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 0.01
       objectReference: {fileID: 0}
     - target: {fileID: 5981113546579709649, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 0.263
       objectReference: {fileID: 0}
     - target: {fileID: 5981113546579709649, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -103,6 +103,18 @@ PrefabInstance:
     - target: {fileID: 5981113546579709649, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359998775182403223, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
+      propertyPath: m_text
+      value: SHOP
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359998775182403223, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
+      propertyPath: m_fontSize
+      value: 0.26
+      objectReference: {fileID: 0}
+    - target: {fileID: 7359998775182403223, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 0.26
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c4daae6fed650254fabf7955ebc437e7, type: 3}
