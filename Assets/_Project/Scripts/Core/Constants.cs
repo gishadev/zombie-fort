@@ -15,5 +15,6 @@ namespace gishadev.fort.Core
         public static readonly int HASH_ATTACK = Animator.StringToHash("Attack");
         public static readonly int HASH_WEAPON_STATE = Animator.StringToHash("WeaponState");
         public static readonly int HASH_IS_AIMING = Animator.StringToHash("IsAiming");
+        public static readonly int HASH_IS_WALKING = Animator.StringToHash("IsWalking");
     }
 }

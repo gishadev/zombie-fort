@@ -1,5 +1,7 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using Cysharp.Threading.Tasks;
+using gishadev.fort.Core;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,6 +14,7 @@ namespace gishadev.fort.Enemy
         public float DistanceToDestination => _agent.remainingDistance;
         private NavMeshAgent _agent;
         private Rigidbody _rb;
+        private Animator _animator;
 
         private CancellationTokenSource _destroyCts;
         private bool _isKnockBacking;
@@ -20,11 +23,17 @@ namespace gishadev.fort.Enemy
         {
             _rb = GetComponent<Rigidbody>();
             _agent = GetComponent<NavMeshAgent>();
+            _animator = GetComponentInChildren<Animator>();
 
             _destroyCts = new CancellationTokenSource();
             _destroyCts.RegisterRaiseCancelOnDestroy(gameObject);
 
             Resume();
+        }
+
+        private void LateUpdate()
+        {
+            _animator.SetBool(Constants.HASH_IS_WALKING, !_agent.isStopped);
         }
 
         public void SetDestination(Vector3 target)
@@ -65,7 +74,7 @@ namespace gishadev.fort.Enemy
 
             if (_destroyCts.Token.IsCancellationRequested)
                 return;
-            
+
             Resume();
         }
     }

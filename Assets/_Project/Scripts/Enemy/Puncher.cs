@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace gishadev.fort.Enemy
 {
-    public class Zombie : EnemyBase
+    public class Puncher : EnemyBase
     {
-        [SerializeField] private float attackRange = 0.2f;
-        [SerializeField] private float chaseRange = 2f;
+        [SerializeField] private float attackRange = 1.5f;
+        [SerializeField] private float chaseRange = 4f;
 
         public override event Action<int> HealthChanged;
 
