@@ -23,13 +23,12 @@ namespace gishadev.fort.Player.PlayerStates
         public void Tick()
         {
             _nearestAttackable = _autoAttack.GetNearestAttackable();
-            _weaponController.RotateTowardsTarget(_nearestAttackable.transform);
+            if (_nearestAttackable != null)
+                _weaponController.RotateTowardsTarget(_nearestAttackable.transform);
         }
 
         public void OnEnter()
         {
-            Debug.Log("Melee Auto Attack");
-
             _attackCTS = new CancellationTokenSource();
             _nearestAttackable = _autoAttack.GetNearestAttackable();
 

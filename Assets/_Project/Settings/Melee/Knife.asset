@@ -19,4 +19,4 @@ MonoBehaviour:
   price: 5
   weaponState: 1
   attackDelay: 0.4
-  punchForce: 45
+  punchForce: 5
