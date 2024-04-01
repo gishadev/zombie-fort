@@ -12,18 +12,19 @@ namespace gishadev.fort.Enemy
         [SerializeField] private int attackDamage = 10;
         
         public abstract event Action<int> HealthChanged;
-        protected StateMachine StateMachine { get; set; }
-        protected EnemyMovement EnemyMovement { get; private set; }
-        protected bool IsDead { get; set; }
+        public Animator Animator { get; private set; }
+        public EnemyMovement EnemyMovement { get; private set; }
         public int Health { get; protected set; }
-
         public float AttackDelay => attackDelay;
-
         public int AttackDamage => attackDamage;
+        
+        protected StateMachine StateMachine { get; set; }
+        protected bool IsDead { get; set; }
 
         protected virtual void Awake()
         {
             EnemyMovement = GetComponent<EnemyMovement>();
+            Animator = GetComponentInChildren<Animator>();
             InitStateMachine();
             
             Health = startHealth;

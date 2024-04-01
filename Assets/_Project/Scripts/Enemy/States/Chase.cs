@@ -6,15 +6,14 @@ namespace gishadev.fort.Enemy
 {
     public class Chase : IState
     {
-        private readonly EnemyMovement _enemyMovement;
-
+        private readonly EnemyBase _enemyBase;
         private Player.Player _player;
 
         private CancellationTokenSource _cts;
 
-        public Chase(EnemyBase enemyBase, EnemyMovement enemyMovement)
+        public Chase(EnemyBase enemyBase)
         {
-            _enemyMovement = enemyMovement;
+            _enemyBase = enemyBase;
             _player = enemyBase.GetPlayer();
         }
 
@@ -27,7 +26,7 @@ namespace gishadev.fort.Enemy
             if (_cts.IsCancellationRequested)
                 return;
 
-            _enemyMovement.SetDestination(_player.transform.position);
+            _enemyBase.EnemyMovement.SetDestination(_player.transform.position);
         }
 
         public void OnEnter()

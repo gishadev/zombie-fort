@@ -5,36 +5,37 @@ namespace gishadev.fort.Enemy
 {
     public class Wander : IState
     {
-        private readonly EnemyMovement _enemyMovement;
+        private EnemyMovement EnemyMovement => _enemyBase.EnemyMovement;
+        private readonly EnemyBase _enemyBase;
         private Vector3 _randomTargetPoint;
-        private float _wanderRadius = 5f;
+        private readonly float _wanderRadius = 5f;
 
-        public Wander(EnemyMovement enemyMovement)
+        public Wander(EnemyBase enemyBase)
         {
-            _enemyMovement = enemyMovement;
+            _enemyBase = enemyBase;
         }
 
         public void Tick()
         {
-            if (_enemyMovement.DistanceToDestination < 0.5f)
-                _enemyMovement.SetDestination(GetRandomPoint());
+            if (EnemyMovement.DistanceToDestination < 0.5f)
+                EnemyMovement.SetDestination(GetRandomPoint());
         }
 
         public void OnEnter()
         {
-            _enemyMovement.SetDestination(GetRandomPoint());
+            EnemyMovement.SetDestination(GetRandomPoint());
         }
 
         public void OnExit()
         {
-            _enemyMovement.Stop();
+            EnemyMovement.Stop();
         }
 
         private Vector3 GetRandomPoint()
         {
             var randPoint = Random.onUnitSphere * _wanderRadius;
-            randPoint.y = _enemyMovement.transform.position.y;
-            return _enemyMovement.transform.position + randPoint;
+            randPoint.y = EnemyMovement.transform.position.y;
+            return EnemyMovement.transform.position + randPoint;
         }
     }
 }

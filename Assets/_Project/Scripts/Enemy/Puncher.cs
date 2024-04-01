@@ -16,9 +16,9 @@ namespace gishadev.fort.Enemy
             StateMachine = new StateMachine();
 
             var idle = new Idle();
-            var chase = new Chase(this, EnemyMovement);
+            var chase = new Chase(this);
             var attack = new Attack(this);
-            var wander = new Wander(EnemyMovement);
+            var wander = new Wander(this);
             var dead = new Dead(this);
 
             At(idle, wander, PlayerExists);
