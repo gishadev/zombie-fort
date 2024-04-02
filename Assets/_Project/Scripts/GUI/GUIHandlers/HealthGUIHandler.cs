@@ -7,7 +7,7 @@ namespace gishadev.fort.GUI
 {
     public class HealthGUIHandler : MonoBehaviour
     {
-        [SerializeField] private Image healthFillImage;
+        [SerializeField] private Slider healthSlider;
         [SerializeField] private TMP_Text healthCountTMP;
 
         private Player.Player _player;
@@ -17,7 +17,7 @@ namespace gishadev.fort.GUI
             _player = FindObjectOfType<Player.Player>();
 
             OnPlayerHealthChanged(_player.Health);
-            
+
             _player.HealthChanged += OnPlayerHealthChanged;
         }
 
@@ -26,7 +26,7 @@ namespace gishadev.fort.GUI
         private void OnPlayerHealthChanged(int health)
         {
             float fillValue = (float) health / _player.MaxHealth;
-            healthFillImage.transform.localScale = new Vector3(fillValue, 1, 1);
+            healthSlider.value = fillValue;
             healthCountTMP.text = health.ToString();
         }
     }
