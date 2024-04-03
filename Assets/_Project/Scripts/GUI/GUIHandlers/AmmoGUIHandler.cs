@@ -9,14 +9,24 @@ namespace gishadev.fort.GUI
     {
         [SerializeField] private TMP_Text ammoCountTMP;
 
+        private CanvasGroup _canvasGroup;
+
+        private void Awake()
+        {
+            _canvasGroup = GetComponent<CanvasGroup>();
+        }
+
         private void Start()
         {
             var weaponController = FindObjectOfType<WeaponController>();
 
-            if (weaponController.EquippedGun is Gun gun)
-                UpdateGunAmmoTMP(gun);
+            if (weaponController.EquippedGun != null)
+            {
+                UpdateGunAmmoTMP(weaponController.EquippedGun);
+                _canvasGroup.alpha = 1f;
+            }
             else
-                ammoCountTMP.text = "";
+                _canvasGroup.alpha = 0f;
         }
 
         private void OnEnable()
@@ -41,6 +51,7 @@ namespace gishadev.fort.GUI
 
         private void UpdateGunAmmoTMP(Gun gun)
         {
+            _canvasGroup.alpha = 1f;
             ammoCountTMP.text = gun.GunDataSO.IsInfinityMagazines
                 ? $"{gun.CurrentAmmoInMagazine}/∞"
                 : $"{gun.CurrentAmmoInMagazine}/{gun.CurrentAmmo}";
