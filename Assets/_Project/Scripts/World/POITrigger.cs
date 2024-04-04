@@ -13,7 +13,7 @@ namespace gishadev.fort.World
             if (!other.TryGetComponent(out Player.Player _))
                 return;
 
-            TriggerEntered?.Invoke();
+            RaiseTriggerEntered();
         }
 
         private void OnTriggerExit(Collider other)
@@ -21,7 +21,10 @@ namespace gishadev.fort.World
             if (!other.TryGetComponent(out Player.Player _))
                 return;
 
-            TriggerExited?.Invoke();
+            RaiseTriggerExited();
         }
+        
+        public void RaiseTriggerEntered() => TriggerEntered?.Invoke();
+        public void RaiseTriggerExited() => TriggerExited?.Invoke();
     }
 }

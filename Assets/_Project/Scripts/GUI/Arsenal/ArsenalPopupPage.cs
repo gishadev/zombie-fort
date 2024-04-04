@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using gishadev.fort.Money;
 using gishadev.fort.Player;
 using gishadev.fort.Weapons;
+using gishadev.fort.World.Shop;
 using gishadev.tools.UI;
 using TMPro;
 using UnityEngine;
@@ -50,6 +51,11 @@ namespace gishadev.fort.GUI
             buyButton.onClick.RemoveListener(OnBuyButtonClicked);
             equipButton.onClick.RemoveListener(OnEquipButtonClicked);
         }
+        
+        public void OnBackButtonClicked()
+        {
+            FindObjectOfType<Arsenal>().CloseArsenal();
+        }
 
         private void OnWeaponGUIPointerDown(WeaponDataSO weaponDataSO)
         {
@@ -91,7 +97,6 @@ namespace gishadev.fort.GUI
                 return;
 
             FindObjectOfType<WeaponController>().SwitchWeapon(_selectedWeaponData);
-            
             OnWeaponGUIPointerDown(_selectedWeaponData);
         }
     }

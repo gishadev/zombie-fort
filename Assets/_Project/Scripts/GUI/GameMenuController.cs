@@ -8,6 +8,8 @@ namespace gishadev.fort.GUI
 {
     public class GameMenuController : MenuController
     {
+        [SerializeField] private CanvasGroup mainGUIGroup;
+
         [SerializeField] private Page losePopupPage;
         [SerializeField] private Page winPopupPage;
         [SerializeField] private Page arsenalPopupPage;
@@ -25,8 +27,8 @@ namespace gishadev.fort.GUI
             GameManager.Lost += OnGameLost;
             GameManager.Won += OnGameWon;
 
-            _arsenal.Trigger.TriggerEntered += OnArsenalTriggerEntered;
-            _arsenal.Trigger.TriggerExited += OnArsenalTriggerExited;
+            _arsenal.ArsenalCameraLive += OnArsenalCameraLive;
+            _arsenal.ArsenalClosed += OnArsenalClosed;
         }
 
         private void OnDisable()
@@ -34,8 +36,8 @@ namespace gishadev.fort.GUI
             GameManager.Lost -= OnGameLost;
             GameManager.Won -= OnGameWon;
 
-            _arsenal.Trigger.TriggerEntered -= OnArsenalTriggerEntered;
-            _arsenal.Trigger.TriggerExited -= OnArsenalTriggerExited;
+            _arsenal.ArsenalCameraLive -= OnArsenalCameraLive;
+            _arsenal.ArsenalClosed -= OnArsenalClosed;
         }
 
         private void OnGameLost()
@@ -48,7 +50,16 @@ namespace gishadev.fort.GUI
             PushPage(winPopupPage);
         }
 
-        private void OnArsenalTriggerEntered() => PushPage(arsenalPopupPage);
-        private void OnArsenalTriggerExited() => PopPage();
+        private void OnArsenalCameraLive()
+        {
+            mainGUIGroup.alpha = 0f;
+            PushPage(arsenalPopupPage);
+        }
+
+        private void OnArsenalClosed()
+        {
+            mainGUIGroup.alpha = 1f;
+            PopPage();
+        }
     }
 }
