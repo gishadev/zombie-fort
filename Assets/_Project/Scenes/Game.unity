@@ -52598,7 +52598,7 @@ MonoBehaviour:
   <ExitOnNewPagePush>k__BackingField: 0
   <EnterTransition>k__BackingField: 1
   <ExitTransition>k__BackingField: 1
-  container: {fileID: 0}
+  arsenalWeaponSelectedEventChannelSO: {fileID: 11400000, guid: 23c9319453309b54eb845958c23517ea, type: 2}
   buyButton: {fileID: 1093658146}
   equipButton: {fileID: 794842787}
   rightArrowButton: {fileID: 445271662}

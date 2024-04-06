@@ -47,7 +47,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4073064060579646560}
   m_Layer: 0
-  m_Name: GunPreviewPoint
+  m_Name: Weapon Preview Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,7 +79,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6810998024719203505}
   m_Layer: 0
-  m_Name: Preview
+  m_Name: Root Preview
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 1971468796497491284}
   - component: {fileID: 119689693395921039}
   m_Layer: 0
-  m_Name: Arsenal Virtual Camera
+  m_Name: Preview Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,15 +236,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721191b7cc574587a502bc00c73b43e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buyableWeapons:
-  - {fileID: 11400000, guid: 4f01acaae6d12674f8914add0e8266a6, type: 2}
-  - {fileID: 11400000, guid: 4e4eebd7a4d8ac34d9caaf67fb6c979f, type: 2}
-  - {fileID: 11400000, guid: 74511cce59038cd48a28b81af0b97094, type: 2}
-  - {fileID: 11400000, guid: 41fe651668fedaf48bf3ef0f595f43a2, type: 2}
-  - {fileID: 11400000, guid: 39446e81b5ecb0d4d9f524311f200f38, type: 2}
   trigger: {fileID: 6953310869543675981}
-  previewObject: {fileID: 5852724817833002146}
+  previewRoot: {fileID: 6810998024719203505}
+  weaponPreviewParent: {fileID: 4073064060579646560}
   blendFinishedNotifier: {fileID: 119689693395921039}
+  arsenalWeaponSelectedEventChannelSO: {fileID: 11400000, guid: 23c9319453309b54eb845958c23517ea, type: 2}
 --- !u!1 &8383850896901250847
 GameObject:
   m_ObjectHideFlags: 0

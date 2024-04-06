@@ -3,6 +3,7 @@ using gishadev.fort.Money;
 using gishadev.fort.Player;
 using gishadev.fort.Weapons;
 using gishadev.fort.World.Shop;
+using gishadev.tools.Events;
 using gishadev.tools.UI;
 using Sirenix.OdinInspector;
 using TMPro;
@@ -14,6 +15,8 @@ namespace gishadev.fort.GUI
 {
     public partial class ArsenalPopupPage : Page
     {
+        [SerializeField] private IntEventChannelSO arsenalWeaponSelectedEventChannelSO;
+        
         [SerializeField, TabGroup("Buttons")] private Button buyButton, equipButton, rightArrowButton, leftArrowButton;
         [SerializeField, TabGroup("TMP")] private TMP_Text selectedWeaponNameTMP, selectedWeaponPriceTMP;
 
@@ -53,6 +56,7 @@ namespace gishadev.fort.GUI
         {
             _selectedIndex = index;
             UpdateWeaponDataGUI(SelectedWeaponData);
+            arsenalWeaponSelectedEventChannelSO.ChangeValue(_selectedIndex);
         }
 
         private void SelectNextWeapon(int iterateOperation)
