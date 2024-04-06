@@ -15,7 +15,7 @@ namespace gishadev.fort.Core
         {
         }
 
-        public BlendFinishedEvent OnBlendFinished;
+        public BlendFinishedEvent OnBlendFinished = new();
 
         private void Start()
         {
@@ -53,7 +53,7 @@ namespace gishadev.fort.Core
             else if (!brain.IsBlending)
             {
                 if (brain.IsLive(_vcamBase))
-                    OnBlendFinished.Invoke(_vcamBase);
+                    OnBlendFinished?.Invoke(_vcamBase);
                 enabled = false;
             }
         }

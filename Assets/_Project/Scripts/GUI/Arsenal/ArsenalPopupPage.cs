@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using gishadev.fort.Money;
 using gishadev.fort.Player;
 using gishadev.fort.Weapons;
 using gishadev.fort.World.Shop;
 using gishadev.tools.UI;
+using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -12,55 +12,64 @@ using Zenject;
 
 namespace gishadev.fort.GUI
 {
-    public class ArsenalPopupPage : Page
+    public partial class ArsenalPopupPage : Page
     {
-        [SerializeField] private Button buyButton, equipButton;
-        [SerializeField] private TMP_Text selectedWeaponNameTMP;
-
-        [SerializeField] private Transform container;
+        [SerializeField, TabGroup("Buttons")] private Button buyButton, equipButton, rightArrowButton, leftArrowButton;
+        [SerializeField, TabGroup("TMP")] private TMP_Text selectedWeaponNameTMP, selectedWeaponPriceTMP;
 
         [Inject] private IMoneyController _moneyController;
         [Inject] private IPlayerInventoryController _playerInventoryController;
+        [Inject] private ShopDataSO _shopDataSO;
+        
+        private WeaponDataSO SelectedWeaponData => _shopDataSO.BuyableWeapons[_selectedIndex];
 
-        private List<ArsenalWeaponGUIElementHandler> _weaponGUIElementHandlers = new();
-        private WeaponDataSO _selectedWeaponData;
+        private int _selectedIndex;
 
         private void Awake()
         {
-            _weaponGUIElementHandlers.AddRange(container.GetComponentsInChildren<ArsenalWeaponGUIElementHandler>());
-
-            selectedWeaponNameTMP.text = "";
             buyButton.gameObject.SetActive(false);
             equipButton.gameObject.SetActive(false);
         }
 
         private void OnEnable()
         {
-            foreach (var weaponGUIElementHandler in _weaponGUIElementHandlers)
-                weaponGUIElementHandler.PointerDown += OnWeaponGUIPointerDown;
-
             buyButton.onClick.AddListener(OnBuyButtonClicked);
             equipButton.onClick.AddListener(OnEquipButtonClicked);
+            rightArrowButton.onClick.AddListener(() => SelectNextWeapon(+1));
+            leftArrowButton.onClick.AddListener(() => SelectNextWeapon(-1));
+            
+            SelectWeapon(0);
         }
 
         private void OnDisable()
         {
-            foreach (var weaponGUIElementHandler in _weaponGUIElementHandlers)
-                weaponGUIElementHandler.PointerDown -= OnWeaponGUIPointerDown;
-
-            buyButton.onClick.RemoveListener(OnBuyButtonClicked);
-            equipButton.onClick.RemoveListener(OnEquipButtonClicked);
-        }
-        
-        public void OnBackButtonClicked()
-        {
-            FindObjectOfType<Arsenal>().CloseArsenal();
+            buyButton.onClick.RemoveAllListeners();
+            equipButton.onClick.RemoveAllListeners();
+            rightArrowButton.onClick.RemoveAllListeners();
+            leftArrowButton.onClick.RemoveAllListeners();
         }
 
-        private void OnWeaponGUIPointerDown(WeaponDataSO weaponDataSO)
+        private void SelectWeapon(int index)
         {
-            _selectedWeaponData = weaponDataSO;
-            selectedWeaponNameTMP.text = $"{weaponDataSO.name}/{weaponDataSO.Price}";
+            _selectedIndex = index;
+            UpdateWeaponDataGUI(SelectedWeaponData);
+        }
+
+        private void SelectNextWeapon(int iterateOperation)
+        {
+            _selectedIndex += iterateOperation;
+            if (_selectedIndex < 0)
+                _selectedIndex = _shopDataSO.BuyableWeapons.Length - 1;
+            else if (_selectedIndex >= _shopDataSO.BuyableWeapons.Length)
+                _selectedIndex = 0;
+
+            SelectWeapon(_selectedIndex);
+        }
+
+        private void UpdateWeaponDataGUI(WeaponDataSO weaponDataSO)
+        {
+            selectedWeaponNameTMP.text = weaponDataSO.name;
+            selectedWeaponPriceTMP.text = weaponDataSO.Price.ToString();
 
             if (_playerInventoryController.OwnedWeapons.Contains(weaponDataSO))
             {
@@ -73,31 +82,36 @@ namespace gishadev.fort.GUI
                 equipButton.gameObject.SetActive(false);
             }
         }
+    }
+
+    public partial class ArsenalPopupPage
+    {
+        public void OnBackButtonClicked() => FindObjectOfType<Arsenal>().CloseArsenal();
 
         private void OnBuyButtonClicked()
         {
-            if (_selectedWeaponData == null)
+            if (SelectedWeaponData == null)
                 return;
 
-            if (_moneyController.MoneyCount < _selectedWeaponData.Price)
+            if (_moneyController.MoneyCount < SelectedWeaponData.Price)
                 return;
 
-            _moneyController.AddMoney(-_selectedWeaponData.Price);
-            _playerInventoryController.AddWeapon(_selectedWeaponData);
+            _moneyController.AddMoney(-SelectedWeaponData.Price);
+            _playerInventoryController.AddWeapon(SelectedWeaponData);
 
-            OnWeaponGUIPointerDown(_selectedWeaponData);
+            UpdateWeaponDataGUI(SelectedWeaponData);
         }
 
         private void OnEquipButtonClicked()
         {
-            if (_selectedWeaponData == null)
+            if (SelectedWeaponData == null)
                 return;
 
-            if (!_playerInventoryController.OwnedWeapons.Contains(_selectedWeaponData))
+            if (!_playerInventoryController.OwnedWeapons.Contains(SelectedWeaponData))
                 return;
 
-            FindObjectOfType<WeaponController>().SwitchWeapon(_selectedWeaponData);
-            OnWeaponGUIPointerDown(_selectedWeaponData);
+            FindObjectOfType<WeaponController>().SwitchWeapon(SelectedWeaponData);
+            UpdateWeaponDataGUI(SelectedWeaponData);
         }
     }
 }

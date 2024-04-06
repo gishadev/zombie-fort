@@ -236,6 +236,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 721191b7cc574587a502bc00c73b43e9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buyableWeapons:
+  - {fileID: 11400000, guid: 4f01acaae6d12674f8914add0e8266a6, type: 2}
+  - {fileID: 11400000, guid: 4e4eebd7a4d8ac34d9caaf67fb6c979f, type: 2}
+  - {fileID: 11400000, guid: 74511cce59038cd48a28b81af0b97094, type: 2}
+  - {fileID: 11400000, guid: 41fe651668fedaf48bf3ef0f595f43a2, type: 2}
+  - {fileID: 11400000, guid: 39446e81b5ecb0d4d9f524311f200f38, type: 2}
   trigger: {fileID: 6953310869543675981}
   previewObject: {fileID: 5852724817833002146}
   blendFinishedNotifier: {fileID: 119689693395921039}

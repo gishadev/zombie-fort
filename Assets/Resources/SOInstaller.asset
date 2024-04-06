@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SOInstaller
   m_EditorClassIdentifier: 
   gameDataSO: {fileID: 11400000, guid: 46adce816e60ba64cb1c29bbc286adcd, type: 2}
+  shopDataSO: {fileID: 11400000, guid: 6ad5a2905b22a8f4da7ee24f9d1b0b00, type: 2}

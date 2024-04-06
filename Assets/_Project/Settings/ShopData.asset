@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 814ce9636acb49bd82e039e6d7aea419, type: 3}
+  m_Name: ShopData
+  m_EditorClassIdentifier: 
+  buyableWeapons:
+  - {fileID: 11400000, guid: 4f01acaae6d12674f8914add0e8266a6, type: 2}
+  - {fileID: 11400000, guid: 4e4eebd7a4d8ac34d9caaf67fb6c979f, type: 2}
+  - {fileID: 11400000, guid: 74511cce59038cd48a28b81af0b97094, type: 2}
+  - {fileID: 11400000, guid: 41fe651668fedaf48bf3ef0f595f43a2, type: 2}
+  - {fileID: 11400000, guid: 39446e81b5ecb0d4d9f524311f200f38, type: 2}
