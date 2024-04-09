@@ -10,7 +10,6 @@ namespace gishadev.fort.GUI
     {
         [SerializeField] private CanvasGroup mainGUIGroup;
 
-        [SerializeField] private Page losePopupPage;
         [SerializeField] private Page winPopupPage;
         [SerializeField] private Page arsenalPopupPage;
 
@@ -24,7 +23,6 @@ namespace gishadev.fort.GUI
 
         private void OnEnable()
         {
-            GameManager.Lost += OnGameLost;
             GameManager.Won += OnGameWon;
 
             _arsenal.ArsenalCameraLive += OnArsenalCameraLive;
@@ -33,16 +31,10 @@ namespace gishadev.fort.GUI
 
         private void OnDisable()
         {
-            GameManager.Lost -= OnGameLost;
             GameManager.Won -= OnGameWon;
 
             _arsenal.ArsenalCameraLive -= OnArsenalCameraLive;
             _arsenal.ArsenalClosed -= OnArsenalClosed;
-        }
-
-        private void OnGameLost()
-        {
-            PushPage(losePopupPage);
         }
 
         private void OnGameWon()

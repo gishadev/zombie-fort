@@ -1,11 +1,11 @@
 ﻿using System;
+using Cysharp.Threading.Tasks;
 using gishadev.fort.Enemy;
 using gishadev.fort.Money;
+using gishadev.fort.Player;
 using gishadev.fort.World;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Zenject;
-
 
 namespace gishadev.fort.Core
 {
@@ -13,15 +13,16 @@ namespace gishadev.fort.Core
     {
         [Inject] private IEnemySpawner _enemySpawner;
         [Inject] private IMoneyController _moneyController;
-        
+
         public static event Action Won;
-        public static event Action Lost;
 
         private Player.Player _player;
+        private PlayerSpawnpoint _playerSpawnpoint;
 
         private void Awake()
         {
             _player = FindObjectOfType<Player.Player>();
+            _playerSpawnpoint = FindObjectOfType<Location>().PlayerSpawnpoint;
         }
 
         private void Start()
@@ -32,20 +33,14 @@ namespace gishadev.fort.Core
 
         private void OnEnable()
         {
-            _player.HealthChanged += OnPlayerHealthChanged;
+            _player.PlayerDied += OnPlayerDied;
             Helipad.HelipadSpawned += OnHelipadSpawned;
         }
 
         private void OnDisable()
         {
-            _player.HealthChanged -= OnPlayerHealthChanged;
+            _player.PlayerDied -= OnPlayerDied;
             Helipad.HelipadSpawned -= OnHelipadSpawned;
-        }
-
-        public static void RestartGame()
-        {
-            var currentSceneName = SceneManager.GetActiveScene().name;
-            SceneManager.LoadScene(currentSceneName);
         }
 
         private void Win()
@@ -54,17 +49,15 @@ namespace gishadev.fort.Core
             Won?.Invoke();
         }
 
-        private void Lose()
-        {
-            Debug.Log("Lose");
-            Lost?.Invoke();
-        }
-
-        private void OnPlayerHealthChanged(int health)
-        {
-            if (health <= 0) Lose();
-        }
-
         private void OnHelipadSpawned(Helipad helipad) => Win();
+
+        private async void OnPlayerDied()
+        {
+            _player.gameObject.SetActive(false);
+            _player.transform.position = _playerSpawnpoint.transform.position;
+            await UniTask.WaitForSeconds(0.5f);
+            _player.gameObject.SetActive(true);
+            _player.Heal(1f);
+        }
     }
 }
