@@ -1,15 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace gishadev.fort.World
 {
     public class Helipad : MonoBehaviour
     {
-        public static System.Action<Helipad> HelipadSpawned;
+        public static Action<Helipad> HelipadTriggered;
 
-        private void Start()
+        private void Start() => HelipadTriggered?.Invoke(this);
+
+        private void OnTriggerEnter(Collider other)
         {
-            Debug.Log("Helipad initialized!");
-            HelipadSpawned?.Invoke(this);
+            HelipadTriggered?.Invoke(this);
         }
     }
 }

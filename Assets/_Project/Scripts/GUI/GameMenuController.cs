@@ -1,5 +1,4 @@
 ﻿using gishadev.fort.World.Shop;
-using gishadev.fort.Core;
 using gishadev.fort.World;
 using gishadev.tools.UI;
 using UnityEngine;
@@ -23,7 +22,8 @@ namespace gishadev.fort.GUI
 
         private void OnEnable()
         {
-            GameManager.Won += OnGameWon;
+            Helipad.HelipadTriggered += OnHelipadSpawned;
+
 
             _arsenal.ArsenalCameraLive += OnArsenalCameraLive;
             _arsenal.ArsenalClosed += OnArsenalClosed;
@@ -31,16 +31,13 @@ namespace gishadev.fort.GUI
 
         private void OnDisable()
         {
-            GameManager.Won -= OnGameWon;
+            Helipad.HelipadTriggered -= OnHelipadSpawned;
 
             _arsenal.ArsenalCameraLive -= OnArsenalCameraLive;
             _arsenal.ArsenalClosed -= OnArsenalClosed;
         }
 
-        private void OnGameWon()
-        {
-            PushPage(winPopupPage);
-        }
+        private void OnHelipadSpawned(Helipad helipad) => PushPage(winPopupPage);
 
         private void OnArsenalCameraLive()
         {

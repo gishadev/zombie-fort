@@ -4,6 +4,7 @@ using gishadev.fort.Enemy;
 using gishadev.fort.Money;
 using gishadev.fort.Player;
 using gishadev.fort.World;
+using gishadev.tools.Events;
 using UnityEngine;
 using Zenject;
 
@@ -11,9 +12,10 @@ namespace gishadev.fort.Core
 {
     public class GameManager : MonoBehaviour
     {
+        [SerializeField] private DefaultEventChannelSO winChannelEvent;
+
         [Inject] private IEnemySpawner _enemySpawner;
         [Inject] private IMoneyController _moneyController;
-
         public static event Action Won;
 
         private Player.Player _player;
@@ -34,22 +36,20 @@ namespace gishadev.fort.Core
         private void OnEnable()
         {
             _player.PlayerDied += OnPlayerDied;
-            Helipad.HelipadSpawned += OnHelipadSpawned;
+            winChannelEvent.ChangedValue += OnLeaveIslandClicked;
         }
 
         private void OnDisable()
         {
             _player.PlayerDied -= OnPlayerDied;
-            Helipad.HelipadSpawned -= OnHelipadSpawned;
+            winChannelEvent.ChangedValue -= OnLeaveIslandClicked;
         }
 
-        private void Win()
+        private void OnLeaveIslandClicked(StringWrapper stringWrapper)
         {
-            Debug.Log("Win");
             Won?.Invoke();
+            Debug.Log("Win detected, moving to next scene.");
         }
-
-        private void OnHelipadSpawned(Helipad helipad) => Win();
 
         private async void OnPlayerDied()
         {

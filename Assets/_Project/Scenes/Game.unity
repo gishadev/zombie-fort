@@ -3009,6 +3009,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 140f3afd50374b9097de0a5c2a0138d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  winChannelEvent: {fileID: 11400000, guid: 5ca6a0139c630b44bb77b663aee57eae, type: 2}
 --- !u!43 &316089156
 Mesh:
   m_ObjectHideFlags: 0
@@ -15910,9 +15911,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1829162643}
-        m_TargetAssemblyTypeName: gishadev.tools.UI.MenuController, Assembly-CSharp
-        m_MethodName: PopPage
+      - m_Target: {fileID: 1658412668}
+        m_TargetAssemblyTypeName: gishadev.fort.GUI.WinPopupPage, Assembly-CSharp
+        m_MethodName: OnYesClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -31996,12 +31997,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1658412666}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 952d9743418d4814a6e3c19bc55029b9, type: 3}
+  m_Script: {fileID: 11500000, guid: f484eaa96dbd47fd9bfa4c41e52e36cd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   <ExitOnNewPagePush>k__BackingField: 0
   <EnterTransition>k__BackingField: 2
   <ExitTransition>k__BackingField: 2
+  winChannelEvent: {fileID: 11400000, guid: 5ca6a0139c630b44bb77b663aee57eae, type: 2}
 --- !u!1001 &1669897201
 PrefabInstance:
   m_ObjectHideFlags: 0
