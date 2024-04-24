@@ -17,11 +17,13 @@ namespace gishadev.fort.GUI
         private void OnEnable()
         {
             _islandLevelController.LevelChanged += OnLevelChanged;
+            _islandLevelController.ProgressChanged += OnLevelProgressChanged;
         }
 
         private void OnDisable()
         {
             _islandLevelController.LevelChanged -= OnLevelChanged;
+            _islandLevelController.ProgressChanged -= OnLevelProgressChanged;
         }
 
         private void OnLevelChanged(int newLevel) => levelCountTMP.text = newLevel.ToString();
