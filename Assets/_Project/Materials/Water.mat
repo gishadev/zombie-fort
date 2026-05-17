@@ -93,7 +93,7 @@ Material:
     - _DstBlend: 0
     - _EnvironmentReflections: 1
     - _FadeDistance: 0.5
-    - _FoamAmount: 0.2
+    - _FoamAmount: 0.22
     - _FoamDepth: 0.3
     - _FoamDirection: 0
     - _FoamFromTexture: 1
@@ -144,12 +144,12 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0, g: 1, b: 0.7287984, a: 1}
-    - _ColorDeep: {r: 0.6367924, g: 0.8860948, b: 1, a: 1}
+    - _ColorDeep: {r: 0.18407258, g: 0.7092148, b: 0.94716984, a: 1}
     - _ColorShallow: {r: 0.32163042, g: 0.58582294, b: 0.7509433, a: 1}
     - _ColorTop: {r: 1, g: 1, b: 1, a: 0}
     - _CrestColor: {r: 1, g: 1, b: 1, a: 0.9}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FoamColor: {r: 0.9975696, g: 1, b: 0.9575471, a: 0.7372549}
+    - _FoamColor: {r: 0.9975696, g: 1, b: 0.9575471, a: 0.6}
     - _FoamStretch: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
